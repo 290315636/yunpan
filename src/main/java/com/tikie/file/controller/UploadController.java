@@ -5,7 +5,7 @@
  * 修改历史：
  * 		1、[2018年7月11日]创建文件 by zhaocs
  */
-package com.tikie.file;
+package com.tikie.file.controller;
 
 import java.io.File;
 import java.util.HashMap;

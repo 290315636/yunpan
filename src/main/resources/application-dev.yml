@@ -32,7 +32,7 @@ spring:
         maxOpenPreparedStatements: 20
 mybatis:
   mapper-locations: classpath:mapping/*.xml
-  type-aliases-package: com.winter.model
+  type-aliases-package: com.tikie.file.bean
 
 #pagehelper分页插件
 pagehelper:
