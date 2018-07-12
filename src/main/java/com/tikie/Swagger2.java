@@ -1,5 +1,5 @@
 /**
- * 
+ *
  * 项目名称：tikie-bootstrap-fileupload
  * 创建日期：2018年7月12日
  * 修改历史：
@@ -29,17 +29,17 @@ public class Swagger2 {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("cn.saytime.web"))
+                .apis(RequestHandlerSelectors.basePackage("com.tikie"))
                 .paths(PathSelectors.any())
                 .build();
     }
-    
+
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("springboot利用swagger构建api文档")
                 .description("简单优雅的restfun风格，http://blog.csdn.net/saytime")
                 .termsOfServiceUrl("http://blog.csdn.net/saytime")
-                .version("1.0")
+                .version("2.0")
                 .build();
     }
 

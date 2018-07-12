@@ -24,7 +24,7 @@ tikie:
     developer:
       name: tikie
     fileupload:
-      path: c://zcs//file
+      path: c:/zcs/file
       
 # 日志级别     
 logging:

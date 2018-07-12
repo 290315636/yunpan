@@ -76,7 +76,7 @@ public class UploadController {
        //判断保存文件的路径是否存在
         File fileUploadPath = new File(fileuploadPath);
         if (!fileUploadPath.exists()) {
-            fileUploadPath.mkdir();
+            fileUploadPath.mkdirs();
         }
          
         Map<String, Object> json = new HashMap<>();
