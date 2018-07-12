@@ -1,0 +1,9 @@
+# 开发环境配置
+server:
+  servlet:
+    context-path: /
+    session:
+      timeout: 10800  # session超时时间为3小时
+  port: 8080
+  error:
+    path: /error  # 错误页面error
