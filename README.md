@@ -37,6 +37,15 @@
        
        #在对应的分支上执行：如dev分支
        git branch --set-upstream-to=origin/dev
+       
+ + 生成代码及使用步骤
+ 
+       1.更改resources/generator/generatorConfig.properties中的配置（主要更改模块名）
+       2.更改resources/generator/generatorConfig.xml关于表的配置（基于哪些表生成对应的代码，已经有的模块注释掉）
+       3. 运行maven命令：mvn mybatis-generator:generate
+       4. 书写service层接口及实现
+       5. 书写测试类
+       ps:可参考test模块学习基本使用方法
  
 ### 实现功能点
     1. 多文件上传
@@ -50,6 +59,10 @@
     9. 下载（包括断点下载）--待完成
     
 ### 历史更新
-
-    1.0.1 更新说明文档
+    
+    1.0.5 精细化配置开发环境和生产环境
+    1.0.4 规范化数据存储位置:物理存放地址basePath+type+年月
+    1.0.3 打通数据库：mybatis + generator + druid + mysql
+    1.0.2 swagger api集成完毕
+    1.0.1 多文件上传接口及页面实现
     1.0.0 初始化系统

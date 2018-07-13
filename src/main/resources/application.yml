@@ -12,30 +12,4 @@ spring:
     encoding: UTF-8
     servlet:
       content-type: text/html
-  servlet:
-    multipart:
-      max-file-size: 10Mb  # 单个文件上传大小
-      max-request-size: 1024Mb # 总文件上传大小
     
-
-#pagehelper分页插件
-pagehelper:
-    helperDialect: mysql
-    reasonable: true
-    supportMethodsArguments: true
-    params: count=countSql   
-    
-# 项目自定义配置
-tikie:
-  project:
-    developer:
-      name: tikie
-    fileupload:
-      path: c:/zcs/file
-      
-# 日志级别     
-logging:
-  level:
-    org:
-      springframework:
-        web: debug

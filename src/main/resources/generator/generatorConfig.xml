@@ -34,8 +34,11 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         
-        
         <table tableName="tb_file_test" domainObjectName="Test" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <!-- 
+        <table tableName="tb_file" domainObjectName="TFile" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         
+        <table tableName="tb_file_tree" domainObjectName="FileTree" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+         -->
     </context>
 </generatorConfiguration>

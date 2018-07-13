@@ -1,4 +1,11 @@
 # 开发环境配置
+# 日志级别     
+logging:
+  level:
+    org:
+      springframework:
+        web: debug
+        
 server:
   servlet:
     context-path: /
@@ -9,6 +16,10 @@ server:
     path: /error  # 错误页面error
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10Mb  # 单个文件上传大小
+      max-request-size: 1024Mb # 总文件上传大小
   datasource:
     name: mysql_test
     type: com.alibaba.druid.pool.DruidDataSource
@@ -38,7 +49,22 @@ spring:
       #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
       pool-prepared-statements: false
       max-pool-prepared-statement-per-connection-size: 20
+ 
+# 项目自定义配置
+tikie:
+  project:
+    developer:
+      name: tikie
+    fileupload:
+      path: c:/vfs/yunpan/  # 物理存放地址basePath+type+年月
       
 mybatis:
   mapper-locations: classpath:mybatis/*/*.xml
   type-aliases-package: com.tikie.*.bean
+  
+#pagehelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql   

@@ -93,7 +93,7 @@ public class UploadController {
                 fileType = item.getContentType();
                 
                 saveFileName = DateUtil.getCurrentTime("yyyyMMddHHmmss") + "_" + fileName;
-                reportAddr = fileUploadPath + "/" + saveFileName;
+                reportAddr = fileUploadPath + saveFileName;
                 reportAddr = reportAddr.replace("/", File.separator).replace("\\", File.separator);
                 
                 File savedFile = new File(fileUploadPath, saveFileName);
