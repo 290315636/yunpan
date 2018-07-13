@@ -1,0 +1,26 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <!-- 尾部导航end -->
+	<div th:fragment="copyright" id="footer-nav" th:class="container-fluid" style="margin-top: 30px;">
+	    <nav th:class="navbar navbar-default navbar-fixed-bottom">
+	      <div th:class="container">
+	       
+	       <div th:class="row">
+	           <div th:class="col-md-6">
+	               <p th:class="navbar-text navbar-left" th:text="'©2018'"><a th:href="#" th:class="navbar-link" th:text="'BeiJing Quantuo Unite Data Technology Corporation'"></a><span th:text="'. All rights reserved.'"></span></p>
+	           </div>
+	           <div th:class="col-md-6">
+	               <p th:class="navbar-text"><a th:href="#" th:class="navbar-link" style="color:#428bca!important;" th:text="'标签系统'"></a></p>
+	               <p th:class="navbar-text"><a th:href="#" th:class="navbar-link" style="color:#428bca!important;" th:text="'爬虫系统'"></a></p>
+	               <p th:class="navbar-text"><a th:href="#" th:class="navbar-link" style="color:#428bca!important;" th:text="'公积金查询系统'"></a></p>
+	               <p th:class="navbar-text" th:text="'友情链接：'"><a th:href="https://github.com/290315636/tikie-eureka-registry-center" th:class="navbar-link" style="color:#428bca!important;" th:text="'Spring Cloud模板'"></a></p>
+	           </div>
+	       </div>
+	      </div>
+	    </nav>
+	</div>
+	<!-- 尾部导航end -->
+  </body>
+</html>

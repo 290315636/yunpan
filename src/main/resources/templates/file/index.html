@@ -1,27 +1,23 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}" />
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}" />
-    
-    <!-- 引入css文件 -->
-	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
-	<link rel="stylesheet" type="text/css" th:href="@{/css/fileinput.min.css}"/>
-	<!-- 引入js文件 -->
-	<script type="text/javascript" th:src="@{/js/jquery-1.9.1.min.js}"></script>
-	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-	<script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script>
-	<script type="text/javascript" th:src="@{/js/locales/zh.js}"></script>
-	<script type="text/javascript" th:src="@{/js/file/fileInput.js}"></script>
+<head th:replace="file/common/header :: header(~{::title},~{::link},~{})">
 	<title>文件上传页面</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/fileinput.min.css}"/>
 </head>
 <body>
+    
+
 	<div class="modal-body">
 	    <a href="" class="form-control" style="border:none;">上传模板</a>
 	    <input type="file" name="fileUpload" id="fileUpload" multiple />
     </div>
+    
+    <div th:replace="file/footer :: copyright"></div>
+    
+    <script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/locales/zh.js}"></script>
+    <script type="text/javascript" th:src="@{/js/file/fileInput.js}"></script>
     <script>
     $(function(){
     	//参数1:控件id、参数2:上传地址

@@ -1,0 +1,28 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header(title,links,styles)">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:replace="${title}">云盘</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}" />
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}" />
+    
+    <!--全局通用框架样式 begin-->
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- 引入css文件 -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+    <!-- 引入js文件 -->
+    <script type="text/javascript" th:src="@{/js/jquery-1.9.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <!--全局通用框架样式 end-->
+
+    <!--/* Per-page placeholder for additional links */-->
+    <th:block th:replace="${links}" />
+    <!--/* Per-page placeholder for additional styles */-->
+    <th:block th:replace="${styles}" />
+    
+</head>
+<body>
+
+
