@@ -1,6 +1,6 @@
 package com.tikie.file.mapper;
 
-import com.tikie.file.bean.TFile;
+import com.tikie.file.model.TFile;
 
 public interface TFileMapper {
     int deleteByPrimaryKey(String id);

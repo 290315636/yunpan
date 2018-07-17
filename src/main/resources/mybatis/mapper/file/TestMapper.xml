@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tikie.file.mapper.TestMapper">
-  <resultMap id="BaseResultMap" type="com.tikie.file.bean.Test">
+  <resultMap id="BaseResultMap" type="com.tikie.file.model.Test">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="msg" jdbcType="VARCHAR" property="msg" />
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
@@ -21,13 +21,13 @@
     delete from tb_file_test
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.tikie.file.bean.Test">
+  <insert id="insert" parameterType="com.tikie.file.model.Test">
     insert into tb_file_test (id, msg, ctime, 
       utime, note)
     values (#{id,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
       #{utime,jdbcType=TIMESTAMP}, #{note,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.tikie.file.bean.Test">
+  <insert id="insertSelective" parameterType="com.tikie.file.model.Test">
     insert into tb_file_test
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -64,7 +64,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tikie.file.bean.Test">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tikie.file.model.Test">
     update tb_file_test
     <set>
       <if test="msg != null">
@@ -82,7 +82,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tikie.file.bean.Test">
+  <update id="updateByPrimaryKey" parameterType="com.tikie.file.model.Test">
     update tb_file_test
     set msg = #{msg,jdbcType=VARCHAR},
       ctime = #{ctime,jdbcType=TIMESTAMP},

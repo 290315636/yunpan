@@ -5,40 +5,49 @@
 <generatorConfiguration>
     <properties resource="generator/generatorConfig.properties"/>
     <!-- 数据库驱动:选择你的本地硬盘上面的数据库驱动包-->
-    <classPathEntry location="${mysql.connector.location}"/>
-    <context id="DB2Tables"  targetRuntime="MyBatis3">
+    <classPathEntry location="${jdbc.connector.location}"/>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
         <plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin" />
         <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
             <property name="searchString" value="Example$" />
             <property name="replaceString" value="Conditions" />
         </plugin>
+        
         <commentGenerator>
+            <property name="javaFileEncoding" value="UTF-8"/>
+            <property name="suppressDate" value="true"/>
             <property name="suppressAllComments" value="true" />
         </commentGenerator>
-
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="${mysql.url}"
-            userId="${mysql.user}" password="${mysql.password}" />
+        
+        <jdbcConnection driverClass="${jdbc.driver}" connectionURL="${jdbc.url}"
+            userId="${jdbc.username}" password="${jdbc.password}" />
             
         <!-- bean -->
-        <javaModelGenerator targetPackage="${generator.entity}" targetProject="${generator.targetProject}">
+        <javaModelGenerator targetPackage="${model.package}" targetProject="${target.project}">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- sql mapper -->
-        <sqlMapGenerator targetPackage="${generator.module}" targetProject="${generator.mapperXml}">
+        <sqlMapGenerator targetPackage="${xml.package}" targetProject="${xml.target.project}">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <!-- mapper接口 -->
-        <javaClientGenerator type="${generator.type}" targetPackage="${generator.mapper}" targetProject="${generator.targetProject}">
+        <javaClientGenerator type="${mapper.type}" targetPackage="${mapper.package}" targetProject="${target.project}">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         
         <table tableName="tb_file_test" domainObjectName="Test" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <!-- 
-        <table tableName="tb_file" domainObjectName="TFile" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         
-        <table tableName="tb_file_tree" domainObjectName="FileTree" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-         -->
+        <table tableName="tb_file" domainObjectName="TFile" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <columnOverride column="count" javaType="int" />
+            <columnOverride column="type" javaType="int" />
+        </table>
+        
+        <table tableName="tb_file_tree" domainObjectName="FileTree" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <columnOverride column="sort" javaType="int" />
+        </table>
+         
     </context>
 </generatorConfiguration>

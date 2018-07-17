@@ -1,6 +1,6 @@
 package com.tikie.file.mapper;
 
-import com.tikie.file.bean.Test;
+import com.tikie.file.model.Test;
 
 public interface TestMapper {
     int deleteByPrimaryKey(String id);

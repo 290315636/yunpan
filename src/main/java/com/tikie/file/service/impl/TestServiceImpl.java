@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tikie.file.bean.Test;
+import com.tikie.file.model.Test;
 import com.tikie.file.mapper.TestMapper;
 import com.tikie.file.service.TestService;
 

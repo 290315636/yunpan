@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tikie.file.mapper.FileTreeMapper">
-  <resultMap id="BaseResultMap" type="com.tikie.file.bean.FileTree">
+  <resultMap id="BaseResultMap" type="com.tikie.file.model.FileTree">
     <result column="id" jdbcType="VARCHAR" property="id" />
-    <result column="is_file" jdbcType="INTEGER" property="isFile" />
+    <result column="is_file" jdbcType="BIT" property="isFile" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
     <result column="utime" jdbcType="TIMESTAMP" property="utime" />
     <result column="file_id" jdbcType="VARCHAR" property="fileId" />
@@ -12,15 +13,17 @@
     <result column="reback" jdbcType="VARCHAR" property="reback" />
     <result column="md5" jdbcType="VARCHAR" property="md5" />
   </resultMap>
-  <insert id="insert" parameterType="com.tikie.file.bean.FileTree">
+  <insert id="insert" parameterType="com.tikie.file.model.FileTree">
     insert into tb_file_tree (id, is_file, name, 
-      ctime, utime, file_id, 
-      pid, reback, md5)
-    values (#{id,jdbcType=VARCHAR}, #{isFile,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{ctime,jdbcType=TIMESTAMP}, #{utime,jdbcType=TIMESTAMP}, #{fileId,jdbcType=VARCHAR}, 
-      #{pid,jdbcType=VARCHAR}, #{reback,jdbcType=VARCHAR}, #{md5,jdbcType=VARCHAR})
+      sort, ctime, utime, 
+      file_id, pid, reback, 
+      md5)
+    values (#{id,jdbcType=VARCHAR}, #{isFile,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{utime,jdbcType=TIMESTAMP}, 
+      #{fileId,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{reback,jdbcType=VARCHAR}, 
+      #{md5,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.tikie.file.bean.FileTree">
+  <insert id="insertSelective" parameterType="com.tikie.file.model.FileTree">
     insert into tb_file_tree
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -32,6 +35,7 @@
       <if test="name != null">
         name,
       </if>
+      sort,
       <if test="ctime != null">
         ctime,
       </if>
@@ -56,11 +60,12 @@
         #{id,jdbcType=VARCHAR},
       </if>
       <if test="isFile != null">
-        #{isFile,jdbcType=INTEGER},
+        #{isFile,jdbcType=BIT},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
+      #{sort,jdbcType=INTEGER},
       <if test="ctime != null">
         #{ctime,jdbcType=TIMESTAMP},
       </if>

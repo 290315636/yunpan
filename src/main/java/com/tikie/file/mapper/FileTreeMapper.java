@@ -1,6 +1,6 @@
 package com.tikie.file.mapper;
 
-import com.tikie.file.bean.FileTree;
+import com.tikie.file.model.FileTree;
 
 public interface FileTreeMapper {
     int insert(FileTree record);

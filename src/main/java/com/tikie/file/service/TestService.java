@@ -7,7 +7,7 @@
  */
 package com.tikie.file.service;
 
-import com.tikie.file.bean.Test;
+import com.tikie.file.model.Test;
 
 /**
  * @author zhaocs
