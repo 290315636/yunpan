@@ -10,6 +10,7 @@ package com.tikie.quartz.service;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -27,11 +28,13 @@ public class QuartzService {
     @Autowired
     private Scheduler scheduler;
 
-    public void startJob(String time,String jobName,String group,Class job){
+    public void startJob(String time,String jobName,String group,JobDataMap jobDataMap,Class job){
         try {
             // 创建jobDetail实例，绑定Job实现类
             // 指明job的名称，所在组的名称，以及绑定job类
-            JobDetail jobDetail = JobBuilder.newJob(job).withIdentity(jobName, group).build();//设置Job的名字和组
+            JobDetail jobDetail = JobBuilder.newJob(job).withIdentity(jobName, group)
+                    .usingJobData(jobDataMap)
+                    .build();//设置Job的名字和组
             //corn表达式  每2秒执行一次
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(time/*"0/2 * * * * ?"*/);
             //设置定时任务的时间触发规则
@@ -53,6 +56,34 @@ public class QuartzService {
     public void startJob2(String time,String jobName,String group,Class job){
         try {
             JobDetail jobDetail = JobBuilder.newJob(job).withIdentity(jobName, group).build();//设置Job的名字和组
+            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(time/*"0/2 * * * * ?"*/);
+            CronTrigger cronTrigger = TriggerBuilder.newTrigger().withIdentity(jobName,group) .withSchedule(scheduleBuilder).build();
+            System.out.println(scheduler.getSchedulerName());
+            scheduler.scheduleJob(jobDetail,cronTrigger);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void startJob3(String time,String jobName,String group,String param,Class job){
+        try {
+            JobDetail jobDetail = JobBuilder.newJob(job).withIdentity(jobName, group)
+                    .usingJobData("param", param)
+                    .build();//设置Job的名字和组
+            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(time/*"0/2 * * * * ?"*/);
+            CronTrigger cronTrigger = TriggerBuilder.newTrigger().withIdentity(jobName,group) .withSchedule(scheduleBuilder).build();
+            System.out.println(scheduler.getSchedulerName());
+            scheduler.scheduleJob(jobDetail,cronTrigger);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void startJob4(String time,String jobName,String group,JobDataMap jobDataMap,Class job){
+        try {
+            JobDetail jobDetail = JobBuilder.newJob(job).withIdentity(jobName, group)
+                    .usingJobData(jobDataMap)
+                    .build();//设置Job的名字和组
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(time/*"0/2 * * * * ?"*/);
             CronTrigger cronTrigger = TriggerBuilder.newTrigger().withIdentity(jobName,group) .withSchedule(scheduleBuilder).build();
             System.out.println(scheduler.getSchedulerName());
@@ -119,9 +150,6 @@ public class QuartzService {
         }
     }
 
-
-
-
     /***
      * 根据出发规则匹配任务，立即执行定时任务，暂停的时候可以用
      */
@@ -133,7 +161,6 @@ public class QuartzService {
             e.printStackTrace();
         }
     }
-
 
     /***
      * 开启定时器，这时才可以开始所有的任务，默认是开启的

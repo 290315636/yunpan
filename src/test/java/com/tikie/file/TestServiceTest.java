@@ -29,7 +29,7 @@ import com.tikie.util.UUIDUtil;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class TestServiceTest {
-Logger logger = LoggerFactory.getLogger(getClass());
+    Logger logger = LoggerFactory.getLogger(getClass());
     
     @Resource
     private TestService testService;
@@ -53,6 +53,6 @@ Logger logger = LoggerFactory.getLogger(getClass());
         record.setId(UUIDUtil.getUUID());
         record.setMsg("hello tikie");
         record.setCtime(new Date());
-            logger.info("==== {} ====", testService.insertSelective(record));
+        logger.info("==== {} ====", testService.insertSelective(record));
     }
 }

@@ -60,8 +60,8 @@ tikie:
       path: c:/vfs/yunpan/  # 物理存放地址basePath+type+年月
       
 mybatis:
-  mapper-locations: classpath:mybatis/*/*.xml
-  type-aliases-package: com.tikie.*.bean
+  mapper-locations: classpath:mybatis/mapper/*/*.xml
+  type-aliases-package: com.tikie.*.model
   
 #pagehelper分页插件
 pagehelper:

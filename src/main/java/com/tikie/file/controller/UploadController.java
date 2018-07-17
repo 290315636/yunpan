@@ -15,12 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tikie.quartz.service.HelloService;
 import com.tikie.util.DateUtil;
 import com.tikie.util.MD5Util;
 
@@ -113,15 +110,6 @@ public class UploadController {
         }
         
         return json;
-    }
-    
-    @ApiOperation(value="测试quzrtz启动定时任务", notes="没事实现任务存储到数据库，在内存存储")
-    @GetMapping("/haveProperties")
-    @ResponseBody
-    public String testQuartz(String name) throws SchedulerException, InterruptedException {
-        HelloService helloService = new HelloService();
-        helloService.haveProperties();
-        return "使用配置文件-定时器开始执行，请观察控制台";
     }
     
 }

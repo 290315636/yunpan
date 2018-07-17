@@ -20,7 +20,6 @@ public class QuartzConfig {
     @Autowired
     private JobFactory jobFactory;
 
-
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean() {
         SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
@@ -28,7 +27,6 @@ public class QuartzConfig {
             schedulerFactoryBean.setJobFactory(jobFactory);
         return schedulerFactoryBean;
     }
-
 
     // 创建schedule
     @Bean(name = "scheduler")
