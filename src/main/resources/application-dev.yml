@@ -5,7 +5,8 @@ logging:
     org:
       springframework:
         web: debug
-        
+    com:
+      tikie: debug    
 server:
   servlet:
     context-path: /

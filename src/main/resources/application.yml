@@ -5,10 +5,11 @@ spring:
     favicon:
       enabled: false
   thymeleaf:  # 可以不设置
-    cache: false  #关闭缓存
+    cache: false  # 关闭缓存
+#    enabled: false
+    mode: HTML5
     prefix: classpath:/templates/
     suffix: .html
-#      mode: LEGACYHTML5
     encoding: UTF-8
     servlet:
       content-type: text/html

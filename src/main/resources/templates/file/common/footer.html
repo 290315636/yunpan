@@ -3,19 +3,19 @@
       xmlns:th="http://www.thymeleaf.org">
   <body>
     <!-- 尾部导航end -->
-	<div th:fragment="copyright" id="footer-nav" th:class="container-fluid" style="margin-top: 30px;">
-	    <nav th:class="navbar navbar-default navbar-fixed-bottom">
-	      <div th:class="container">
+	<div th:fragment="copyright" class="container-fluid" style="margin-top: 30px;">
+	    <nav class="navbar navbar-default navbar-fixed-bottom">
+	      <div class="container">
 	       
-	       <div th:class="row">
-	           <div th:class="col-md-6">
-	               <p th:class="navbar-text navbar-left" th:text="'©2018'"><a th:href="#" th:class="navbar-link" th:text="'BeiJing Quantuo Unite Data Technology Corporation'"></a><span th:text="'. All rights reserved.'"></span></p>
+	       <div class="row">
+	           <div class="col-md-6">
+	               <p class="navbar-text navbar-left">©2018 <a th:href="@{#}" class="navbar-link">BeiJing Quantuo Unite Data Technology Corporation</a>. All rights reserved.</p>
 	           </div>
-	           <div th:class="col-md-6">
-	               <p th:class="navbar-text"><a th:href="#" th:class="navbar-link" style="color:#428bca!important;" th:text="'标签系统'"></a></p>
-	               <p th:class="navbar-text"><a th:href="#" th:class="navbar-link" style="color:#428bca!important;" th:text="'爬虫系统'"></a></p>
-	               <p th:class="navbar-text"><a th:href="#" th:class="navbar-link" style="color:#428bca!important;" th:text="'公积金查询系统'"></a></p>
-	               <p th:class="navbar-text" th:text="'友情链接：'"><a th:href="https://github.com/290315636/tikie-eureka-registry-center" th:class="navbar-link" style="color:#428bca!important;" th:text="'Spring Cloud模板'"></a></p>
+	           <div class="col-md-6">
+	               <p class="navbar-text"><a th:href="@{#}" class="navbar-link" style="color:#428bca!important;">标签系统</a></p>
+	               <p class="navbar-text"><a th:href="@{#}" class="navbar-link" style="color:#428bca!important;">爬虫系统</a></p>
+	               <p class="navbar-text"><a th:href="@{#}" class="navbar-link" style="color:#428bca!important;">公积金查询系统</a></p>
+	               <p class="navbar-text">友情链接：<a th:href="@{https://github.com/290315636/tikie-eureka-registry-center}" class="navbar-link" style="color:#428bca!important;">Spring Cloud模板</a></p>
 	           </div>
 	       </div>
 	      </div>

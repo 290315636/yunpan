@@ -1,0 +1,11 @@
+org:
+  quartz:
+    jobStore:
+      class: org.quartz.simpl.RAMJobStore 
+# job存储方式，RAMJobStore是使用JobStore最简单的一种方式，它也是性能最高效的，顾名思义，JobStore是把它的数据都存储在RAM中，
+# 这也是它的快速和简单配置的原因；JDBCJobStore也是一种相当有名的JobStore，它通过JDBC把数据都保存到数据库中，
+# 所以在配置上会比RAMJobStore复杂一些，而且不像RAMJobStore那么快，但是当我们对数据库中的表的主键创建索引时，性能上的缺点就不是很关键的了。
+    scheduler:
+      instanceName: MyScheduler   # scheduler实例名称。
+    threadPool:
+      threadCount: 3    # 配置线程池的容量，即表示同时最多可运行的线程数量
