@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: dev
+  aop:
+    proxy-target-class: true
   thymeleaf:  
     cache: false  # 关闭缓存
 #    enabled: false

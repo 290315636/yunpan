@@ -51,7 +51,7 @@ public class UploadController {
     @ApiOperation(value="跳转到文件上传页面", notes="页面使用thymeleaf渲染")
     @RequestMapping(value="/index", method=RequestMethod.GET)
     public ModelAndView index(){
-        return new ModelAndView("index");
+        return new ModelAndView("file/index");
     }
     
     @ApiOperation(value="测试返回json数据", notes="返回json")
