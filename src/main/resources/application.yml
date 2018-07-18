@@ -5,7 +5,6 @@ spring:
     proxy-target-class: true
   thymeleaf:  
     cache: false  # 关闭缓存
-#    enabled: false
     servlet:
       content-type: text/html
     
