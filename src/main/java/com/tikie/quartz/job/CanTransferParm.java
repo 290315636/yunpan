@@ -50,7 +50,7 @@ public class CanTransferParm extends QuartzJobBean {
         record.setId(UUIDUtil.getUUID());
         record.setMsg("hello tikie 2 db");
         record.setNote("模拟更新数据库");
-        record.setCtime(new Date());
+        record.setCtime(new Date().toString());
         logger.info("==== {} ====", testService.insertSelective(record));
     }
 

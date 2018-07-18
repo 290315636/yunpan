@@ -7,10 +7,11 @@
  */
 package com.tikie.file;
 
-import java.util.Date;
-
-import javax.annotation.Resource;
-
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
+import com.tikie.file.service.TestService;
+import com.tikie.util.UUIDUtil;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,8 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.tikie.file.service.TestService;
-import com.tikie.util.UUIDUtil;
+import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @author zhaocs
@@ -41,7 +42,7 @@ public class TestServiceTest {
         com.tikie.file.model.Test record = new com.tikie.file.model.Test();
         record.setId(UUIDUtil.getUUID());
         record.setMsg("hello");
-        record.setCtime(new Date());
+        record.setCtime(new Date().toString());
             logger.info("==== {} ====", testService.insert(record));
 //      }
     }
@@ -52,7 +53,20 @@ public class TestServiceTest {
         com.tikie.file.model.Test record = new com.tikie.file.model.Test();
         record.setId(UUIDUtil.getUUID());
         record.setMsg("hello tikie");
-        record.setCtime(new Date());
+        record.setCtime(new Date().toString());
         logger.info("==== {} ====", testService.insertSelective(record));
     }
+
+    @Test
+    public void testFindByPage() {
+        com.tikie.file.model.Test test = new com.tikie.file.model.Test();
+        test.setUtime("2018-07-17");
+        logger.info(test.getUtime().toString());
+        Page<com.tikie.file.model.Test> pages = testService.findByPage(test,1, 2);
+        PageInfo<com.tikie.file.model.Test> pageInfo = new PageInfo<>(pages);
+        Assert.assertNotNull(pages);
+        logger.info(pageInfo.toString());
+        logger.debug(pageInfo.toString());
+    }
+
 }

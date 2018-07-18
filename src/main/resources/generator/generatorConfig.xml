@@ -38,15 +38,22 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         
-        <table tableName="tb_file_test" domainObjectName="Test" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="tb_file_test" domainObjectName="Test" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <columnOverride column="ctime" javaType="String" />
+            <columnOverride column="utime" javaType="String" />
+        </table>
         
         <table tableName="tb_file" domainObjectName="TFile" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <columnOverride column="count" javaType="int" />
             <columnOverride column="type" javaType="int" />
+            <columnOverride column="ctime" javaType="String" />
+            <columnOverride column="utime" javaType="String" />
         </table>
         
         <table tableName="tb_file_tree" domainObjectName="FileTree" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <columnOverride column="sort" javaType="int" />
+            <columnOverride column="ctime" javaType="String" />
+            <columnOverride column="utime" javaType="String" />
         </table>
          
     </context>

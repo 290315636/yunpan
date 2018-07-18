@@ -9,6 +9,8 @@ package com.tikie.file.service.impl;
 
 import javax.annotation.Resource;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -106,5 +108,11 @@ public class TestServiceImpl implements TestService{
         }
         return state>0;
     }
-    
+
+    @Override
+    public Page<Test> findByPage(Test record,int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        return testMapper.findByPage(record);
+    }
+
 }

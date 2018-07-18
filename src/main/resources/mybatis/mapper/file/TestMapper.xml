@@ -11,6 +11,25 @@
   <sql id="Base_Column_List">
     id, msg, ctime, utime, note
   </sql>
+  <select id="findByPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_file_test
+    <where>
+      <if test="msg != null">
+        msg like "%"#{msg}"%"
+      </if>
+      <if test="ctime != null">
+        and DATE_FORMAT(ctime,'%Y-%m-%d') = #{ctime}
+      </if>
+      <if test="utime != null">
+        and DATE_FORMAT(utime,'%Y-%m-%d') = #{utime}
+      </if>
+      <if test="note != null">
+        and note like "%"#{note}"%"
+      </if>
+    </where>
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

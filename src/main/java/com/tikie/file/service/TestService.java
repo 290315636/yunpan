@@ -7,6 +7,7 @@
  */
 package com.tikie.file.service;
 
+import com.github.pagehelper.Page;
 import com.tikie.file.model.Test;
 
 /**
@@ -25,4 +26,6 @@ public interface TestService {
     Boolean updateByPrimaryKeySelective(Test record);
 
     Boolean updateByPrimaryKey(Test record);
+
+    Page<Test> findByPage(Test record, int pageNo, int pageSize);
 }

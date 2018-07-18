@@ -2,7 +2,6 @@ package com.tikie.file.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class TFile implements Serializable {
     private String id;
@@ -17,9 +16,9 @@ public class TFile implements Serializable {
 
     private String path;
 
-    private Date ctime;
+    private String ctime;
 
-    private Date utime;
+    private String utime;
 
     private int type;
 
@@ -73,19 +72,19 @@ public class TFile implements Serializable {
         this.path = path == null ? null : path.trim();
     }
 
-    public Date getCtime() {
+    public String getCtime() {
         return ctime;
     }
 
-    public void setCtime(Date ctime) {
+    public void setCtime(String ctime) {
         this.ctime = ctime;
     }
 
-    public Date getUtime() {
+    public String getUtime() {
         return utime;
     }
 
-    public void setUtime(Date utime) {
+    public void setUtime(String utime) {
         this.utime = utime;
     }
 

@@ -1,16 +1,15 @@
 package com.tikie.file.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Test implements Serializable {
     private String id;
 
     private String msg;
 
-    private Date ctime;
+    private String ctime;
 
-    private Date utime;
+    private String utime;
 
     private String note;
 
@@ -32,19 +31,19 @@ public class Test implements Serializable {
         this.msg = msg == null ? null : msg.trim();
     }
 
-    public Date getCtime() {
+    public String getCtime() {
         return ctime;
     }
 
-    public void setCtime(Date ctime) {
+    public void setCtime(String ctime) {
         this.ctime = ctime;
     }
 
-    public Date getUtime() {
+    public String getUtime() {
         return utime;
     }
 
-    public void setUtime(Date utime) {
+    public void setUtime(String utime) {
         this.utime = utime;
     }
 

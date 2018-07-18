@@ -1,5 +1,6 @@
 package com.tikie.file.mapper;
 
+import com.github.pagehelper.Page;
 import com.tikie.file.model.Test;
 
 public interface TestMapper {
@@ -14,4 +15,6 @@ public interface TestMapper {
     int updateByPrimaryKeySelective(Test record);
 
     int updateByPrimaryKey(Test record);
+
+    Page<Test> findByPage(Test record);
 }
