@@ -45,7 +45,7 @@ public class UploadController {
     @Value("${tikie.project.developer.name}")
     private String developerName;
     
-    @Value("${tikie.project.fileupload.path}")
+    @Value("${tikie.project.upload.path}")
     private String fileuploadPath;
     
     @ApiOperation(value="跳转到文件上传页面", notes="页面使用thymeleaf渲染")

@@ -9,11 +9,30 @@ server:
   context-path: /
   port: 80
 
+# 项目自定义配置
+tikie:
+  project:
+    developer:
+      name: tikie
+    upload:
+      path: /data/vfs/yunpan/   # 物理存放地址basePath+type+年月
+      
 spring:
   servlet:
     multipart:
       max-file-size: 10Mb  # 单个文件上传大小
       max-request-size: 1024Mb # 总文件上传大小
+  mvc:
+    favicon:
+      enabled: false
+    static-path-pattern: /**
+  resources:
+    static-locations:
+      - file:${tikie.project.upload.path}
+      - classpath:/static/
+      - classpath:/public/
+      - classpath:/resources/
+      - classpath:/META-INF/resources/
   datasource:
     name: mysql_test
     type: com.alibaba.druid.pool.DruidDataSource
@@ -55,10 +74,3 @@ pagehelper:
   supportMethodsArguments: true
   params: count=countSql
    
-# 项目自定义配置
-tikie:
-  project:
-    developer:
-      name: tikie
-    fileupload:
-      path: /data/vfs/yunpan/   # 物理存放地址basePath+type+年月

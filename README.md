@@ -40,12 +40,22 @@
        
  + 生成代码及使用步骤
  
-       1.更改resources/generator/generatorConfig.properties中的配置（主要更改模块名）
-       2.更改resources/generator/generatorConfig.xml关于表的配置（基于哪些表生成对应的代码，已经有的模块注释掉）
+       1. 更改resources/generator/generatorConfig.properties中的配置（主要更改模块名）
+       2. 更改resources/generator/generatorConfig.xml关于表的配置（基于哪些表生成对应的代码，已经有的模块注释掉）
        3. 运行maven命令：mvn mybatis-generator:generate
        4. 书写service层接口及实现
        5. 书写测试类
        ps:可参考test模块学习基本使用方法
+ 
+ 
+ + 实现分页步骤
+ 
+       1. 书写对应service接口，接口提供参数（int pageNo, int pageSize）
+       2. 实现对应的接口，在返回mapper的方法前执行：PageHelper.startPage(pageNo, pageSize);
+       3. controller中调用对应接口，传入pageNo和pageSize，返回对应数据
+       4. 书写测试类
+       ps:可参考test模块学习基本使用方法
+ 
  
 ### 实现功能点
     1. 多文件上传

@@ -1,16 +1,9 @@
 spring:
   profiles:
     active: dev
-  mvc:
-    favicon:
-      enabled: false
-  thymeleaf:  # 可以不设置
+  thymeleaf:  
     cache: false  # 关闭缓存
 #    enabled: false
-    mode: HTML5
-    prefix: classpath:/templates/
-    suffix: .html
-    encoding: UTF-8
     servlet:
       content-type: text/html
     

@@ -17,10 +17,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.FileCopyUtils;
 
 import javax.annotation.Resource;
+
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -35,6 +39,9 @@ public class TestServiceTest {
     @Resource
     private TestService testService;
     
+    @Value("${tikie.project.upload.path}")
+    private String path;
+    
     @Ignore
     public void test1() {
         // 测试10次登录，测试缓存是否生效
@@ -47,7 +54,7 @@ public class TestServiceTest {
 //      }
     }
     
-    @Test
+    @Ignore
     public void test2() {
         // 测试10次登录，测试缓存是否生效
         com.tikie.file.model.Test record = new com.tikie.file.model.Test();
@@ -62,11 +69,27 @@ public class TestServiceTest {
         com.tikie.file.model.Test test = new com.tikie.file.model.Test();
         test.setUtime("2018-07-17");
         logger.info(test.getUtime().toString());
-        Page<com.tikie.file.model.Test> pages = testService.findByPage(test,1, 2);
+        Page<com.tikie.file.model.Test> pages = testService.findByPage(test,2, 10);
         PageInfo<com.tikie.file.model.Test> pageInfo = new PageInfo<>(pages);
         Assert.assertNotNull(pages);
-        logger.info(pageInfo.toString());
-        logger.debug(pageInfo.toString());
+        logger.info(pages.toString());    // 查询页数据
+        logger.debug(pageInfo.toString());// 所有页数据
+    }
+    
+    // 测试文件拷贝
+    @Ignore
+    public void uploadTest() throws Exception {
+        File f = new File("C:/Users/zhaocs/Pictures/Saved Pictures/favicon.ico");
+        FileCopyUtils.copy(f, new File(path+"/favicon.ico"));
+    }
+    
+    // 测试文件仓库下的文件
+    @Test
+    public void listFilesTest() {
+        File file = new File(path);
+        for(File f : file.listFiles()) {
+            System.out.println("fileName : "+f.getName());
+        }
     }
 
 }

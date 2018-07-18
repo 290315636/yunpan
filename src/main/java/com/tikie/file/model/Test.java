@@ -54,6 +54,11 @@ public class Test implements Serializable {
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
     }
+    
+    @Override
+    public String toString() {
+        return "Test [id=" + id + ", msg=" + msg + ", ctime=" + ctime + ", utime=" + utime + ", note=" + note + "]";
+    }
 
     @Override
     public boolean equals(Object that) {

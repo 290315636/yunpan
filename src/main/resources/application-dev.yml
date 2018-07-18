@@ -16,11 +16,30 @@ server:
   error:
     path: /error  # 错误页面error
 
+# 项目自定义配置
+tikie:
+  project:
+    developer:
+      name: tikie
+    upload:
+      path: c:/vfs/yunpan/  # 物理存放地址basePath+type+年月
+      
 spring:
   servlet:
     multipart:
       max-file-size: 10Mb  # 单个文件上传大小
       max-request-size: 1024Mb # 总文件上传大小
+  mvc:
+    favicon:
+      enabled: false
+    static-path-pattern: /**
+  resources:
+    static-locations:
+      - file:${tikie.project.upload.path}
+      - classpath:/static/
+      - classpath:/public/
+      - classpath:/resources/
+      - classpath:/META-INF/resources/
   datasource:
     name: mysql_test
     type: com.alibaba.druid.pool.DruidDataSource
@@ -51,14 +70,6 @@ spring:
       pool-prepared-statements: false
       max-pool-prepared-statement-per-connection-size: 20
  
-# 项目自定义配置
-tikie:
-  project:
-    developer:
-      name: tikie
-    fileupload:
-      path: c:/vfs/yunpan/  # 物理存放地址basePath+type+年月
-      
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*/*.xml
   type-aliases-package: com.tikie.*.model
