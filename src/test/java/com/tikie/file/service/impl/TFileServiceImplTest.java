@@ -34,6 +34,11 @@ public class TFileServiceImplTest {
 
     @Test
     public void insert() {
+        TFileDTO tFileDTO = new TFileDTO();
+        tFileDTO.setName("test_1");
+        tFileDTO.setPath("c:/");
+        tFileDTO.setSize(123L);
+        tFileService.insert(tFileDTO);
     }
 
     @Test

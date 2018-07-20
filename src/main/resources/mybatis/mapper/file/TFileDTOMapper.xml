@@ -9,7 +9,7 @@
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
     <result column="utime" jdbcType="TIMESTAMP" property="utime" />
-    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
   </resultMap>
   <sql id="Base_Column_List">
     id, name, thumbnail, size, path, ctime, utime, type
@@ -30,7 +30,7 @@
       utime, type)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, 
       #{size,jdbcType=BIGINT}, #{path,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
-      #{utime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER})
+      #{utime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.tikie.file.model.TFileDTO">
     insert into tb_file
@@ -80,7 +80,7 @@
       <if test="utime != null">
         #{utime,jdbcType=TIMESTAMP},
       </if>
-      #{type,jdbcType=INTEGER},
+      #{type,jdbcType=VARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.tikie.file.model.TFileDTO">
@@ -105,7 +105,7 @@
         utime = #{utime,jdbcType=TIMESTAMP},
       </if>
       <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+        type = #{type,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -118,7 +118,7 @@
       path = #{path,jdbcType=VARCHAR},
       ctime = #{ctime,jdbcType=TIMESTAMP},
       utime = #{utime,jdbcType=TIMESTAMP},
-      type = #{type,jdbcType=INTEGER}
+      type = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

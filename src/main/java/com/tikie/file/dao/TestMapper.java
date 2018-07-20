@@ -2,6 +2,9 @@ package com.tikie.file.dao;
 
 import com.github.pagehelper.Page;
 import com.tikie.file.model.Test;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
 
 public interface TestMapper {
     int deleteByPrimaryKey(String id);

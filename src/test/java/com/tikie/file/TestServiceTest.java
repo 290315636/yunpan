@@ -42,7 +42,7 @@ public class TestServiceTest {
     @Value("${tikie.project.upload.path}")
     private String path;
     
-    @Ignore
+    @Test
     public void test1() {
         // 测试10次登录，测试缓存是否生效
 //      for(int i=0;i<10;i++) {

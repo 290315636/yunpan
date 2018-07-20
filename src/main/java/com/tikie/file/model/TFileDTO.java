@@ -17,7 +17,7 @@ public class TFileDTO implements Serializable {
 
     private String utime;
 
-    private int type;
+    private String type;
 
     private static final long serialVersionUID = 1L;
 
@@ -77,11 +77,11 @@ public class TFileDTO implements Serializable {
         this.utime = utime;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -118,7 +118,7 @@ public class TFileDTO implements Serializable {
         result = prime * result + ((getPath() == null) ? 0 : getPath().hashCode());
         result = prime * result + ((getCtime() == null) ? 0 : getCtime().hashCode());
         result = prime * result + ((getUtime() == null) ? 0 : getUtime().hashCode());
-        result = prime * result + getType();
+        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         return result;
     }
 }
