@@ -2,7 +2,7 @@ package com.tikie.file.model;
 
 import java.io.Serializable;
 
-public class TFile implements Serializable {
+public class TFileDTO implements Serializable {
     private String id;
 
     private String name;
@@ -96,7 +96,7 @@ public class TFile implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        TFile other = (TFile) that;
+        TFileDTO other = (TFileDTO) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getThumbnail() == null ? other.getThumbnail() == null : this.getThumbnail().equals(other.getThumbnail()))

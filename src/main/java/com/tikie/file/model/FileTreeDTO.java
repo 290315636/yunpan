@@ -2,7 +2,7 @@ package com.tikie.file.model;
 
 import java.io.Serializable;
 
-public class FileTree implements Serializable {
+public class FileTreeDTO implements Serializable {
     private String id;
 
     private Boolean isFile;
@@ -126,7 +126,7 @@ public class FileTree implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        FileTree other = (FileTree) that;
+        FileTreeDTO other = (FileTreeDTO) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getIsFile() == null ? other.getIsFile() == null : this.getIsFile().equals(other.getIsFile()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))

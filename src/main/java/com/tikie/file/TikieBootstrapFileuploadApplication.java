@@ -14,7 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @ComponentScan("com.tikie")
-@MapperScan("com.tikie.*.mapper")
+@MapperScan("com.tikie.*.dao")
 public class TikieBootstrapFileuploadApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TikieBootstrapFileuploadApplication.class, args);

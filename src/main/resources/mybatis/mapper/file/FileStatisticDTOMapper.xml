@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tikie.file.mapper.FileStatisticMapper">
-  <resultMap id="BaseResultMap" type="com.tikie.file.model.FileStatistic">
+<mapper namespace="com.tikie.file.dao.FileStatisticDTOMapper">
+  <resultMap id="BaseResultMap" type="com.tikie.file.model.FileStatisticDTO">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="file_id" jdbcType="VARCHAR" property="fileId" />
     <result column="relate_count" jdbcType="INTEGER" property="relateCount" />
@@ -21,13 +21,13 @@
     delete from tb_file_statistic
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.tikie.file.model.FileStatistic">
+  <insert id="insert" parameterType="com.tikie.file.model.FileStatisticDTO">
     insert into tb_file_statistic (id, file_id, relate_count, 
       download_count, share_count)
     values (#{id,jdbcType=VARCHAR}, #{fileId,jdbcType=VARCHAR}, #{relateCount,jdbcType=INTEGER}, 
       #{downloadCount,jdbcType=INTEGER}, #{shareCount,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.tikie.file.model.FileStatistic">
+  <insert id="insertSelective" parameterType="com.tikie.file.model.FileStatisticDTO">
     insert into tb_file_statistic
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -52,7 +52,7 @@
       #{shareCount,jdbcType=INTEGER},
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tikie.file.model.FileStatistic">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tikie.file.model.FileStatisticDTO">
     update tb_file_statistic
     <set>
       <if test="fileId != null">
@@ -70,7 +70,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tikie.file.model.FileStatistic">
+  <update id="updateByPrimaryKey" parameterType="com.tikie.file.model.FileStatisticDTO">
     update tb_file_statistic
     set file_id = #{fileId,jdbcType=VARCHAR},
       relate_count = #{relateCount,jdbcType=INTEGER},

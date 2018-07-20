@@ -1,17 +1,17 @@
 package com.tikie.file.dao;
 
-import com.tikie.file.model.FileStatistic;
+import com.tikie.file.model.FileStatisticDTO;
 
 public interface FileStatisticMapper {
     int deleteByPrimaryKey(String id);
 
-    int insert(FileStatistic record);
+    int insert(FileStatisticDTO record);
 
-    int insertSelective(FileStatistic record);
+    int insertSelective(FileStatisticDTO record);
 
-    FileStatistic selectByPrimaryKey(String id);
+    FileStatisticDTO selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(FileStatistic record);
+    int updateByPrimaryKeySelective(FileStatisticDTO record);
 
-    int updateByPrimaryKey(FileStatistic record);
+    int updateByPrimaryKey(FileStatisticDTO record);
 }

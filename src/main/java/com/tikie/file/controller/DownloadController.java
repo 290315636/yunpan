@@ -1,6 +1,6 @@
 package com.tikie.file.controller;
 
-import com.tikie.file.model.TFile;
+import com.tikie.file.model.TFileDTO;
 import com.tikie.file.service.TFileService;
 import com.tikie.util.DownloadUtil;
 import com.tikie.util.ZipUtil;
@@ -33,7 +33,7 @@ public class DownloadController {
 
         for (int i = 0; i < fileIds.length; i++) {
             String id = fileIds[i];
-            TFile tFile = tFileService.selectByPrimaryKey(id);
+            TFileDTO tFile = tFileService.selectByPrimaryKey(id);
             // 原文件
             String srcFile = tFile.getPath() + tFile.getName() + "." + tFile.getType();
             // 临时目录

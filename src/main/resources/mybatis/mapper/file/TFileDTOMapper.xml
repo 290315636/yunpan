@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tikie.file.mapper.TFileMapper">
-  <resultMap id="BaseResultMap" type="com.tikie.file.model.TFile">
+<mapper namespace="com.tikie.file.dao.TFileDTOMapper">
+  <resultMap id="BaseResultMap" type="com.tikie.file.model.TFileDTO">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="thumbnail" jdbcType="VARCHAR" property="thumbnail" />
@@ -24,7 +24,7 @@
     delete from tb_file
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.tikie.file.model.TFile">
+  <insert id="insert" parameterType="com.tikie.file.model.TFileDTO">
     insert into tb_file (id, name, thumbnail, 
       size, path, ctime, 
       utime, type)
@@ -32,7 +32,7 @@
       #{size,jdbcType=BIGINT}, #{path,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
       #{utime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.tikie.file.model.TFile">
+  <insert id="insertSelective" parameterType="com.tikie.file.model.TFileDTO">
     insert into tb_file
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -83,7 +83,7 @@
       #{type,jdbcType=INTEGER},
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tikie.file.model.TFile">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tikie.file.model.TFileDTO">
     update tb_file
     <set>
       <if test="name != null">
@@ -110,7 +110,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tikie.file.model.TFile">
+  <update id="updateByPrimaryKey" parameterType="com.tikie.file.model.TFileDTO">
     update tb_file
     set name = #{name,jdbcType=VARCHAR},
       thumbnail = #{thumbnail,jdbcType=VARCHAR},

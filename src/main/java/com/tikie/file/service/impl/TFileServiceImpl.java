@@ -1,7 +1,7 @@
 package com.tikie.file.service.impl;
 
 import com.tikie.file.dao.TFileMapper;
-import com.tikie.file.model.TFile;
+import com.tikie.file.model.TFileDTO;
 import com.tikie.file.service.TFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ public class TFileServiceImpl implements TFileService{
 
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
-    public Boolean insert(TFile record) {
+    public Boolean insert(TFileDTO record) {
         int state = 0;
         try{
             state =  tFileMapper.insert(record);
@@ -57,7 +57,7 @@ public class TFileServiceImpl implements TFileService{
 
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
-    public Boolean insertSelective(TFile record) {
+    public Boolean insertSelective(TFileDTO record) {
         int state = 0;
         try{
             state =  tFileMapper.insertSelective(record);
@@ -72,8 +72,8 @@ public class TFileServiceImpl implements TFileService{
 
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
-    public TFile selectByPrimaryKey(String id) {
-        TFile tFile = null;
+    public TFileDTO selectByPrimaryKey(String id) {
+    	TFileDTO tFile = null;
         try {
             tFile = tFileMapper.selectByPrimaryKey(id);
             logger.info("==== selectByPrimaryKey@exec:{} ====", tFile);
@@ -86,7 +86,7 @@ public class TFileServiceImpl implements TFileService{
     }
 
     @Override
-    public Boolean updateByPrimaryKeySelective(TFile record) {
+    public Boolean updateByPrimaryKeySelective(TFileDTO record) {
         int state = 0;
         try{
             state =  tFileMapper.updateByPrimaryKeySelective(record);
@@ -100,7 +100,7 @@ public class TFileServiceImpl implements TFileService{
     }
 
     @Override
-    public Boolean updateByPrimaryKey(TFile record) {
+    public Boolean updateByPrimaryKey(TFileDTO record) {
         int state = 0;
         try{
             state =  tFileMapper.updateByPrimaryKey(record);

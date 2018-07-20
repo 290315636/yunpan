@@ -1,6 +1,6 @@
 package com.tikie.file.service;
 
-import com.tikie.file.model.TFile;
+import com.tikie.file.model.TFileDTO;
 
 /**
  * @author zhangshitai
@@ -10,13 +10,13 @@ public interface TFileService {
 
     Boolean deleteByPrimaryKey(String id);
 
-    Boolean insert(TFile record);
+    Boolean insert(TFileDTO record);
 
-    Boolean insertSelective(TFile record);
+    Boolean insertSelective(TFileDTO record);
 
-    TFile selectByPrimaryKey(String id);
+    TFileDTO selectByPrimaryKey(String id);
 
-    Boolean updateByPrimaryKeySelective(TFile record);
+    Boolean updateByPrimaryKeySelective(TFileDTO record);
 
-    Boolean updateByPrimaryKey(TFile record);
+    Boolean updateByPrimaryKey(TFileDTO record);
 }
