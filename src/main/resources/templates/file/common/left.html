@@ -3,13 +3,28 @@
       xmlns:th="http://www.thymeleaf.org">
   <body>
     <!-- 头部导航start -->
-	<div th:fragment="left" class="container-fluid" style="margin-bottom: 46px;">
-		
-	  <ul class="nav nav-pills nav-stacked">
-		  <li role="presentation" class="active"><a href="#">Home</a></li>
-		  <li role="presentation"><a href="#">Profile</a></li>
-		  <li role="presentation"><a href="#">Messages</a></li>
-	  </ul>
+	<div th:fragment="left" class="container-fluid" style="margin-top: 58px;">
+	  <div class="col-md-2">
+	  	<ul class="nav nav-pills nav-stacked">
+		  <li role="presentation" class="active"><a href="#">全部文件</a></li>
+		  <li role="presentation"><a href="#">图片</a></li>
+		  <li role="presentation"><a href="#">文档</a></li>
+		  <li role="presentation"><a href="#">视频</a></li>
+		  <li role="presentation"><a href="#">种子</a></li>
+		  <li role="presentation"><a href="#">音乐</a></li>
+		  <li role="presentation"><a href="#">其他</a></li>
+		  <li role="presentation"><a href="#">我的分享</a></li>
+		  <li role="presentation"><a href="#">回收站</a></li>
+	    </ul>
+	    <div class="left-zone-size">
+	    	<div class="progress" style="">
+			  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+			    <span class="sr-only">60% Complete</span>
+			  </div>
+			</div>
+	    </div>
+	  </div>
+	  
 	<!-- 头部导航end -->
   </body>
 </html>
