@@ -1,9 +1,9 @@
 package com.tikie.file.dao;
 
-import com.tikie.file.model.FileTreeDTO;
+import com.tikie.file.model.FileTree;
 
 public interface FileTreeMapper {
-    int insert(FileTreeDTO record);
+    int insert(FileTree record);
 
-    int insertSelective(FileTreeDTO record);
+    int insertSelective(FileTree record);
 }

@@ -2,7 +2,7 @@ package com.tikie.file.model;
 
 import java.io.Serializable;
 
-public class FileStatisticDTO implements Serializable {
+public class FileStatistic implements Serializable {
     private String id;
 
     private String fileId;
@@ -66,7 +66,7 @@ public class FileStatisticDTO implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        FileStatisticDTO other = (FileStatisticDTO) that;
+        FileStatistic other = (FileStatistic) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getFileId() == null ? other.getFileId() == null : this.getFileId().equals(other.getFileId()))
             && (this.getRelateCount() == other.getRelateCount())

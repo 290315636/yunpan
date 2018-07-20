@@ -1,17 +1,17 @@
 package com.tikie.file.dao;
 
-import com.tikie.file.model.TFileDTO;
+import com.tikie.file.model.TFile;
 
 public interface TFileMapper {
     int deleteByPrimaryKey(String id);
 
-    int insert(TFileDTO record);
+    int insert(TFile record);
 
-    int insertSelective(TFileDTO record);
+    int insertSelective(TFile record);
 
-    TFileDTO selectByPrimaryKey(String id);
+    TFile selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(TFileDTO record);
+    int updateByPrimaryKeySelective(TFile record);
 
-    int updateByPrimaryKey(TFileDTO record);
+    int updateByPrimaryKey(TFile record);
 }

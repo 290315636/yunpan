@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tikie.file.dao.FileTreeDTOMapper">
-  <resultMap id="BaseResultMap" type="com.tikie.file.model.FileTreeDTO">
+<mapper namespace="com.tikie.file.dao.FileTreeMapper">
+  <resultMap id="BaseResultMap" type="com.tikie.file.model.FileTree">
     <result column="id" jdbcType="VARCHAR" property="id" />
     <result column="is_file" jdbcType="BIT" property="isFile" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -14,7 +14,7 @@
     <result column="size" jdbcType="BIGINT" property="size" />
     <result column="md5" jdbcType="VARCHAR" property="md5" />
   </resultMap>
-  <insert id="insert" parameterType="com.tikie.file.model.FileTreeDTO">
+  <insert id="insert" parameterType="com.tikie.file.model.FileTree">
     insert into tb_file_tree (id, is_file, name, 
       sort, ctime, utime, 
       file_id, pid, reback, 
@@ -24,7 +24,7 @@
       #{fileId,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{reback,jdbcType=VARCHAR}, 
       #{size,jdbcType=BIGINT}, #{md5,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.tikie.file.model.FileTreeDTO">
+  <insert id="insertSelective" parameterType="com.tikie.file.model.FileTree">
     insert into tb_file_tree
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

@@ -1,7 +1,9 @@
 package com.tikie.file.service.impl;
 
-import com.tikie.file.model.TFileDTO;
+import com.tikie.file.model.TFile;
 import com.tikie.file.service.TFileService;
+import com.tikie.util.UUIDUtil;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -27,18 +29,19 @@ public class TFileServiceImplTest {
 
     @Test
     public void deleteByPrimaryKey() {
-        TFileDTO tFile = new TFileDTO();
+        TFile tFile = new TFile();
         tFile.setId("1");
         tFileService.deleteByPrimaryKey(tFile.getId());
     }
 
     @Test
     public void insert() {
-        TFileDTO tFileDTO = new TFileDTO();
-        tFileDTO.setName("test_1");
-        tFileDTO.setPath("c:/");
-        tFileDTO.setSize(123L);
-        tFileService.insert(tFileDTO);
+        TFile tFile = new TFile();
+        tFile.setId(UUIDUtil.getUUID());
+        tFile.setName("test_1");
+        tFile.setPath("c:/");
+        tFile.setSize(123L);
+        tFileService.insert(tFile);
     }
 
     @Test

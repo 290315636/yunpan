@@ -7,9 +7,9 @@
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}" />
 </head>
 <body>
-    <div th:insert="~{file/common/menu :: menu}"></div>
+    <div th:replace="~{file/common/menu :: menu}"></div>
 
-    <div th:insert="~{file/common/leftMenu :: left-menu"></div>
+    <div th:replace="~{file/common/left :: left}"></div>
     
     <div th:replace="~{file/common/footer :: copyright}"></div>
     

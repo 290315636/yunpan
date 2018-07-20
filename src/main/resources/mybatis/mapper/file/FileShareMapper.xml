@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tikie.file.dao.FileShareDTOMapper">
-  <resultMap id="BaseResultMap" type="com.tikie.file.model.FileShareDTO">
+<mapper namespace="com.tikie.file.dao.FileShareMapper">
+  <resultMap id="BaseResultMap" type="com.tikie.file.model.FileShare">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="tree_ids" jdbcType="VARCHAR" property="treeIds" />
     <result column="code" jdbcType="VARCHAR" property="code" />
@@ -23,7 +23,7 @@
     delete from tb_file_share
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.tikie.file.model.FileShareDTO">
+  <insert id="insert" parameterType="com.tikie.file.model.FileShare">
     insert into tb_file_share (id, tree_ids, code, 
       ctime, edate, download_count, 
       vcode)
@@ -31,7 +31,7 @@
       #{ctime,jdbcType=TIMESTAMP}, #{edate,jdbcType=DATE}, #{downloadCount,jdbcType=INTEGER}, 
       #{vcode,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.tikie.file.model.FileShareDTO">
+  <insert id="insertSelective" parameterType="com.tikie.file.model.FileShare">
     insert into tb_file_share
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -80,7 +80,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tikie.file.model.FileShareDTO">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tikie.file.model.FileShare">
     update tb_file_share
     <set>
       <if test="treeIds != null">
@@ -104,7 +104,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tikie.file.model.FileShareDTO">
+  <update id="updateByPrimaryKey" parameterType="com.tikie.file.model.FileShare">
     update tb_file_share
     set tree_ids = #{treeIds,jdbcType=VARCHAR},
       code = #{code,jdbcType=VARCHAR},

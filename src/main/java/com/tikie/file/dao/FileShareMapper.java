@@ -1,17 +1,17 @@
 package com.tikie.file.dao;
 
-import com.tikie.file.model.FileShareDTO;
+import com.tikie.file.model.FileShare;
 
 public interface FileShareMapper {
     int deleteByPrimaryKey(String id);
 
-    int insert(FileShareDTO record);
+    int insert(FileShare record);
 
-    int insertSelective(FileShareDTO record);
+    int insertSelective(FileShare record);
 
-    FileShareDTO selectByPrimaryKey(String id);
+    FileShare selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(FileShareDTO record);
+    int updateByPrimaryKeySelective(FileShare record);
 
-    int updateByPrimaryKey(FileShareDTO record);
+    int updateByPrimaryKey(FileShare record);
 }

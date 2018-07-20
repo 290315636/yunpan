@@ -2,7 +2,7 @@ package com.tikie.file.model;
 
 import java.io.Serializable;
 
-public class FileShareDTO implements Serializable {
+public class FileShare implements Serializable {
     private String id;
 
     private String treeIds;
@@ -86,7 +86,7 @@ public class FileShareDTO implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        FileShareDTO other = (FileShareDTO) that;
+        FileShare other = (FileShare) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getTreeIds() == null ? other.getTreeIds() == null : this.getTreeIds().equals(other.getTreeIds()))
             && (this.getCode() == null ? other.getCode() == null : this.getCode().equals(other.getCode()))

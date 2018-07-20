@@ -2,7 +2,7 @@ package com.tikie.file.model;
 
 import java.io.Serializable;
 
-public class TFileDTO implements Serializable {
+public class TFile implements Serializable {
     private String id;
 
     private String name;
@@ -17,7 +17,7 @@ public class TFileDTO implements Serializable {
 
     private String utime;
 
-    private String type;
+    private int type;
 
     private static final long serialVersionUID = 1L;
 
@@ -77,11 +77,11 @@ public class TFileDTO implements Serializable {
         this.utime = utime;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -96,7 +96,7 @@ public class TFileDTO implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        TFileDTO other = (TFileDTO) that;
+        TFile other = (TFile) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getThumbnail() == null ? other.getThumbnail() == null : this.getThumbnail().equals(other.getThumbnail()))
@@ -118,7 +118,7 @@ public class TFileDTO implements Serializable {
         result = prime * result + ((getPath() == null) ? 0 : getPath().hashCode());
         result = prime * result + ((getCtime() == null) ? 0 : getCtime().hashCode());
         result = prime * result + ((getUtime() == null) ? 0 : getUtime().hashCode());
-        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
+        result = prime * result + getType();
         return result;
     }
 }
