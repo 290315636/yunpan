@@ -1,4 +1,4 @@
-package com.tikie.file.mapper;
+package com.tikie.file.dao;
 
 import com.github.pagehelper.Page;
 import com.tikie.file.model.Test;

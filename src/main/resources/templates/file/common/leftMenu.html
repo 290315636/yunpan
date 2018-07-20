@@ -3,8 +3,8 @@
       xmlns:th="http://www.thymeleaf.org">
   <body>
     <!-- 头部导航start -->
-	<div th:fragment="menu" id="menu-nav" class="container-fluid" style="margin-bottom: 46px;">
-	  <nav id="header-nav" class="navbar navbar-default navbar-fixed-top">
+	<div th:fragment="left-menu" id="menu-nav" class="container-fluid" style="margin-bottom: 46px;">
+	  <nav id="left-nav" class="navbar nav-pills nav-stacked">
 	      <div class="container-fluid">
 	        <!-- Brand and toggle get grouped for better mobile display -->
 	        <div class="navbar-header">
@@ -20,9 +20,9 @@
 	        <!-- Collect the nav links, forms, and other content for toggling -->
 	        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	          <ul class="nav navbar-nav">
-	            <li class="active"><a th:href="@{/file/index}">首页<span class="sr-only">(current)</span></a></li>
-	            <li><a th:href="@{/file/list}">网盘</a></li>
-	            <li><a th:href="@{/file/share}">分享</a></li>
+	            <li class="active"><a th:href="@{#}">首页<span class="sr-only">(current)</span></a></li>
+	            <li><a th:href="@{/monitor}">网盘</a></li>
+	            <li><a th:href="@{/jobs}">分享</a></li>
 	            <li class="dropdown">
 	              <a th:href="@{#}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">更多 <span class="caret"></span></a>
 	              <ul class="dropdown-menu">

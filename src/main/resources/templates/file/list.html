@@ -1,0 +1,25 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="file/common/header :: header(~{::title},~{::link},~{})">
+    <title>文件上传页面</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}" />
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/favicon.ico}" />
+</head>
+<body>
+    <div th:insert="~{file/common/menu :: menu}"></div>
+
+    <div th:insert="~{file/common/leftMenu :: left-menu"></div>
+    
+    <div th:replace="~{file/common/footer :: copyright}"></div>
+    
+    <script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/locales/zh.js}"></script>
+    <script type="text/javascript" th:src="@{/js/file/fileList.js}"></script>
+    <script>
+    $(function(){
+         
+    });
+    </script>
+</body>
+</html>

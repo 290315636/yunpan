@@ -1,6 +1,6 @@
 package com.tikie.file.service.impl;
 
-import com.tikie.file.mapper.TFileMapper;
+import com.tikie.file.dao.TFileMapper;
 import com.tikie.file.model.TFile;
 import com.tikie.file.service.TFileService;
 import org.slf4j.Logger;

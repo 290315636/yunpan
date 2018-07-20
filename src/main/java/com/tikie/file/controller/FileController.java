@@ -65,6 +65,12 @@ public class FileController {
         return new ModelAndView("file/index");
     }
     
+    @ApiOperation(value="跳转到网盘页面", notes="页面使用thymeleaf渲染")
+    @RequestMapping(value="/list", method=RequestMethod.GET)
+    public ModelAndView list(){
+        return new ModelAndView("file/list");
+    }
+    
     @ApiOperation(value="测试返回json数据", notes="返回json")
     @ApiImplicitParam(name = "name", value = "欢迎用户名称", required = false, dataType = "String")
     @RequestMapping(value="/hello", method=RequestMethod.GET)
