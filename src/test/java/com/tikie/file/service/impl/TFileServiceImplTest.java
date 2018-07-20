@@ -1,6 +1,6 @@
 package com.tikie.file.service.impl;
 
-import com.tikie.file.model.TFile;
+import com.tikie.file.model.TFileDTO;
 import com.tikie.file.service.TFileService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ public class TFileServiceImplTest {
 
     @Test
     public void deleteByPrimaryKey() {
-        TFile tFile = new TFile();
+        TFileDTO tFile = new TFileDTO();
         tFile.setId("1");
         tFileService.deleteByPrimaryKey(tFile.getId());
     }
