@@ -1,7 +1,6 @@
 package com.tikie.file.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 public class TFile implements Serializable {
     private String id;
@@ -10,9 +9,7 @@ public class TFile implements Serializable {
 
     private String thumbnail;
 
-    private BigDecimal size;
-
-    private int count;
+    private Long size;
 
     private String path;
 
@@ -48,20 +45,12 @@ public class TFile implements Serializable {
         this.thumbnail = thumbnail == null ? null : thumbnail.trim();
     }
 
-    public BigDecimal getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(BigDecimal size) {
+    public void setSize(Long size) {
         this.size = size;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
     }
 
     public String getPath() {
@@ -112,7 +101,6 @@ public class TFile implements Serializable {
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getThumbnail() == null ? other.getThumbnail() == null : this.getThumbnail().equals(other.getThumbnail()))
             && (this.getSize() == null ? other.getSize() == null : this.getSize().equals(other.getSize()))
-            && (this.getCount() == other.getCount())
             && (this.getPath() == null ? other.getPath() == null : this.getPath().equals(other.getPath()))
             && (this.getCtime() == null ? other.getCtime() == null : this.getCtime().equals(other.getCtime()))
             && (this.getUtime() == null ? other.getUtime() == null : this.getUtime().equals(other.getUtime()))
@@ -127,7 +115,6 @@ public class TFile implements Serializable {
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getThumbnail() == null) ? 0 : getThumbnail().hashCode());
         result = prime * result + ((getSize() == null) ? 0 : getSize().hashCode());
-        result = prime * result + getCount();
         result = prime * result + ((getPath() == null) ? 0 : getPath().hashCode());
         result = prime * result + ((getCtime() == null) ? 0 : getCtime().hashCode());
         result = prime * result + ((getUtime() == null) ? 0 : getUtime().hashCode());

@@ -5,15 +5,14 @@
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="thumbnail" jdbcType="VARCHAR" property="thumbnail" />
-    <result column="size" jdbcType="DECIMAL" property="size" />
-    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="size" jdbcType="BIGINT" property="size" />
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
     <result column="utime" jdbcType="TIMESTAMP" property="utime" />
     <result column="type" jdbcType="INTEGER" property="type" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, thumbnail, size, count, path, ctime, utime, type
+    id, name, thumbnail, size, path, ctime, utime, type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -27,13 +26,11 @@
   </delete>
   <insert id="insert" parameterType="com.tikie.file.model.TFile">
     insert into tb_file (id, name, thumbnail, 
-      size, count, path, 
-      ctime, utime, type
-      )
+      size, path, ctime, 
+      utime, type)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, 
-      #{size,jdbcType=DECIMAL}, #{count,jdbcType=INTEGER}, #{path,jdbcType=VARCHAR}, 
-      #{ctime,jdbcType=TIMESTAMP}, #{utime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}
-      )
+      #{size,jdbcType=BIGINT}, #{path,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{utime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.tikie.file.model.TFile">
     insert into tb_file
@@ -50,7 +47,6 @@
       <if test="size != null">
         size,
       </if>
-      count,
       <if test="path != null">
         path,
       </if>
@@ -73,9 +69,8 @@
         #{thumbnail,jdbcType=VARCHAR},
       </if>
       <if test="size != null">
-        #{size,jdbcType=DECIMAL},
+        #{size,jdbcType=BIGINT},
       </if>
-      #{count,jdbcType=INTEGER},
       <if test="path != null">
         #{path,jdbcType=VARCHAR},
       </if>
@@ -98,10 +93,7 @@
         thumbnail = #{thumbnail,jdbcType=VARCHAR},
       </if>
       <if test="size != null">
-        size = #{size,jdbcType=DECIMAL},
-      </if>
-      <if test="count != null">
-        count = #{count,jdbcType=INTEGER},
+        size = #{size,jdbcType=BIGINT},
       </if>
       <if test="path != null">
         path = #{path,jdbcType=VARCHAR},
@@ -122,8 +114,7 @@
     update tb_file
     set name = #{name,jdbcType=VARCHAR},
       thumbnail = #{thumbnail,jdbcType=VARCHAR},
-      size = #{size,jdbcType=DECIMAL},
-      count = #{count,jdbcType=INTEGER},
+      size = #{size,jdbcType=BIGINT},
       path = #{path,jdbcType=VARCHAR},
       ctime = #{ctime,jdbcType=TIMESTAMP},
       utime = #{utime,jdbcType=TIMESTAMP},

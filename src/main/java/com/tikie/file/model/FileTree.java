@@ -5,23 +5,13 @@ import java.io.Serializable;
 public class FileTree implements Serializable {
     private String id;
 
-    private Boolean isFile;
-
-    private String name;
-
-    private int sort;
-
-    private String ctime;
-
-    private String utime;
-
     private String fileId;
 
-    private String pid;
+    private int relateCount;
 
-    private String reback;
+    private int downloadCount;
 
-    private String md5;
+    private int shareCount;
 
     private static final long serialVersionUID = 1L;
 
@@ -33,46 +23,6 @@ public class FileTree implements Serializable {
         this.id = id == null ? null : id.trim();
     }
 
-    public Boolean getIsFile() {
-        return isFile;
-    }
-
-    public void setIsFile(Boolean isFile) {
-        this.isFile = isFile;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public int getSort() {
-        return sort;
-    }
-
-    public void setSort(int sort) {
-        this.sort = sort;
-    }
-
-    public String getCtime() {
-        return ctime;
-    }
-
-    public void setCtime(String ctime) {
-        this.ctime = ctime;
-    }
-
-    public String getUtime() {
-        return utime;
-    }
-
-    public void setUtime(String utime) {
-        this.utime = utime;
-    }
-
     public String getFileId() {
         return fileId;
     }
@@ -81,28 +31,28 @@ public class FileTree implements Serializable {
         this.fileId = fileId == null ? null : fileId.trim();
     }
 
-    public String getPid() {
-        return pid;
+    public int getRelateCount() {
+        return relateCount;
     }
 
-    public void setPid(String pid) {
-        this.pid = pid == null ? null : pid.trim();
+    public void setRelateCount(int relateCount) {
+        this.relateCount = relateCount;
     }
 
-    public String getReback() {
-        return reback;
+    public int getDownloadCount() {
+        return downloadCount;
     }
 
-    public void setReback(String reback) {
-        this.reback = reback == null ? null : reback.trim();
+    public void setDownloadCount(int downloadCount) {
+        this.downloadCount = downloadCount;
     }
 
-    public String getMd5() {
-        return md5;
+    public int getShareCount() {
+        return shareCount;
     }
 
-    public void setMd5(String md5) {
-        this.md5 = md5 == null ? null : md5.trim();
+    public void setShareCount(int shareCount) {
+        this.shareCount = shareCount;
     }
 
     @Override
@@ -118,15 +68,10 @@ public class FileTree implements Serializable {
         }
         FileTree other = (FileTree) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getIsFile() == null ? other.getIsFile() == null : this.getIsFile().equals(other.getIsFile()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getSort() == other.getSort())
-            && (this.getCtime() == null ? other.getCtime() == null : this.getCtime().equals(other.getCtime()))
-            && (this.getUtime() == null ? other.getUtime() == null : this.getUtime().equals(other.getUtime()))
             && (this.getFileId() == null ? other.getFileId() == null : this.getFileId().equals(other.getFileId()))
-            && (this.getPid() == null ? other.getPid() == null : this.getPid().equals(other.getPid()))
-            && (this.getReback() == null ? other.getReback() == null : this.getReback().equals(other.getReback()))
-            && (this.getMd5() == null ? other.getMd5() == null : this.getMd5().equals(other.getMd5()));
+            && (this.getRelateCount() == other.getRelateCount())
+            && (this.getDownloadCount() == other.getDownloadCount())
+            && (this.getShareCount() == other.getShareCount());
     }
 
     @Override
@@ -134,15 +79,10 @@ public class FileTree implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getIsFile() == null) ? 0 : getIsFile().hashCode());
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + getSort();
-        result = prime * result + ((getCtime() == null) ? 0 : getCtime().hashCode());
-        result = prime * result + ((getUtime() == null) ? 0 : getUtime().hashCode());
         result = prime * result + ((getFileId() == null) ? 0 : getFileId().hashCode());
-        result = prime * result + ((getPid() == null) ? 0 : getPid().hashCode());
-        result = prime * result + ((getReback() == null) ? 0 : getReback().hashCode());
-        result = prime * result + ((getMd5() == null) ? 0 : getMd5().hashCode());
+        result = prime * result + getRelateCount();
+        result = prime * result + getDownloadCount();
+        result = prime * result + getShareCount();
         return result;
     }
 }

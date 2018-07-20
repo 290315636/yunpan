@@ -22,7 +22,7 @@ tikie:
     developer:
       name: tikie
     upload:
-      path: c:/vfs/yunpan/  # 物理存放地址basePath+type+年月
+      path: c:\vfs\yunpan\  # 物理存放地址basePath+type+年月
       
 spring:
   servlet:

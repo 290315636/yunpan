@@ -2,6 +2,8 @@ package com.tikie.file.service.impl;
 
 import com.tikie.file.mapper.TFileMapper;
 import com.tikie.file.model.TFile;
+import com.tikie.file.service.TFileService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,26 +18,11 @@ import javax.annotation.Resource;
  */
 @Service
 @Transactional(propagation=Propagation.NOT_SUPPORTED)
-public class TFileServiceImpl implements TFileMapper{
+public class TFileServiceImpl implements TFileService{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Resource
     private TFileMapper tFileMapper;
-
-    @Override
-    public int deleteByPrimaryKey(String id) {
-        return 0;
-    }
-
-    @Override
-    public int insert(TFile record) {
-        return 0;
-    }
-
-    @Override
-    public int insertSelective(TFile record) {
-        return 0;
-    }
 
     @Override
     public TFile selectByPrimaryKey(String id) {
@@ -49,13 +36,4 @@ public class TFileServiceImpl implements TFileMapper{
         return null;
     }
 
-    @Override
-    public int updateByPrimaryKeySelective(TFile record) {
-        return 0;
-    }
-
-    @Override
-    public int updateByPrimaryKey(TFile record) {
-        return 0;
-    }
 }
