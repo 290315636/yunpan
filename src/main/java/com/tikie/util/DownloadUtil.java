@@ -81,34 +81,34 @@ public class DownloadUtil {
 	    }
 	  }
 
-//	public static void downloadStream(String fileName,byte[] stream,HttpServletResponse response) throws IOException {
-//		InputStream is = InputStreamUtil.byte2Input(stream);
-//		FileOutputStream fos = new FileOutputStream(fileName);
-//		byte[] b = new byte[10000];
-//		while((is.read(b)) != -1){
-//			fos.write(b);
-//		}
-//		is.close();
-//		fos.close();
-//		// path是指欲下载的文件的路径。
-//        File file = new File(fileName);
-//        // 取得文件名。
-//        String filename = file.getName();
-//	    // 读到流中
-//	    InputStream inStream = new FileInputStream(fileName);
-//	    // 设置输出的格式
-//	    response.reset();
-//	    response.setContentType("bin");
-//	    response.addHeader("Content-Disposition", "attachment; filename=" + filename);
-//	    int len;
-//	    try {
-//	      while ((len = inStream.read(b)) > 0)
-//	        response.getOutputStream().write(b, 0, len);
-//	      inStream.close();
-//	    } catch (IOException e) {
-//	      e.printStackTrace();
-//	    }
-//		
-//	}
+	public static void downloadStream(String fileName,byte[] stream,HttpServletResponse response) throws IOException {
+		InputStream is = InputStreamUtil.byte2Input(stream);
+		FileOutputStream fos = new FileOutputStream(fileName);
+		byte[] b = new byte[10000];
+		while((is.read(b)) != -1){
+			fos.write(b);
+		}
+		is.close();
+		fos.close();
+		// path是指欲下载的文件的路径。
+        File file = new File(fileName);
+        // 取得文件名。
+        String filename = file.getName();
+	    // 读到流中
+	    InputStream inStream = new FileInputStream(fileName);
+	    // 设置输出的格式
+	    response.reset();
+	    response.setContentType("bin");
+	    response.addHeader("Content-Disposition", "attachment; filename=" + filename);
+	    int len;
+	    try {
+	      while ((len = inStream.read(b)) > 0)
+	        response.getOutputStream().write(b, 0, len);
+	      inStream.close();
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }
+
+	}
 	
 }

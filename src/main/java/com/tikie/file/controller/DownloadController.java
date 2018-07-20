@@ -1,9 +1,7 @@
 package com.tikie.file.controller;
 
 import com.tikie.file.model.TFile;
-import com.tikie.file.model.Test;
 import com.tikie.file.service.TFileService;
-import com.tikie.file.service.TestService;
 import com.tikie.util.DownloadUtil;
 import com.tikie.util.ZipUtil;
 import org.apache.commons.io.FileUtils;
