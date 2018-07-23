@@ -9,7 +9,19 @@
 <body>
     <div th:replace="~{file/common/menu :: menu}"></div>
 
-    <div th:insert="~{file/common/left :: left}"></div>
+	<!-- 左部导航start -->
+	<div class="container-fluid" style="margin-top: 58px;">
+	  <div th:replace="~{file/common/left :: left}">
+	  
+	  
+	  </div>
+	  <div th:replace="~{file/yunpan :: yunpan}">
+	  
+	  
+	  </div>
+	</div>
+	<!-- 左部导航end -->
+    
     
     <div th:replace="~{file/common/footer :: copyright}"></div>
     
@@ -18,7 +30,7 @@
     <script type="text/javascript" th:src="@{/js/file/fileList.js}"></script>
     <script>
     $(function(){
-         
+    	FileList.init();
     });
     </script>
 </body>
