@@ -1,0 +1,155 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>云盘</title>
+</head>
+<body>
+  <!-- 右部云盘start -->
+  <div th:fragment="yunpan" class="col-md-10">
+  	<!-- 云盘按钮start -->
+  	<div class="container-fluid breadcrumb">
+  		<div class="col-md-8">
+  			<div class="btn-group" role="group" aria-label="...">
+			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-upload"></span>上传</button>
+			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>新建文件夹</button>
+			</div>
+			<div id="file-menu-more" class="btn-group" role="group" aria-label="..." style="display:none;">
+			  <button type="button" class="btn btn-default">分享</button>
+			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-download"></span>下载</button>
+			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span>删除</button>
+			  <button type="button" class="btn btn-default">重命名</button>
+			  <div class="btn-group" role="group">
+			    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			      	<span class="glyphicon glyphicon-option-horizontal"></span>更多
+			      <span class="caret"></span>
+			    </button>
+			    <ul class="dropdown-menu">
+			      <li><a href="#"><span class="glyphicon glyphicon-duplicate"></span>复制到</a></li>
+			      <li><a href="#"><span class="glyphicon glyphicon-move"></span>移动到</a></li>
+			      <li><a href="#">详细信息</a></li>
+			    </ul>
+			  </div>
+		    </div>
+  		</div>
+  		<div class="col-md-4">
+  			<div class="pull-right">
+				<div class="input-group">
+			      <input type="text" class="form-control" placeholder="搜索您的文件">
+			      <span class="input-group-btn">
+			        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+			      </span>
+			    </div>
+			</div>
+  		</div>
+  	</div>
+  	<!-- 云盘按钮end -->
+    <!-- 路径导航start -->
+    <ol class="breadcrumb">
+	  <li><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+	  <li><a href="#">Library</a></li>
+	  <li class="active">Data</li>
+	</ol>
+    <!-- 路径导航end -->
+    <!-- 文件展示样式一start -->
+    <div class="container-fluid">
+    	<table id="show-file" class="table table-hover" style="height:390px;">
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我1.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-check" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我2.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我3.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我4.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我5.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>	
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我6.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我7.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我8.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我9.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我10.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我15.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我11.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我12.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我13.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		  <tr>
+		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		  	<td>需要资料找我14.jpg</td>
+		  	<td class="col-md-1">29KB</td>
+		  	<td class="col-md-2">2018-06-11 09:26</td>
+		  </tr>
+		</table>
+    </div>
+    
+    <!-- 文件展示样式一start -->
+    
+  </div>
+</body>
+</html>
