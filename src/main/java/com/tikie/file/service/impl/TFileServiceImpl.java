@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import com.tikie.util.UUIDUtil;
 
 import javax.annotation.Resource;
 
@@ -35,7 +36,6 @@ public class TFileServiceImpl implements TFileService{
         }catch (Exception e){
             e.printStackTrace();
             logger.error("deleteByPrimaryKey@err:{}",e);
-            throw e;
         }
         return state > 0;
     }
@@ -50,7 +50,6 @@ public class TFileServiceImpl implements TFileService{
         }catch (Exception e){
             e.printStackTrace();
             logger.error("insert@err:{}",e);
-            throw e;
         }
         return state > 0;
     }
@@ -60,12 +59,13 @@ public class TFileServiceImpl implements TFileService{
     public Boolean insertSelective(TFile record) { 
         int state = 0;
         try{
+            TFile tFile = new TFile();
+            tFile.setId(UUIDUtil.getUUID());
             state =  tFileMapper.insertSelective(record);
             logger.info("insertSelective@exec:{}",state);
         }catch (Exception e){
             e.printStackTrace();
             logger.error("insertSelective@err:{}",e);
-            throw e;
         }
         return state > 0;
     }
@@ -80,7 +80,6 @@ public class TFileServiceImpl implements TFileService{
         }catch (Exception e){
             e.printStackTrace();
             logger.error("==== selectByPrimaryKey@err:{} ====", e);
-            throw e;
         }
         return tFile;
     }
@@ -94,7 +93,6 @@ public class TFileServiceImpl implements TFileService{
         }catch (Exception e){
             e.printStackTrace();
             logger.error("==== updateByPrimaryKeySelective@err:{} ====", e);
-            throw e;
         }
         return state > 0;
     }
@@ -108,7 +106,6 @@ public class TFileServiceImpl implements TFileService{
         }catch (Exception e){
             e.printStackTrace();
             logger.error("==== updateByPrimaryKey@err:{} ====", e);
-            throw e;
         }
         return state > 0;
     }

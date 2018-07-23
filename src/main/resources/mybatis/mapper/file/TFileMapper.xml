@@ -51,10 +51,10 @@
         path,
       </if>
       <if test="ctime != null">
-        ctime,
+        NOW(),
       </if>
       <if test="utime != null">
-        utime,
+        NOW(),
       </if>
       type,
     </trim>

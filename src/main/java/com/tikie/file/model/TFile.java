@@ -1,8 +1,12 @@
 package com.tikie.file.model;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
 public class TFile implements Serializable {
+
+    @ApiModelProperty(notes = "主键 id, 新增不需要传值")
     private String id;
 
     private String name;
