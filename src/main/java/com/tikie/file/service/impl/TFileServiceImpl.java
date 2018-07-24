@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import com.tikie.util.UUIDUtil;
 
 import javax.annotation.Resource;
 import java.util.Collections;
@@ -61,8 +60,6 @@ public class TFileServiceImpl implements TFileService{
     public Boolean insertSelective(TFile record) { 
         int state = 0;
         try{
-            TFile tFile = new TFile();
-            tFile.setId(UUIDUtil.getUUID());
             state =  tFileMapper.insertSelective(record);
             logger.info("insertSelective@exec:{}",state);
         }catch (Exception e){

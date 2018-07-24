@@ -90,8 +90,6 @@ public class FileController {
             fileUploadPath.mkdirs();
         }
 
-
-
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         Map<String, MultipartFile> map =multipartRequest.getFileMap();
         List<Map<String, Object>> handle = new ArrayList<>();

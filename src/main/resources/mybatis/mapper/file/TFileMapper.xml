@@ -9,7 +9,7 @@
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
     <result column="utime" jdbcType="TIMESTAMP" property="utime" />
-    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="md5" jdbcType="VARCHAR" property="md5" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -20,7 +20,7 @@
     select 
     <include refid="Base_Column_List" />
     from tb_file
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id}
   </select>
 
   <select id="selectIdByMd5" parameterType="java.lang.String" resultType="java.lang.String">
@@ -57,17 +57,18 @@
       and md5=#{md5}
     </if>
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from tb_file
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id}
   </delete>
   <insert id="insert" parameterType="com.tikie.file.model.TFile">
     insert into tb_file (id, name, thumbnail, 
       size, path, ctime, 
       utime, type)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, 
-      #{size,jdbcType=BIGINT}, #{path,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
-      #{utime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, #{md5,jdbcType=VARCHAR})
+    values (#{id}, #{name}, #{thumbnail},
+      #{size}, #{path}, #{ctime},
+      #{utime}, #{type}, #{md5})
   </insert>
   <insert id="insertSelective" parameterType="com.tikie.file.model.TFile">
     insert into tb_file
@@ -100,29 +101,29 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id},
       </if>
       <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+        #{name},
       </if>
       <if test="thumbnail != null">
-        #{thumbnail,jdbcType=VARCHAR},
+        #{thumbnail},
       </if>
       <if test="size != null">
-        #{size,jdbcType=BIGINT},
+        #{size},
       </if>
       <if test="path != null">
-        #{path,jdbcType=VARCHAR},
+        #{path},
       </if>
       <if test="ctime != null">
-        #{ctime,jdbcType=TIMESTAMP},
+        #{ctime},
       </if>
       <if test="utime != null">
-        #{utime,jdbcType=TIMESTAMP},
+        #{utime},
       </if>
-      #{type,jdbcType=INTEGER},
+      #{type},
       <if test="md5 != null">
-        #{md5,jdbcType=VARCHAR},
+        #{md5},
       </if>
     </trim>
   </insert>
@@ -130,42 +131,42 @@
     update tb_file
     <set>
       <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+        name = #{name},
       </if>
       <if test="thumbnail != null">
-        thumbnail = #{thumbnail,jdbcType=VARCHAR},
+        thumbnail = #{thumbnail},
       </if>
       <if test="size != null">
-        size = #{size,jdbcType=BIGINT},
+        size = #{size},
       </if>
       <if test="path != null">
-        path = #{path,jdbcType=VARCHAR},
+        path = #{path},
       </if>
       <if test="ctime != null">
-        ctime = #{ctime,jdbcType=TIMESTAMP},
+        ctime = #{ctime},
       </if>
       <if test="utime != null">
-        utime = #{utime,jdbcType=TIMESTAMP},
+        utime = #{utime},
       </if>
       <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+        type = #{type},
       </if>
       <if test="md5 != null">
-        type = #{md5,jdbcType=VARCHAR},
+        type = #{md5},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tikie.file.model.TFile">
     update tb_file
-    set name = #{name,jdbcType=VARCHAR},
-      thumbnail = #{thumbnail,jdbcType=VARCHAR},
-      size = #{size,jdbcType=BIGINT},
-      path = #{path,jdbcType=VARCHAR},
-      ctime = #{ctime,jdbcType=TIMESTAMP},
-      utime = #{utime,jdbcType=TIMESTAMP},
-      type = #{type,jdbcType=INTEGER},
-      md5 = #{md5,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    set name = #{name},
+      thumbnail = #{thumbnail},
+      size = #{size},
+      path = #{path},
+      ctime = #{ctime},
+      utime = #{utime},
+      type = #{type},
+      md5 = #{md5}
+    where id = #{id}
   </update>
 </mapper>

@@ -21,7 +21,7 @@ public class TFile implements Serializable {
 
     private String utime;
 
-    private int type;
+    private String type;
 
     private String md5;
 
@@ -91,11 +91,11 @@ public class TFile implements Serializable {
         this.utime = utime;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -132,14 +132,14 @@ public class TFile implements Serializable {
         result = prime * result + ((getPath() == null) ? 0 : getPath().hashCode());
         result = prime * result + ((getCtime() == null) ? 0 : getCtime().hashCode());
         result = prime * result + ((getUtime() == null) ? 0 : getUtime().hashCode());
-        result = prime * result + getType();
+        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         return result;
     }
 
     public TFile() {
     }
 
-    public TFile(String id, String name, String thumbnail, Long size, String path, int type, String md5) {
+    public TFile(String id, String name, String thumbnail, Long size, String path, String type, String md5) {
         this.id = id;
         this.name = name;
         this.thumbnail = thumbnail;

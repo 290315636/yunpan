@@ -1,7 +1,6 @@
 package com.tikie.file.service.impl;
 
 import com.tikie.file.dao.FileTreeMapper;
-import com.tikie.file.dao.TFileMapper;
 import com.tikie.file.model.FileTree;
 import com.tikie.file.model.TFile;
 import com.tikie.file.service.TFileService;
@@ -65,13 +64,14 @@ public class TFileTreeServiceImpl implements TFileTreeService {
 
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     public Boolean uploadFile(Map<String, MultipartFile> files, String baseFilePath , String pid){
+        int state = 0;
         List<Map<String, Object>> handle = new ArrayList<>();
         for (MultipartFile item : files.values()) {
             String fileName = item.getOriginalFilename();    // 当前上传文件全名称
             String fileType = item.getContentType();         // 当前上传文件类型
             String addr = baseFilePath + fileName;         // 保存到服务器目录的文件全路径
+            long size = item.getSize();                    // 文件大小
 
-            long size = item.getSize();
             logger.info("文件名称：{}", fileName);
             logger.info("文件类型：{}", fileType);
             logger.info("文件物理地址：{}", addr);
@@ -86,13 +86,20 @@ public class TFileTreeServiceImpl implements TFileTreeService {
             if (hasMd5) {
                 fileId = tFileService.selectIdByMd5(md5);
 
-//                fileId = 返回的id
-                // 更新文件树到数据库 TODO
+                //  更新文件树到数据库
+                FileTree tree = new FileTree();
+                tree.setId(UUIDUtil.getUUID());
+                tree.setIsFile(true);
+                tree.setName(fileName);
+                tree.setFileId(fileId);
+                tree.setPid(pid);
+                tree.setSize(size);
+                fileTreeMapper.insertSelective(tree);
                 continue;
             }
 
             fileId = UUIDUtil.getUUID();
-            TFile file = new TFile(fileId, fileName, "#", size, addr, 1, md5);
+            TFile file = new TFile(fileId, fileName, "#", size, addr, fileType, md5);
             // 需要保存文件
             // 查询目录下是否存在同名文件
             Boolean hasFile = FileUtil.checkFileIsExists(addr);
@@ -102,7 +109,7 @@ public class TFileTreeServiceImpl implements TFileTreeService {
                     item.transferTo(savedFile);// 保文件到服务器物理位置
                     // 更新
                     Boolean isSa = tFileService.insertSelective(file);
-
+                    logger.info("insertSelective@exec:{}",isSa);
                 } catch (IOException | IllegalStateException e) {
                     logger.error(e.getMessage());
                     Map<String, Object> failedFile = new HashMap<>();
@@ -114,13 +121,14 @@ public class TFileTreeServiceImpl implements TFileTreeService {
             }
             // 存在同名文件
             String subfix = StringUtils.substringAfterLast(fileName, ".");
-            String savedName = UUIDUtil.getUUID() + "." + subfix;
+            String savedName = UUIDUtil.getUUID() + "." + subfix; // TODO
             File savedFil = new File(baseFilePath, savedName);
             try {
                 item.transferTo(savedFil);// 保存
                 // 更新文件数据到数据库
+                file.setName(savedName);
                 Boolean isSa = tFileService.insertSelective(file);
-
+                logger.info("insertSelective@exec:{}",isSa);
             } catch (IOException | IllegalStateException e) {
                 logger.error(e.getMessage());
                 Map<String, Object> failedFile = new HashMap<>();
@@ -132,7 +140,7 @@ public class TFileTreeServiceImpl implements TFileTreeService {
 
             FileTree tree = new FileTree();
             tree.setId(UUIDUtil.getUUID());
-            tree.setName(fileName);
+            tree.setName(savedName);
             tree.setFileId(fileId);
             tree.setIsFile(true);
             tree.setPid(pid);
@@ -140,11 +148,6 @@ public class TFileTreeServiceImpl implements TFileTreeService {
             // 更新文件树 到数据库
             fileTreeMapper.insertSelective(tree);
         }
-        return null;
-    }
-
-    public static void main(String[] args) {
-        String s = "name.txt";
-        System.out.println(s.substring(s.lastIndexOf(".")+1));
+        return state > 0;
     }
 }
