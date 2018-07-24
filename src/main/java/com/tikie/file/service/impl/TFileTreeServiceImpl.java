@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,6 +77,7 @@ public class TFileTreeServiceImpl implements TFileTreeService {
             logger.info("文件类型：{}", fileType);
             logger.info("文件物理地址：{}", addr);
             logger.info("文件大小：{}", FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
+
             File savedFile = new File(baseFilePath, fileName);
             String md5 = MD5Util.getFileMD5(savedFile);
             logger.info("文件md5：{}", md5);
@@ -94,7 +96,7 @@ public class TFileTreeServiceImpl implements TFileTreeService {
                 tree.setFileId(fileId);
                 tree.setPid(pid);
                 tree.setSize(size);
-                fileTreeMapper.insertSelective(tree);
+                state = fileTreeMapper.insertSelective(tree);
                 continue;
             }
 
@@ -140,13 +142,13 @@ public class TFileTreeServiceImpl implements TFileTreeService {
 
             FileTree tree = new FileTree();
             tree.setId(UUIDUtil.getUUID());
-            tree.setName(savedName);
+            tree.setName(fileName);
             tree.setFileId(fileId);
             tree.setIsFile(true);
             tree.setPid(pid);
             tree.setSize(size);
             // 更新文件树 到数据库
-            fileTreeMapper.insertSelective(tree);
+            state = fileTreeMapper.insertSelective(tree);
         }
         return state > 0;
     }

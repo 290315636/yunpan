@@ -25,12 +25,13 @@ var FileInput = function () {
 	            validateInitialCount:true,
 	            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
 	            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
-	            uploadExtraData:function (previewId, index) {           //传参
-//	        	    var data = {
-//	                    "reportGroupId": $('#lbl_groupId').html(),      //此处自定义传参
-//	                };
-//	                return data;
-	            	return {};
+	            uploadExtraData:function (previewId, index) {
+	            	//传参
+	        	    var data = {
+	                    "md5": 'warwreasd',      //此处自定义传参
+	                };
+	                return data;
+	            	// return {};
 	            }
 	        });
 
