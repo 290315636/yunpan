@@ -36,12 +36,13 @@ var FileList = function(){
 	// 对外暴漏的函数
 	return {
 		init: function(){
-			IndexInit.showMessage("您好，欢迎使用本系统!");
-			IndexInit.showMessage("您好，我是您的小密，有事请找我!");
+//			IndexInit.showMessage("您好，欢迎使用本系统!");
+//			IndexInit.showMessage("您好，我是您的小密，有事请找我!");
 //			console.log(jQuery('#show-file').html());
 //			jQuery('#show-file').bind('click', function(){
 //				console.log('here');
 //			});
+			Message.init();
 		}
 	}
 }();
