@@ -23,6 +23,16 @@ public class TFile implements Serializable {
 
     private int type;
 
+    private String md5;
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -124,5 +134,18 @@ public class TFile implements Serializable {
         result = prime * result + ((getUtime() == null) ? 0 : getUtime().hashCode());
         result = prime * result + getType();
         return result;
+    }
+
+    public TFile() {
+    }
+
+    public TFile(String id, String name, String thumbnail, Long size, String path, int type, String md5) {
+        this.id = id;
+        this.name = name;
+        this.thumbnail = thumbnail;
+        this.size = size;
+        this.path = path;
+        this.type = type;
+        this.md5 = md5;
     }
 }

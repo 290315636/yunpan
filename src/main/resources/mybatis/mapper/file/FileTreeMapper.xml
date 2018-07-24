@@ -24,6 +24,7 @@
       #{fileId,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{reback,jdbcType=VARCHAR}, 
       #{size,jdbcType=BIGINT}, #{md5,jdbcType=VARCHAR})
   </insert>
+
   <insert id="insertSelective" parameterType="com.tikie.file.model.FileTree">
     insert into tb_file_tree
     <trim prefix="(" suffix=")" suffixOverrides=",">

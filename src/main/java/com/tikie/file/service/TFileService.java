@@ -19,4 +19,8 @@ public interface TFileService {
     Boolean updateByPrimaryKeySelective(TFile record);
 
     Boolean updateByPrimaryKey(TFile record);
+
+    Boolean checkMd5FromDB(String md5);
+
+    String selectIdByMd5(String md5);
 }

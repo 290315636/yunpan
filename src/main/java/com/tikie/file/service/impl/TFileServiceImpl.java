@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tikie.util.UUIDUtil;
 
 import javax.annotation.Resource;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author zhangshitai
@@ -109,5 +111,36 @@ public class TFileServiceImpl implements TFileService{
         }
         return state > 0;
     }
+
+    /**
+     *  根据文件的md5去数据库查找记录：存在返回true
+     */
+    @Override
+    public Boolean checkMd5FromDB(String md5) {
+        TFile record = new TFile();
+        record.setMd5(md5);
+        List<TFile> list = Collections.emptyList();
+        try{
+            list = tFileMapper.selectSelective(record);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("==== checkMd5FromDB@err:{} ====", e);
+        }
+        return !list.isEmpty();
+    }
+
+    @Override
+    public String selectIdByMd5(String md5) {
+        String id = null;
+        try {
+            id = tFileMapper.selectIdByMd5(md5);
+            logger.info("==== selectIdByMd5@exec:{} ====", id);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("==== selectIdByMd5@err:{} ====", e);
+        }
+        return id;
+    }
+
 
 }

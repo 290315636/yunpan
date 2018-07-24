@@ -10,15 +10,52 @@
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
     <result column="utime" jdbcType="TIMESTAMP" property="utime" />
     <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="md5" jdbcType="VARCHAR" property="md5" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, thumbnail, size, path, ctime, utime, type
+    id, name, thumbnail, size, path, ctime, utime, type, md5
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from tb_file
     where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectIdByMd5" parameterType="java.lang.String" resultType="java.lang.String">
+    select
+    id
+    from tb_file
+    where md5 = #{md5}
+  </select>
+
+  <select id="selectSelective" parameterType="com.tikie.file.model.TFile" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_file
+    where 1=1
+    <if test="id != null">
+      and id=#{id}
+    </if>
+    <if test="name != null">
+      and name=#{name}
+    </if>
+    <if test="thumbnail != null">
+      and thumbnail=#{thumbnail}
+    </if>
+    <if test="size != null">
+      and size=#{size}
+    </if>
+    <if test="path != null">
+      and  path=#{path}
+    </if>
+    <if test="type != null">
+      and type=#{type}
+    </if>
+    <if test="md5 != null">
+      and md5=#{md5}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from tb_file
@@ -30,7 +67,7 @@
       utime, type)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, 
       #{size,jdbcType=BIGINT}, #{path,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
-      #{utime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER})
+      #{utime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, #{md5,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.tikie.file.model.TFile">
     insert into tb_file
@@ -57,6 +94,9 @@
         NOW(),
       </if>
       type,
+      <if test="md5 != null">
+        md5,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -81,6 +121,9 @@
         #{utime,jdbcType=TIMESTAMP},
       </if>
       #{type,jdbcType=INTEGER},
+      <if test="md5 != null">
+        #{md5,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.tikie.file.model.TFile">
@@ -107,6 +150,9 @@
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
+      <if test="md5 != null">
+        type = #{md5,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -118,7 +164,8 @@
       path = #{path,jdbcType=VARCHAR},
       ctime = #{ctime,jdbcType=TIMESTAMP},
       utime = #{utime,jdbcType=TIMESTAMP},
-      type = #{type,jdbcType=INTEGER}
+      type = #{type,jdbcType=INTEGER},
+      md5 = #{md5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

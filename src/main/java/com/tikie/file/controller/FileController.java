@@ -7,19 +7,12 @@
  */
 package com.tikie.file.controller;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.tikie.common.CommonEnums;
+import com.tikie.common.JsonResult;
+import com.tikie.file.service.TFileTreeService;
+import com.tikie.util.DateUtil;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,18 +24,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.tikie.common.CommonEnums;
-import com.tikie.common.JsonResult;
-import com.tikie.util.DateUtil;
-import com.tikie.util.FileSizeUtil;
-import com.tikie.util.FileUtil;
-import com.tikie.util.MD5Util;
-import com.tikie.util.UUIDUtil;
-
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhaocs
@@ -58,6 +48,9 @@ public class FileController {
     
     @Value("${tikie.project.upload.path}")
     private String fileuploadPath;
+
+    @Resource
+    TFileTreeService tFileTreeService;
     
     @ApiOperation(value="跳转到文件上传页面", notes="页面使用thymeleaf渲染")
     @RequestMapping(value="/index", method=RequestMethod.GET)
@@ -70,7 +63,7 @@ public class FileController {
     public ModelAndView list(){
         return new ModelAndView("file/list");
     }
-    
+
     @ApiOperation(value="测试返回json数据", notes="返回json")
     @ApiImplicitParam(name = "name", value = "欢迎用户名称", required = false, dataType = "String")
     @RequestMapping(value="/hello", method=RequestMethod.GET)
@@ -88,7 +81,7 @@ public class FileController {
     @ResponseBody
     @RequestMapping(value = "/upload" ,method = RequestMethod.POST)
     public JsonResult upload(HttpServletRequest request, HttpServletResponse response){
-    	
+
         //判断保存文件的路径是否存在
     	String baseFilePath = fileuploadPath + DateUtil.getCurrentTime("yyyyMM") + File.separator;
     	baseFilePath = baseFilePath.replace("/", File.separator).replace("\\", File.separator);
@@ -96,70 +89,13 @@ public class FileController {
         if (!fileUploadPath.exists()) {
             fileUploadPath.mkdirs();
         }
-        
+
+
+
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         Map<String, MultipartFile> map =multipartRequest.getFileMap();
         List<Map<String, Object>> handle = new ArrayList<>();
-        for (MultipartFile item : map.values()) {
-            String fileName = item.getOriginalFilename();    // 当前上传文件全名称
-            String fileType = item.getContentType();         // 当前上传文件类型
-            String addr = baseFilePath + fileName;         // 保存到服务器目录的文件全路径
-            
-            long size = item.getSize();
-            logger.info("文件名称：{}", fileName);
-            logger.info("文件类型：{}", fileType);
-            logger.info("文件物理地址：{}", addr);
-            logger.info("文件大小：{}", FileSizeUtil.FormetFileSize(size,FileSizeUtil.SIZETYPE_MB) + "Mb");
-            File savedFile = new File(baseFilePath, fileName);
-            String md5 = MD5Util.getFileMD5(savedFile);
-            logger.info("文件md5：{}", md5);
-            // 查询是否存在MD5 TODO
-            Boolean hasMd5 = false;
-            
-            // 文件已存在,不需要保存文件
-            if(hasMd5) {
-            	// 更新文件树到数据库 TODO
-            	
-            	continue;
-            }
-            
-            // 需要保存文件
-            // 查询目录下是否存在同名文件
-            Boolean hasFile = FileUtil.checkFileIsExists(addr);
-            if(!hasFile) {// 不存在同名文件
-            	try {
-                    item.transferTo(savedFile);// 保存
-                    // 更新文件数据到数据库 TODO
-                    
-                } catch (IOException | IllegalStateException e) {
-                    logger.error(e.getMessage());
-                    Map<String, Object> failedFile = new HashMap<>();
-                    failedFile.put("name", fileName);
-                    failedFile.put("size", FileSizeUtil.FormetFileSize(size,FileSizeUtil.SIZETYPE_MB) + "Mb"); // 转化单位
-                    handle.add(failedFile);
-                    continue;
-                }
-            }
-            // 存在同名文件
-            String subfix = StringUtils.substringAfterLast(fileName, ".");
-            String savedName = UUIDUtil.getUUID() + "." + subfix;
-            File savedFil = new File(baseFilePath, savedName);
-            try {
-                item.transferTo(savedFil);// 保存
-                // 更新文件数据到数据库 TODO
-                
-            } catch (IOException | IllegalStateException e) {
-                logger.error(e.getMessage());
-                Map<String, Object> failedFile = new HashMap<>();
-                failedFile.put("name", fileName);
-                failedFile.put("size", size); // 转化单位
-                handle.add(failedFile);
-                continue;
-            }
-            
-            // 更新文件树 到数据库 TODO
-            
-        }
+        tFileTreeService.uploadFile(map, baseFilePath, "pid" );
         
         // 更新返回数据
         return new JsonResult(CommonEnums.StatusCode.SUCCESS.getCode(), 

@@ -2,6 +2,8 @@ package com.tikie.file.dao;
 
 import com.tikie.file.model.TFile;
 
+import java.util.List;
+
 public interface TFileMapper {
     int deleteByPrimaryKey(String id);
 
@@ -14,4 +16,8 @@ public interface TFileMapper {
     int updateByPrimaryKeySelective(TFile record);
 
     int updateByPrimaryKey(TFile record);
+
+    List<TFile> selectSelective(TFile record);
+
+    String selectIdByMd5(String md5);
 }
