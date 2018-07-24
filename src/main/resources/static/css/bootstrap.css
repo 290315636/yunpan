@@ -2643,7 +2643,7 @@ select[multiple].form-group-lg .form-control {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b;
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b;
 }
-.has-warning .input-group-addon {
+.has-warning .input-group-addon{
   color: #8a6d3b;
   background-color: #fcf8e3;
   border-color: #8a6d3b;

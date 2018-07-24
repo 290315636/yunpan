@@ -82,56 +82,6 @@ var IndexInit = function (){
 			setInterval(function(){
 				doCheckTime();
 			}, 60*1000);
-		},
-		showConfirm: function(msg){	// 有确认按钮
-			$.alert({
-		      type:'red',
-		      title: '系统提示',
-		      content: msg,
-		      icon:'glyphicon glyphicon-info-sign'
-		    });
-		},
-		showDelConfirm: function(url){
-			$.confirm({
-		      title: '系统提示',
-//		      columnClass:'col-md-8 col-md-offset-2',
-		      content: '确认要删除吗？',
-		      type:'red',
-		      icon:'glyphicon glyphicon-question-sign',
-		      buttons: {
-		        ok: {
-		            text: '确认',
-		            btnClass: 'btn-primary',
-		            action: function(){
-		              $.post(url, {url_id: url_id}, function(data, textStatus, xhr) {
-		                
-		              });
-		            }
-		        },
-		        cancel: {
-		            text: '取消',
-		            btnClass: 'btn-primary',
-		            action: function(){
-		                // button action.
-		            }
-		        },
-		      }
-		    });
-		},
-		showMessage: function(msg){
-			$.messager.lays(400, 90);		// 一行数据90
-			$.messager.anim('show', 1000); 	// show/fade
-			$.messager.show(0, msg, 5000);	// title,text,time // 默认标题
-		},
-		showUploadMessage: function(msg){
-			$.messager.lays(400, 90);		// 一行数据90
-			$.messager.anim('fade', 1000); 	// show/fade
-			$.messager.show(0, msg, 2000);	// title,text,time // 默认标题
-		},
-		showErrorMessage: function(msg){
-			$.messager.lays(400, 180);		// 一行数据90
-			$.messager.anim('show', 1000); 	// show/fade
-			$.messager.show("<font color='red'>错误日志</font>", msg, 3000);	// title,text,time // 默认标题
 		}
 	};
 }();
