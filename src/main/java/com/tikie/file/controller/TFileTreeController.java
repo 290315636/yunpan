@@ -33,17 +33,17 @@ public class TFileTreeController {
 
     @ApiOperation(value = "树形文件展示 顶级")
     @ApiImplicitParams({
-//            @ApiImplicitParam(name = "pageNo", value = "当前页", dataType = "Long", paramType = "query", required = true),
-//            @ApiImplicitParam(name = "pageSize", value = "页面大小", dataType = "Long", paramType = "query", required = true)
+            @ApiImplicitParam(name = "pageNo", value = "当前页", dataType = "Long", paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "页面大小", dataType = "Long", paramType = "query", required = true)
     })
     @GetMapping("/find")
-    public Result<List<SuperTreeVo>> selectListTreeBySuper(){
-//        if ("".equals(pageNo +"") && "".equals(pageSize + "")){
-//            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
-//        }
-        List<SuperTreeVo> lists = null;
+    public Result<Page<SuperTreeVo>> selectListTreeBySuper(int pageNo, int pageSize){
+        if ("".equals(pageNo +"") && "".equals(pageSize + "")){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        Page<SuperTreeVo> lists = null;
         try {
-            lists = tFileTreeService.selectListTreeBySuper();
+            lists = tFileTreeService.selectListTreeBySuper(pageNo, pageSize);
             logger.info("selectListTreeBySuper@exec:{}",lists);
             return Result.success(lists);
         }catch (Exception e){

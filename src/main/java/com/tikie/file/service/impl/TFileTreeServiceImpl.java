@@ -157,10 +157,10 @@ public class TFileTreeServiceImpl implements TFileTreeService {
     }
 
     @Override
-    public List<SuperTreeVo> selectListTreeBySuper() {
-        List<SuperTreeVo> list = null;
+    public Page<SuperTreeVo> selectListTreeBySuper(int pageNo, int pageSize) {
+        Page<SuperTreeVo> list = null;
         try {
-//            PageHelper.startPage(pageNo, pageSize);
+            PageHelper.startPage(pageNo, pageSize);
             list = fileTreeMapper.selectListTreeBySuper();
             logger.info("==== selectListTreeBySuper@exec:{} ====", list);
         }catch (Exception e){

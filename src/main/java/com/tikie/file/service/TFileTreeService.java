@@ -20,5 +20,5 @@ public interface TFileTreeService {
 
     Boolean uploadFile(Map<String, MultipartFile> files, String baseFilePath, String pid);
 
-    List<SuperTreeVo> selectListTreeBySuper();
+    Page<SuperTreeVo> selectListTreeBySuper(int pageNo, int pageSize);
 }

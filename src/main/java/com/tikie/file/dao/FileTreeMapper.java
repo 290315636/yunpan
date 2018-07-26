@@ -11,5 +11,5 @@ public interface FileTreeMapper {
 
     int insertSelective(FileTree record);
 
-    List<SuperTreeVo> selectListTreeBySuper();
+    Page<SuperTreeVo> selectListTreeBySuper();
 }
