@@ -1,6 +1,7 @@
 package com.tikie.file.controller;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.tikie.common.ExceptionConstant;
 import com.tikie.file.model.SuperTreeVo;
 import com.tikie.file.service.TFileTreeService;
@@ -33,19 +34,19 @@ public class TFileTreeController {
 
     @ApiOperation(value = "树形文件展示 顶级")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNo", value = "当前页", dataType = "Long", paramType = "query", required = true),
-            @ApiImplicitParam(name = "pageSize", value = "页面大小", dataType = "Long", paramType = "query", required = true)
+            @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "Long", paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "每页显示数量", dataType = "Long", paramType = "query", required = true)
     })
     @GetMapping("/find")
-    public Result<Page<SuperTreeVo>> selectListTreeBySuper(int pageNo, int pageSize){
+    public Result<PageInfo<SuperTreeVo>> selectListTreeBySuper(int pageNo, int pageSize){
         if ("".equals(pageNo +"") && "".equals(pageSize + "")){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
         }
-        Page<SuperTreeVo> lists = null;
+        PageInfo<SuperTreeVo> pageInfo = null;
         try {
-            lists = tFileTreeService.selectListTreeBySuper(pageNo, pageSize);
-            logger.info("selectListTreeBySuper@exec:{}",lists);
-            return Result.success(lists);
+            pageInfo = tFileTreeService.selectListTreeBySuper(pageNo, pageSize);
+            logger.info("selectListTreeBySuper@exec:{}",pageInfo);
+            return Result.success(pageInfo);
         }catch (Exception e){
             e.printStackTrace();
             logger.error("selectListTreeBySuper@err:{}",e);

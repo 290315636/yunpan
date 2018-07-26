@@ -1,6 +1,7 @@
 package com.tikie.file.controller;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.tikie.common.ExceptionConstant;
 import com.tikie.file.model.SuperTreeVo;
 import com.tikie.file.model.Test;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhangshitai
@@ -38,13 +40,13 @@ public class TestController {
 //            @ApiImplicitParam(name = "pageSize", value = "页面大小", dataType = "Long", paramType = "query", required = true)
     })
     @GetMapping("/find")
-    public Result<Page<Test>> selectListTreeBySuper(){
-//        if ("".equals(pageNo +"") && "".equals(pageSize + "")){
-//            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
-//        }
-        Page<Test> lists = null;
+    public Result<PageInfo<Test>> selectListTreeBySuper(int pageNo, int pageSize){
+        if ("".equals(pageNo +"") && "".equals(pageSize + "")){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        PageInfo<Test> lists = null;
         try {
-            lists = testService.findByPage(1,2);
+            lists = testService.findByPage(pageNo,pageSize);
             logger.info("selectListTreeBySuper@exec:{}",lists);
             return Result.success(lists);
         }catch (Exception e){

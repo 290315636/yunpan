@@ -66,13 +66,13 @@ public class TestServiceTest {
     }
 
     @Test
-    public void testFindByPage() {
-        Page<com.tikie.file.model.Test> pages = testService.findByPage(1, 10);
-        PageInfo<com.tikie.file.model.Test> pageInfo = new PageInfo<>(pages);
-        Assert.assertNotNull(pages);
-        logger.info(pages.toString());    // 查询页数据
-        logger.debug(pageInfo.toString());// 所有页数据
-    }
+//    public void testFindByPage() {
+//        Page<com.tikie.file.model.Test> pages = testService.findByPage(1, 10);
+//        PageInfo<com.tikie.file.model.Test> pageInfo = new PageInfo<>(pages);
+//        Assert.assertNotNull(pages);
+//        logger.info(pages.toString());    // 查询页数据
+//        logger.debug(pageInfo.toString());// 所有页数据
+//    }
     
     // 测试文件拷贝
     @Ignore

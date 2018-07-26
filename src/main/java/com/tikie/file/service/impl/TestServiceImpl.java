@@ -24,7 +24,9 @@ import com.tikie.file.dao.TestMapper;
 import com.tikie.file.model.Test;
 import com.tikie.file.service.TestService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhaocs
@@ -115,11 +117,11 @@ public class TestServiceImpl implements TestService{
     }
 
     @Override
-    public Page<Test> findByPage(int pageNo, int pageSize) {
+    public PageInfo<Test> findByPage(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-//        Page<Test> page = testMapper.findByPage();
-//        System.out.println(page + "3333333333333");
-        return testMapper.findByPage();
+        Page<Test> pages = testMapper.findByPage();
+        PageInfo<Test> pageInfo = new PageInfo<>(pages);
+        return pageInfo;
     }
 
 }

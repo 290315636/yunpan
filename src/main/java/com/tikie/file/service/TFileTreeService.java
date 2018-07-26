@@ -1,6 +1,7 @@
 package com.tikie.file.service;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.tikie.file.model.FileTree;
 import com.tikie.file.model.SuperTreeVo;
 import com.tikie.file.model.TFile;
@@ -20,5 +21,5 @@ public interface TFileTreeService {
 
     Boolean uploadFile(Map<String, MultipartFile> files, String baseFilePath, String pid);
 
-    Page<SuperTreeVo> selectListTreeBySuper(int pageNo, int pageSize);
+    PageInfo<SuperTreeVo> selectListTreeBySuper(int pageNo, int pageSize);
 }

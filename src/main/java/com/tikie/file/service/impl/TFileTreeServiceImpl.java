@@ -2,10 +2,12 @@ package com.tikie.file.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.tikie.file.dao.FileTreeMapper;
 import com.tikie.file.model.FileTree;
 import com.tikie.file.model.SuperTreeVo;
 import com.tikie.file.model.TFile;
+import com.tikie.file.model.Test;
 import com.tikie.file.service.TFileService;
 import com.tikie.file.service.TFileTreeService;
 import com.tikie.util.FileSizeUtil;
@@ -157,16 +159,18 @@ public class TFileTreeServiceImpl implements TFileTreeService {
     }
 
     @Override
-    public Page<SuperTreeVo> selectListTreeBySuper(int pageNo, int pageSize) {
-        Page<SuperTreeVo> list = null;
+    public PageInfo<SuperTreeVo> selectListTreeBySuper(int pageNo, int pageSize) {
+        Page<SuperTreeVo> pages = null;
+        PageInfo<SuperTreeVo> pageInfo = null;
         try {
             PageHelper.startPage(pageNo, pageSize);
-            list = fileTreeMapper.selectListTreeBySuper();
-            logger.info("==== selectListTreeBySuper@exec:{} ====", list);
+            pages = fileTreeMapper.selectListTreeBySuper();
+            pageInfo = new PageInfo<>(pages);
+            logger.info("==== selectListTreeBySuper@exec:{} ====", pageInfo);
         }catch (Exception e){
             e.printStackTrace();
             logger.error("==== selectListTreeBySuper@err:{} ====", e);
         }
-        return list;
+        return pageInfo;
     }
 }
