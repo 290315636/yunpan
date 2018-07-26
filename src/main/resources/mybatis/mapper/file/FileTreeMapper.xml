@@ -14,6 +14,11 @@
     <result column="size" jdbcType="BIGINT" property="size" />
     <result column="md5" jdbcType="VARCHAR" property="md5" />
   </resultMap>
+
+  <sql id="Base_Column_List">
+    id, is_file, name, sort, ctime, utime, file_id, pid, reback, size, md5
+  </sql>
+
   <insert id="insert" parameterType="com.tikie.file.model.FileTree">
     insert into tb_file_tree (id, is_file, name, 
       sort, ctime, utime, 
@@ -107,6 +112,17 @@
         `tb_file_tree`
     <where>
       pid = "#"
+    </where>
+  </select>
+
+  <!--拿到一条记录-->
+  <select id="selectListTreeBySuper" parameterType="String" resultType="com.tikie.file.model.FileTree">
+    SELECT
+      <include refid="Base_Column_List" />
+    FROM
+        `tb_file_tree`
+    <where>
+      id = #{id}
     </where>
   </select>
 </mapper>
