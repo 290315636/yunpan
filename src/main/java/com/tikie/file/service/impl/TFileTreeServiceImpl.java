@@ -1,7 +1,10 @@
 package com.tikie.file.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.tikie.file.dao.FileTreeMapper;
 import com.tikie.file.model.FileTree;
+import com.tikie.file.model.SuperTreeVo;
 import com.tikie.file.model.TFile;
 import com.tikie.file.service.TFileService;
 import com.tikie.file.service.TFileTreeService;
@@ -94,7 +97,7 @@ public class TFileTreeServiceImpl implements TFileTreeService {
                 tree.setIsFile(true);
                 tree.setName(fileName);
                 tree.setFileId(fileId);
-                tree.setPid(pid);
+                tree.setPid("#"); // TODO
                 tree.setSize(size);
                 state = fileTreeMapper.insertSelective(tree);
                 continue;
@@ -123,7 +126,7 @@ public class TFileTreeServiceImpl implements TFileTreeService {
             }
             // 存在同名文件
             String subfix = StringUtils.substringAfterLast(fileName, ".");
-            String savedName = UUIDUtil.getUUID() + "." + subfix; // TODO
+            String savedName = UUIDUtil.getUUID() + "." + subfix;
             File savedFil = new File(baseFilePath, savedName);
             try {
                 item.transferTo(savedFil);// 保存
@@ -145,11 +148,25 @@ public class TFileTreeServiceImpl implements TFileTreeService {
             tree.setName(fileName);
             tree.setFileId(fileId);
             tree.setIsFile(true);
-            tree.setPid(pid);
+            tree.setPid("#");//TODO
             tree.setSize(size);
             // 更新文件树 到数据库
             state = fileTreeMapper.insertSelective(tree);
         }
         return state > 0;
+    }
+
+    @Override
+    public List<SuperTreeVo> selectListTreeBySuper() {
+        List<SuperTreeVo> list = null;
+        try {
+//            PageHelper.startPage(pageNo, pageSize);
+            list = fileTreeMapper.selectListTreeBySuper();
+            logger.info("==== selectListTreeBySuper@exec:{} ====", list);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("==== selectListTreeBySuper@err:{} ====", e);
+        }
+        return list;
     }
 }

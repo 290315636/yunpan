@@ -11,6 +11,9 @@ import javax.annotation.Resource;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.hibernate.validator.constraints.CreditCardNumber;
+import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tikie.file.dao.TestMapper;
 import com.tikie.file.model.Test;
 import com.tikie.file.service.TestService;
+
+import java.util.List;
 
 /**
  * @author zhaocs
@@ -110,9 +115,11 @@ public class TestServiceImpl implements TestService{
     }
 
     @Override
-    public Page<Test> findByPage(Test record,int pageNo, int pageSize) {
+    public Page<Test> findByPage(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        return testMapper.findByPage(record);
+//        Page<Test> page = testMapper.findByPage();
+//        System.out.println(page + "3333333333333");
+        return testMapper.findByPage();
     }
 
 }

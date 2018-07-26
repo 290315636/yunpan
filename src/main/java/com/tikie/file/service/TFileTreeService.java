@@ -1,9 +1,12 @@
 package com.tikie.file.service;
 
+import com.github.pagehelper.Page;
 import com.tikie.file.model.FileTree;
+import com.tikie.file.model.SuperTreeVo;
 import com.tikie.file.model.TFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,4 +19,6 @@ public interface TFileTreeService {
     Boolean insertSelective(FileTree record);
 
     Boolean uploadFile(Map<String, MultipartFile> files, String baseFilePath, String pid);
+
+    List<SuperTreeVo> selectListTreeBySuper();
 }

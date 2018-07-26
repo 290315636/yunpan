@@ -62,36 +62,51 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id},
       </if>
       <if test="isFile != null">
-        #{isFile,jdbcType=BIT},
+        #{isFile},
       </if>
       <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+        #{name},
       </if>
-      #{sort,jdbcType=INTEGER},
+      #{sort},
       <if test="ctime != null">
-        #{ctime,jdbcType=TIMESTAMP},
+        #{ctime},
       </if>
       <if test="utime != null">
-        #{utime,jdbcType=TIMESTAMP},
+        #{utime},
       </if>
       <if test="fileId != null">
-        #{fileId,jdbcType=VARCHAR},
+        NOW(),
       </if>
       <if test="pid != null">
-        #{pid,jdbcType=VARCHAR},
+        NOW(),
       </if>
       <if test="reback != null">
-        #{reback,jdbcType=VARCHAR},
+        #{reback},
       </if>
       <if test="size != null">
-        #{size,jdbcType=BIGINT},
+        #{size},
       </if>
       <if test="md5 != null">
-        #{md5,jdbcType=VARCHAR},
+        #{md5},
       </if>
     </trim>
   </insert>
+
+  <!--树形文件展示 顶级-->
+  <select id="selectListTreeBySuper" resultType="com.tikie.file.model.SuperTreeVo">
+    SELECT
+        id,
+        is_file AS isFile,
+        `name`,
+        size,
+        utime
+    FROM
+        `tb_file_tree`
+    <where>
+      pid = "#"
+    </where>
+  </select>
 </mapper>

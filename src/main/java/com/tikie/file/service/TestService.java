@@ -10,6 +10,8 @@ package com.tikie.file.service;
 import com.github.pagehelper.Page;
 import com.tikie.file.model.Test;
 
+import java.util.List;
+
 /**
  * @author zhaocs
  *
@@ -27,5 +29,5 @@ public interface TestService {
 
     Boolean updateByPrimaryKey(Test record);
 
-    Page<Test> findByPage(Test record, int pageNo, int pageSize);
+    Page<Test> findByPage(int pageNo, int pageSize);
 }

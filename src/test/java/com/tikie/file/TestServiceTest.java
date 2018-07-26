@@ -26,6 +26,7 @@ import javax.annotation.Resource;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author zhaocs
@@ -66,10 +67,7 @@ public class TestServiceTest {
 
     @Test
     public void testFindByPage() {
-        com.tikie.file.model.Test test = new com.tikie.file.model.Test();
-        test.setUtime("2018-07-17");
-        logger.info(test.getUtime().toString());
-        Page<com.tikie.file.model.Test> pages = testService.findByPage(test,2, 10);
+        Page<com.tikie.file.model.Test> pages = testService.findByPage(1, 10);
         PageInfo<com.tikie.file.model.Test> pageInfo = new PageInfo<>(pages);
         Assert.assertNotNull(pages);
         logger.info(pages.toString());    // 查询页数据

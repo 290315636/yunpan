@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tikie.file.mapper.TestMapper">
+<mapper namespace="com.tikie.file.dao.TestMapper">
   <resultMap id="BaseResultMap" type="com.tikie.file.model.Test">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="msg" jdbcType="VARCHAR" property="msg" />
@@ -11,25 +11,11 @@
   <sql id="Base_Column_List">
     id, msg, ctime, utime, note
   </sql>
-  <select id="findByPage" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from tb_file_test
-    <where>
-      <if test="msg != null">
-        msg like "%"#{msg}"%"
-      </if>
-      <if test="ctime != null">
-        and DATE_FORMAT(ctime,'%Y-%m-%d') = #{ctime}
-      </if>
-      <if test="utime != null">
-        and DATE_FORMAT(utime,'%Y-%m-%d') = #{utime}
-      </if>
-      <if test="note != null">
-        and note like "%"#{note}"%"
-      </if>
-    </where>
+
+  <select id="findByPage" resultType="com.tikie.file.model.Test">
+    SELECT id,msg,ctime,utime,note FROM tb_file_test
   </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
