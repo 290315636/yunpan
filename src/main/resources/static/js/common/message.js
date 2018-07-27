@@ -5,10 +5,10 @@ var Message = function(){
 	return {
 		init: function(){
 			Message.initMessager('air');
-//			Message.showMsg('欢迎使用本系统！', 'success');
-//			Message.showMsg('欢迎使用本系统！', 'error');
-//			Message.showMsg('欢迎使用本系统！', 'info');
-//			Message.showMsg('欢迎使用本系统！', 'warn');
+			Message.showMsg('欢迎使用本系统！', 'success');
+			Message.showMsg('欢迎使用本系统！', 'error');
+			Message.showMsg('欢迎使用本系统！', 'info');
+			Message.showMsg('欢迎使用本系统！', 'warn');
 			Message.showTip('欢迎使用本系统！', 'success');
 //			Message.showTip('欢迎使用本系统！', 'error');
 //			Message.showTip('欢迎使用本系统！', 'info');
@@ -16,10 +16,10 @@ var Message = function(){
 		},
 		initMessager: function(theme){
 			// 初始化主题及位置
-//			Messenger.options = {
-//			    extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
-//			    theme: theme // flat、future、block、air、ice
-//			}
+			Messenger.options = {
+			    extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+			    theme: theme // flat、future、block、air、ice
+			}
 			tip = Messenger().post({
               message: '操作成功',
               type: 'success',
