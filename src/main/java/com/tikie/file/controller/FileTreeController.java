@@ -74,11 +74,12 @@ public class FileTreeController {
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
     }
-    @ApiOperation(value = "删除一条树形文件记录")
+
+    @ApiOperation(value = "将文件放入回收站")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "树形文件 id", dataType = "String", paramType = "query", required = true)
     })
-    @PutMapping("/delete")
+    @PutMapping("/reback")
     public Result<Object> deleteFileTreeByOneId(@RequestParam(value = "id") String id){
         if (StringUtils.isBlank(id)){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
@@ -90,7 +91,117 @@ public class FileTreeController {
             }
             return Result.fail(ExceptionConstant.TFILE_DELETE_FAIL);
         }catch (Exception e){
-            logger.error("updateByPrimaryKeySelective@err:{}",e);
+            logger.error("deleteFileTreeByOneId@err:{}",e);
+            return Result.fail(ExceptionConstant.TFILE_DELETE_FAIL);
+        }
+    }
+
+    @ApiOperation(value = "重命名一条树形文件记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "树形文件 id", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "name", value = "树形文件 name", dataType = "String", paramType = "query", required = true)
+    })
+    @PutMapping("/rename")
+    public Result<Object> renameFileTreeByOneId(@RequestParam(value = "id") String id, @RequestParam(value = "name") String name){
+        if (StringUtils.isBlank(id) && StringUtils.isBlank(name)){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        try {
+            boolean rename = fileTreeService.reanameFileTreeByOneId(id, name);
+            if (rename){
+                return Result.success("success");
+            }
+            return Result.fail(ExceptionConstant.TFILE_UPDATE_FAIL);
+        }catch (Exception e){
+            logger.error("renameFileTreeByOneId@err:{}",e);
+            return Result.fail(ExceptionConstant.TFILE_UPDATE_FAIL);
+        }
+    }
+
+    @ApiOperation(value = "新建文件夹")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "name", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "pid", value = "pid", dataType = "String", paramType = "query")
+    })
+    @PostMapping("/folder")
+    public Result<String> createNewFolder(@RequestParam(value = "name") String name, @RequestParam(value = "pid",defaultValue = "#") String pid) {
+        if (StringUtils.isBlank(name)){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        try {
+            boolean folder = fileTreeService.createNewFolder(name, pid);
+            if (folder){
+                return Result.success("success");
+            }
+            return Result.fail(ExceptionConstant.TFILE_INSERT_FAIL);
+        }catch (Exception e){
+            logger.error("insertSelective@err:{}",e);
+            return Result.fail(ExceptionConstant.TFILE_INSERT_FAIL);
+        }
+    }
+
+    @ApiOperation(value = "复制文件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "pid", value = "pid", dataType = "String", paramType = "query", required = true)
+    })
+    @PostMapping("/copy")
+    public Result<String> copyFile(@RequestParam(value = "id") String id, @RequestParam(value = "pid") String pid) {
+        if (StringUtils.isBlank(id) && StringUtils.isBlank(pid)){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        try {
+            boolean copyFile = fileTreeService.copyFile(id, pid);
+            if (copyFile){
+                return Result.success("success");
+            }
+            return Result.fail(ExceptionConstant.TFILE_COPY_FAIL);
+        }catch (Exception e){
+            logger.error("insertSelective@err:{}",e);
+            return Result.fail(ExceptionConstant.TFILE_COPY_FAIL);
+        }
+    }
+
+    @ApiOperation(value = "移动文件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "pid", value = "pid", dataType = "String", paramType = "query", required = true)
+    })
+    @PostMapping("/removeFile")
+    public Result<String> removeFile(@RequestParam(value = "id") String id, @RequestParam(value = "pid") String pid) {
+        if (StringUtils.isBlank(id) && StringUtils.isBlank(pid)){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        try {
+            boolean copyFile = fileTreeService.removeFile(id, pid);
+            if (copyFile){
+                return Result.success("success");
+            }
+            return Result.fail(ExceptionConstant.TFILE_REMOVE_FAIL);
+        }catch (Exception e){
+            logger.error("insertSelective@err:{}",e);
+            return Result.fail(ExceptionConstant.TFILE_REMOVE_FAIL);
+        }
+    }
+
+    @ApiOperation(value = "物理删除")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "文件id", dataType = "String", paramType = "query", required = true)
+    })
+    @DeleteMapping("/delete")
+    public Result<String> removeFile(@RequestParam(value = "id") String id) {
+        if (StringUtils.isBlank(id)){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        try {
+            boolean remove = fileTreeService.delete(id);
+            if (remove){
+                return Result.success("success");
+            }
+            logger.info("removeFile@exec:{}",remove);
+            return Result.fail(ExceptionConstant.TFILE_DELETE_FAIL);
+        }catch (Exception e){
+            logger.error("removeFile@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_DELETE_FAIL);
         }
     }

@@ -156,6 +156,21 @@ public class FileTreeServiceImpl implements FileTreeService {
         return state > 0;
     }
 
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+    @Override
+    public Boolean delete(String id) {
+        int state = 0;
+        try{
+            state =  fileTreeMapper.delete(id);
+            logger.info("removeFile@exec:{}",state);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("removeFile@err:{}",e);
+        }
+        return state > 0;
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
     public PageInfo<SuperTreeVo> selectListTreeBySuper(int pageNo, int pageSize) {
         Page<SuperTreeVo> pages = null;
@@ -172,6 +187,7 @@ public class FileTreeServiceImpl implements FileTreeService {
         return pageInfo;
     }
 
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
     public FileTree selectFileTreeById(String id) {
         FileTree fileTree = null;
@@ -185,6 +201,7 @@ public class FileTreeServiceImpl implements FileTreeService {
         return fileTree;
     }
 
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
     public Boolean deleteFileTreeByOneId(String id) {
         int state = 0;
@@ -196,6 +213,88 @@ public class FileTreeServiceImpl implements FileTreeService {
         }catch (Exception e){
             e.printStackTrace();
             logger.error("==== deleteFileTreeByOneId@err:{} ====", e);
+        }
+        return state > 0;
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+    @Override
+    public Boolean reanameFileTreeByOneId(String id, String name) {
+        int state = 0;
+        try {
+            FileTree fileTree = fileTreeMapper.selectFileTreeById(id);
+            String type = StringUtils.substringAfterLast(fileTree.getName(),".");
+            name = name + "." + type;
+            fileTree.setName(name);
+            state = fileTreeMapper.reanameFileTreeByOneId(fileTree);
+            logger.info("==== deleteFileTreeByOneId@exec:{} ====", state);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("==== deleteFileTreeByOneId@err:{} ====", e);
+        }
+        return state > 0;
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+    @Override
+    public Boolean createNewFolder(String name, String pid) {
+        int state = 0;
+        try{
+            FileTree fileTree = new FileTree();
+            fileTree.setId(UUIDUtil.getUUID());
+            fileTree.setIsFile(false);
+            fileTree.setName(name);
+            fileTree.setPid(pid);
+            fileTree.setCtime("now");
+            fileTree.setUtime("now");
+            state =  fileTreeMapper.insertSelective(fileTree);
+            logger.info("createNewFolder@exec:{}",state);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("createNewFolder@err:{}",e);
+        }
+        return state > 0;
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+    @Override
+    public Boolean copyFile(String id, String pid) {
+        int state = 0;
+        try{
+            FileTree fileTree = fileTreeMapper.selectFileTreeById(id);
+            fileTree.setId(UUIDUtil.getUUID());
+            if (!pid.equals(fileTree.getPid())){
+                fileTree.setPid(pid);
+            }
+            fileTree.setUtime("now");
+            state =  fileTreeMapper.insertSelective(fileTree);
+            logger.info("copyFile@exec:{}",state);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("copyFile@err:{}",e);
+        }
+        return state > 0;
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+    @Override
+    public Boolean removeFile(String id, String pid) {
+        int state = 0;
+        try{
+            FileTree fileTree = fileTreeMapper.selectFileTreeById(id);
+            fileTree.setId(UUIDUtil.getUUID());
+            if (!pid.equals(fileTree.getPid())){
+                fileTree.setPid(pid);
+            }
+            fileTree.setUtime("now");
+            state =  fileTreeMapper.insertSelective(fileTree);
+            if (state > 0){
+                fileTreeMapper.delete(id);
+            }
+            logger.info("copyFile@exec:{}",state);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("copyFile@err:{}",e);
         }
         return state > 0;
     }

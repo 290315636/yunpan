@@ -19,6 +19,8 @@ public interface FileTreeService {
 
     Boolean insertSelective(FileTree record);
 
+    Boolean delete(String id);
+
     Boolean uploadFile(Map<String, MultipartFile> files, String baseFilePath, String pid);
 
     PageInfo<SuperTreeVo> selectListTreeBySuper(int pageNo, int pageSize);
@@ -26,4 +28,12 @@ public interface FileTreeService {
     FileTree selectFileTreeById(String id);
 
     Boolean deleteFileTreeByOneId(String id);
+
+    Boolean reanameFileTreeByOneId(String id, String name);
+
+    Boolean createNewFolder(String name, String pid);
+
+    Boolean copyFile(String id, String pid);
+
+    Boolean removeFile(String id, String pid);
 }
