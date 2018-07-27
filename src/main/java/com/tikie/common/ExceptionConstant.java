@@ -15,4 +15,9 @@ public class ExceptionConstant {
     public static final String TFILE_UPDATE_FAIL = "文件修改失败";
 
     public static final String TFILE_SELECT_FAIL = "文件查询失败";
+
+    /**
+     * 失败
+     */
+    public static final Integer FAIL_STATUS = -1;
 }

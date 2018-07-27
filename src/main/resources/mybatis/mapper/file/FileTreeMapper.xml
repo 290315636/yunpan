@@ -16,7 +16,7 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, is_file, name, sort, ctime, utime, file_id, pid, reback, size, md5
+    id, is_file as isFile, name, sort, ctime, utime, file_id as fileId, pid, reback, size, md5
   </sql>
 
   <insert id="insert" parameterType="com.tikie.file.model.FileTree">
@@ -115,8 +115,8 @@
     </where>
   </select>
 
-  <!--拿到一条记录-->
-  <select id="selectListTreeBySuper" parameterType="String" resultType="com.tikie.file.model.FileTree">
+  <!--拿到一条树形文件记录-->
+  <select id="selectFileTreeById" parameterType="String" resultType="com.tikie.file.model.FileTree">
     SELECT
       <include refid="Base_Column_List" />
     FROM
@@ -125,4 +125,13 @@
       id = #{id}
     </where>
   </select>
+
+    <!-- 删除一条树形文件记录-->
+    <update id="deleteFileTreeByOneId" parameterType="com.tikie.file.model.FileTree">
+        UPDATE tb_file_tree
+        SET reback = #{fileTree.reback}
+        WHERE
+	      id = #{fileTree.id}
+    </update>
+
 </mapper>

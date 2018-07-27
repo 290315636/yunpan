@@ -9,7 +9,7 @@ package com.tikie.file.controller;
 
 import com.tikie.common.CommonEnums;
 import com.tikie.common.JsonResult;
-import com.tikie.file.service.TFileTreeService;
+import com.tikie.file.service.FileTreeService;
 import com.tikie.util.DateUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -50,7 +50,7 @@ public class FileController {
     private String fileuploadPath;
 
     @Resource
-    TFileTreeService tFileTreeService;
+    FileTreeService tFileTreeService;
     
     @ApiOperation(value="跳转到文件上传页面", notes="页面使用thymeleaf渲染")
     @RequestMapping(value="/index", method=RequestMethod.GET)

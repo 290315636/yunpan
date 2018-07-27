@@ -7,9 +7,8 @@ import com.tikie.file.dao.FileTreeMapper;
 import com.tikie.file.model.FileTree;
 import com.tikie.file.model.SuperTreeVo;
 import com.tikie.file.model.TFile;
-import com.tikie.file.model.Test;
 import com.tikie.file.service.TFileService;
-import com.tikie.file.service.TFileTreeService;
+import com.tikie.file.service.FileTreeService;
 import com.tikie.util.FileSizeUtil;
 import com.tikie.util.FileUtil;
 import com.tikie.util.MD5Util;
@@ -25,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +35,7 @@ import java.util.Map;
  */
 @Service
 @Transactional(propagation=Propagation.NOT_SUPPORTED)
-public class TFileTreeServiceImpl implements TFileTreeService {
+public class FileTreeServiceImpl implements FileTreeService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -172,5 +170,33 @@ public class TFileTreeServiceImpl implements TFileTreeService {
             logger.error("==== selectListTreeBySuper@err:{} ====", e);
         }
         return pageInfo;
+    }
+
+    @Override
+    public FileTree selectFileTreeById(String id) {
+        FileTree fileTree = null;
+        try {
+            fileTree = fileTreeMapper.selectFileTreeById(id);
+            logger.info("==== selectFileTreeById@exec:{} ====", fileTree);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("==== selectFileTreeById@err:{} ====", e);
+        }
+        return fileTree;
+    }
+
+    @Override
+    public Boolean deleteFileTreeByOneId(String id) {
+        int state = 0;
+        try {
+            FileTree fileTree = fileTreeMapper.selectFileTreeById(id);
+            fileTree.setReback(fileTree.getFileId());
+            state = fileTreeMapper.deleteFileTreeByOneId(fileTree);
+            logger.info("==== deleteFileTreeByOneId@exec:{} ====", state);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("==== deleteFileTreeByOneId@err:{} ====", e);
+        }
+        return state > 0;
     }
 }

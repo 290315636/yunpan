@@ -14,7 +14,7 @@ import java.util.Map;
  * @author zhangshitai
  * @date 2018-07-23
  */
-public interface TFileTreeService {
+public interface FileTreeService {
     Boolean insert(FileTree record);
 
     Boolean insertSelective(FileTree record);
@@ -22,4 +22,8 @@ public interface TFileTreeService {
     Boolean uploadFile(Map<String, MultipartFile> files, String baseFilePath, String pid);
 
     PageInfo<SuperTreeVo> selectListTreeBySuper(int pageNo, int pageSize);
+
+    FileTree selectFileTreeById(String id);
+
+    Boolean deleteFileTreeByOneId(String id);
 }

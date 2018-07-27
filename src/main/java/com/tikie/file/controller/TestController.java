@@ -1,11 +1,8 @@
 package com.tikie.file.controller;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.tikie.common.ExceptionConstant;
-import com.tikie.file.model.SuperTreeVo;
 import com.tikie.file.model.Test;
-import com.tikie.file.service.TFileTreeService;
 import com.tikie.file.service.TestService;
 import com.tikie.util.Result;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author zhangshitai
