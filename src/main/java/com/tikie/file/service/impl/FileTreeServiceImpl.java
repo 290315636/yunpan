@@ -9,19 +9,20 @@ import com.tikie.file.model.SuperTreeVo;
 import com.tikie.file.model.TFile;
 import com.tikie.file.service.TFileService;
 import com.tikie.file.service.FileTreeService;
-import com.tikie.util.FileSizeUtil;
-import com.tikie.util.FileUtil;
-import com.tikie.util.MD5Util;
-import com.tikie.util.UUIDUtil;
+import com.tikie.util.*;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -297,5 +298,69 @@ public class FileTreeServiceImpl implements FileTreeService {
             logger.error("copyFile@err:{}",e);
         }
         return state > 0;
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+    @Override
+    public Map<String,Object> detail(String id) {
+        Map<String,Object> map = new HashMap<>();
+        try {
+            FileTree fileTree = fileTreeMapper.selectFileTreeById(id);
+            TFile tFile = tFileService.selectByPrimaryKey(fileTree.getFileId());
+            map.put("类型",StringUtils.substringAfterLast(fileTree.getName(),".") + "文件");
+            map.put("大小",fileTree.getSize());
+            map.put("位置",tFile.getPath());
+            map.put("修改时间",fileTree.getUtime());
+            logger.info("==== detail@exec:{} ====", map);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("==== detail@err:{} ====", e);
+        }
+        return map;
+    }
+
+    // 下载指定文件
+    @Override
+    public Boolean downloads(String fileId, HttpServletRequest request, HttpServletResponse response) {
+
+        int state = 0;
+        String[] fileIds = fileId.split(",");
+        // 打包路径
+        String realPath = request.getRealPath("/");
+        String[] filePath = new String[fileIds.length];
+
+        for (int i = 0; i < fileIds.length; i++) {
+            String id = fileIds[i];
+            TFile tFile = tFileService.selectByPrimaryKey(id);
+            // 原文件
+            String srcFile = tFile.getPath() + tFile.getName();
+            // 临时目录
+            String destPath = realPath;
+            try {
+                File file = new File(srcFile);
+                //  将文件拷贝到项目根目录
+                FileUtils.copyFileToDirectory(file,new File(destPath));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // 文件的临时路径
+            filePath[i] = destPath + tFile.getName() + "." + tFile.getType();
+        }
+
+        String downloadFilePath = filePath[0];
+        if (fileIds.length > 1) {
+            // 打包
+            String zipPath = realPath + "Files.zip";
+            ZipUtil.files2Zip(filePath, zipPath);
+            downloadFilePath = zipPath;
+        }
+        // 下载
+        try {
+            DownloadUtil.downloadLocal(downloadFilePath,request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return state > 0;
+
     }
 }

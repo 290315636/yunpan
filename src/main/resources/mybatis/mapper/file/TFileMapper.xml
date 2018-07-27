@@ -16,6 +16,7 @@
     id, name, thumbnail, size, path, ctime, utime, type, md5
   </sql>
 
+  <!--根据 id 得到一条记录-->
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -23,6 +24,7 @@
     where id = #{id}
   </select>
 
+  <!--根据 md5 得到一条记录-->
   <select id="selectIdByMd5" parameterType="java.lang.String" resultType="java.lang.String">
     select
     id

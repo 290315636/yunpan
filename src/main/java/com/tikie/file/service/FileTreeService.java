@@ -7,6 +7,8 @@ import com.tikie.file.model.SuperTreeVo;
 import com.tikie.file.model.TFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -36,4 +38,8 @@ public interface FileTreeService {
     Boolean copyFile(String id, String pid);
 
     Boolean removeFile(String id, String pid);
+
+    Map<String,Object> detail(String id);
+
+    Boolean downloads(String fileId, HttpServletRequest request, HttpServletResponse response);
 }

@@ -6,17 +6,26 @@ import com.tikie.file.model.FileTree;
 import com.tikie.file.model.SuperTreeVo;
 import com.tikie.file.model.TFile;
 import com.tikie.file.service.FileTreeService;
+import com.tikie.file.service.TFileService;
+import com.tikie.util.DownloadUtil;
 import com.tikie.util.Result;
+import com.tikie.util.ZipUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * @author zhangshitai
@@ -30,6 +39,9 @@ public class FileTreeController {
 
     @Resource
     private FileTreeService fileTreeService;
+
+    @Autowired
+    TFileService tFileService;
 
 
     @ApiOperation(value = "树形文件展示 顶级")
@@ -203,6 +215,46 @@ public class FileTreeController {
         }catch (Exception e){
             logger.error("removeFile@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_DELETE_FAIL);
+        }
+    }
+
+    @ApiOperation(value = "详细信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", dataType = "String", paramType = "query", required = true)
+    })
+    @GetMapping("/detail")
+    public Result<Map<String,Object>> detail(@RequestParam(value = "id") String id){
+        if (StringUtils.isBlank(id)){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        try {
+            Map<String,Object> map = fileTreeService.detail(id);
+            logger.info("detail@exec:{}",map);
+            return Result.success(map);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("detail@err:{}",e);
+            return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
+        }
+    }
+
+    @ApiOperation(value = "下载指定文件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fileId", value = "id", dataType = "String", paramType = "query", required = true)
+    })
+    @PostMapping("downloads")
+    public Result<Object> downloads(String fileId, HttpServletRequest request, HttpServletResponse response) {
+        if (StringUtils.isBlank(fileId)){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        try {
+            Boolean download = fileTreeService.downloads(fileId, request, response);
+            logger.info("downloads@exec:{}",download);
+            return Result.success(download);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("downloads@err:{}",e);
+            return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
     }
 }
