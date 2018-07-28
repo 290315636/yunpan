@@ -5,34 +5,45 @@ var FileList = function(){
 	// 私有函数
 	
 	// 监听事件
-	$("#show-file tr td:first").bind("click", function(){
-	    console.log("ss");
-	});
-	// 阻止浏览器默认右键点击事件 
-	$("#show-file").bind("contextmenu", function(){
-	    return false;
-	});
-	$("#show-file tr").mousedown(function(e) {
-        //右键为3,左键为1
-		$('#file-menu-more').show();	// 显示对应可操作菜单
-        if (3 == e.which) { 			
-        	console.log($(this).html());
-        	$(this).find('td:first').html('<span class="glyphicon glyphicon-check"></span>');
-        	// 显示下拉菜单
-        } else if (1 == e.which) {		// 显示预览（如果支持）
-            //左键为1
-        	if($(this).find('td:first > span').hasClass('glyphicon-check')){
-        		console.log('左键1');
-        		$(this).find('td:first').html('<span class="glyphicon glyphicon-unchecked"></span>');
-        	}else if(!$(this).find('td:first > span').is('glyphicon-check')){
-        		console.log('左键2');
-        		$(this).find('td:first').html('<span class="glyphicon glyphicon-check"></span>');
-        	}
+	// 文件展示方式
+    $("#file-style button").bind("click", function(){
+        $(this).addClass("active").siblings().removeClass("active");
+    });
+
+	// 点击文件列表后选中和取消
+    $("#show-file tr").bind("click", function(){
+        if($(this).find(' td:first span').hasClass('glyphicon-check')){
+            $(this).find(' td:first').html('<span class="glyphicon glyphicon-unchecked"  style="cursor:pointer"></span>');
+        }else if(!$(this).find(' td:first span').is('glyphicon-check')){
+            $(this).find(' td:first').html('<span class="glyphicon glyphicon-check"  style="cursor:pointer"></span>');
         }
     });
-//	jQuery('#show-file').bind('click', function(){
-//		console.log('here');
-//	});
+
+	// 右键菜单
+    $('#show-file tr').contextmenu({
+        target:'#context-menu',
+        before: function(e,context) {
+            // execute code before context menu if shown
+            $('#file-menu-more').show();	// 显示对应可操作菜单
+            $(context).find('td:first').html('<span class="glyphicon glyphicon-check"  style="cursor:pointer"></span>');
+        },
+        onItem: function(context,e) {
+            // execute on menu item selection
+        }
+    })
+
+	// 显示菜单时
+    // $('#show-file tr').on('show.bs.context',function () {
+     //    // do something...
+    // });
+
+	// 动态修改菜单
+    // $('#main').contextmenu({
+     //    target: "#myMenu",
+     //    before: function(e) {
+     //        this.getMenu().find("li").eq(2).find('a').html("This was dynamically changed");
+     //    }
+    // });
 	// 对外暴漏的函数
 	return {
 		init: function(){
@@ -43,6 +54,11 @@ var FileList = function(){
 //				console.log('here');
 //			});
 			Message.init();
-		}
+		},
+		getFile: function(url, p_id) {
+            $.post(url, {}, function () {
+
+            });
+        }
 	}
 }();
