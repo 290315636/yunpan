@@ -21,6 +21,8 @@ var FileList = function(){
 
             $('#file-left').removeClass('col-md-2').addClass('col-md-1').css('width', '6.333333%');
             $('#file-yunpan').removeClass('col-md-10').addClass('col-md-11').css('width', '93.66666667%');;
+
+            $('#file-expand').addClass('hidden');
         }else if(!$(this).find('span:last').is('glyphicon glyphicon-indent-right')){
             $(this).find('span:first').removeClass('hidden');
             $(this).find('span:last').addClass('pull-right').removeClass('glyphicon glyphicon-indent-left').addClass('glyphicon glyphicon-indent-right');
@@ -30,6 +32,8 @@ var FileList = function(){
 
             $('#file-left').removeClass('col-md-1').addClass('col-md-2').css('width', '16.66666667%');
             $('#file-yunpan').removeClass('col-md-11').addClass('col-md-10').css('width', '83.33333333%');
+
+            $('#file-expand').removeClass('hidden');
         }
     });
     $("#file-left ul li:not(:first)").bind("click", function(){

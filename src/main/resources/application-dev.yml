@@ -49,11 +49,11 @@ spring:
       filters: stat
       driver-class-name: com.mysql.jdbc.Driver
       #基本属性
-      #url: jdbc:mysql://192.168.1.229:3306/tikie-yunpan?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-      url: jdbc:mysql://localhost:3306/tikie-yunpan?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+      url: jdbc:mysql://192.168.1.229:3306/tikie-yunpan?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+      #url: jdbc:mysql://localhost:3306/tikie-yunpan?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
       username: root
-      #password: bjqt*20180101
-      password: root
+      password: bjqt*20180101
+      #password: root
       #配置初始化大小/最小/最大
       initial-size: 1
       min-idle: 1
