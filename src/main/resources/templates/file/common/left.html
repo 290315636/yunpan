@@ -3,17 +3,19 @@
       xmlns:th="http://www.thymeleaf.org">
   <body>
   <!-- 左部导航start -->
-  <div th:fragment="left" class="col-md-2">
+  <div id="file-left" th:fragment="left" class="col-md-2">
   	<ul class="nav nav-pills nav-stacked">
-	  <li role="presentation" class="active"><a href="#">全部文件<span class="pull-right badge">22</span></a></li>
-	  <li role="presentation"><a href="#">图片<span class="pull-right badge">4</span></a></li>
-	  <li role="presentation"><a href="#">文档<span class="pull-right badge">1</span></a></li>
-	  <li role="presentation"><a href="#">视频<span class="pull-right badge">2</span></a></li>
-	  <li role="presentation"><a href="#">种子<span class="pull-right badge">3</span></a></li>
-	  <li role="presentation"><a href="#">音乐<span class="pull-right badge">4</span></a></li>
-	  <li role="presentation"><a href="#">其他<span class="pull-right badge">5</span></a></li>
-	  <li role="presentation"><a href="#">我的分享<span class="pull-right badge">1</span></a></li>
-	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-trash"></span>回收站<span class="pull-right badge">2</span></a></li>
+	  <li><a href="#"><span>折叠</span><span class="pull-right glyphicon glyphicon-indent-right"></span></a></li>
+	  <li role="presentation" class="active"><a href="#"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> <span>全部文件<span class="pull-right badge">22</span></span></a></li>
+	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span> <span>标签<span class="pull-right badge">4</span></span></a></li>
+	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> <span>图片<span class="pull-right badge">4</span></span></a></li>
+	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span>文档<span class="pull-right badge">1</span></span></a></li>
+	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> <span>视频<span class="pull-right badge">2</span></span></a></li>
+	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-grain" aria-hidden="true"></span> <span>种子<span class="pull-right badge">3</span></span></a></li>
+	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-music" aria-hidden="true"></span> <span>音乐<span class="pull-right badge">4</span></span></a></li>
+	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span> <span>其他<span class="pull-right badge">5</span></span></a></li>
+	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> <span>我的分享<span class="pull-right badge">1</span></span></a></li>
+	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <span>回收站<span class="pull-right badge">2</span></span></a></li>
     </ul>
     <div class="left-zone-size" style="margin-top: 10px;">
     	<div class="progress" style="height: 15px;margin-bottom: 15px;">

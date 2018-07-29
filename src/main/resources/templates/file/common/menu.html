@@ -19,20 +19,19 @@
 	    
 	        <!-- Collect the nav links, forms, and other content for toggling -->
 	        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	          <ul class="nav navbar-nav">
-	            <li class="active"><a th:href="@{/file/index}">首页<span class="sr-only">(current)</span></a></li>
-	            <li><a th:href="@{/file/list}">网盘</a></li>
-	            <li><a th:href="@{/file/share}">分享</a></li>
+	          <ul id="head-menu" class="nav navbar-nav">
+	            <li><a th:href="@{/file/index}"><span class="glyphicon glyphicon-home"></span> 首页<span class="sr-only">(current)</span></a></li>
+	            <li class="active"><a th:href="@{/file/list}"><span class="glyphicon glyphicon-cloud"></span> 网盘</a></li>
+	            <li><a th:href="@{/file/share}"><span class="glyphicon glyphicon-share"></span> 分享</a></li>
+				<li><a th:href="@{#}"><span class="glyphicon glyphicon-comment"></span> 消息</a></li>
 	            <li class="dropdown">
-	              <a th:href="@{#}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">更多 <span class="caret"></span></a>
+	              <a th:href="@{#}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-briefcase"></span> 更多<span class="caret"></span></a>
 	              <ul class="dropdown-menu">
-	                <li><a th:href="@{#}">京东</a></li>
-	                <li><a th:href="@{#}">淘宝</a></li>
-	                <li><a th:href="@{#}">唯品会</a></li>
+	                <li><a th:href="@{#}"><span class="glyphicon glyphicon-share-alt"></span> 分享动态</a></li>
+	                <li><a th:href="@{#}"><span class="glyphicon glyphicon-list-alt"></span> 通讯录</a></li>
+	                <li><a th:href="@{#}"> <span class="glyphicon glyphicon-book"></span> 记事本</a></li>
 	                <li role="separator" class="divider"></li>
-	                <li><a th:href="@{#}">最新科技</a></li>
-	                <li role="separator" class="divider"></li>
-	                <li><a th:href="@{#}">今日头条</a></li>
+	                <li><a th:href="@{#}"><span class="glyphicon glyphicon-erase"></span> 垃圾文件清理</a></li>
 	              </ul>
 	            </li>
 	          </ul>

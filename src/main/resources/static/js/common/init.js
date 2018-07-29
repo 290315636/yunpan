@@ -57,7 +57,7 @@ var IndexInit = function (){
 			}
 		}
 	}
-	
+
 	return {
 		init: function(){ // 对外暴漏的方法
 			IndexInit.initWelcome();

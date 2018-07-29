@@ -7,28 +7,27 @@
 </head>
 <body>
   <!-- 右部云盘start -->
-  <div th:fragment="yunpan" class="col-md-10">
+  <div id="file-yunpan" th:fragment="yunpan" class="col-md-10">
   	<!-- 云盘按钮start -->
   	<div class="container-fluid breadcrumb">
-  		<div class="col-md-7" style="padding-left: 0;">
+  		<div class="col-md-7" style="padding-left: 0;padding-right: 0;">
   			<div class="btn-group" role="group" aria-label="...">
-			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-upload"></span>上传</button>
-			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>新建文件夹</button>
+			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-upload"></span> 上传</button>
+			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> 新建文件夹</button>
 			</div>
 			<div id="file-menu-more" class="btn-group" role="group" aria-label="..." style="display:none;">
-			  <button type="button" class="btn btn-default">分享</button>
-			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-download"></span>下载</button>
-			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span>删除</button>
-			  <button type="button" class="btn btn-default">重命名</button>
+			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share"></span> 分享</button>
+			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-download"></span> 下载</button>
+			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> 重命名</button>
 			  <div class="btn-group" role="group">
-			    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			      	<span class="glyphicon glyphicon-option-horizontal"></span>更多
+			    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-option-horizontal"></span> 更多
 			      <span class="caret"></span>
 			    </button>
 			    <ul class="dropdown-menu">
-			      <li><a href="#"><span class="glyphicon glyphicon-duplicate"></span>复制到</a></li>
-			      <li><a href="#"><span class="glyphicon glyphicon-move"></span>移动到</a></li>
-			      <li><a href="#">详细信息</a></li>
+			      <li><a href="#"><span class="glyphicon glyphicon-duplicate"></span> 复制到</a></li>
+			      <li><a href="#"><span class="glyphicon glyphicon-move"></span> 移动到</a></li>
+			      <li><a href="#"><span class="glyphicon glyphicon-info-sign"></span> 详细信息</a></li>
 			    </ul>
 			  </div>
 		    </div>
@@ -66,7 +65,7 @@
 
     <!-- 路径导航start -->
     <ol class="breadcrumb">
-	  <li><a href="#"><span class="glyphicon glyphicon-home"></span>云盘</a></li>
+	  <li><a href="#"><span class="glyphicon glyphicon-home"></span> 云盘</a></li>
 	  <li><a href="#">美女</a></li>
 	  <li class="active">图片</li>
 	</ol>
@@ -75,10 +74,10 @@
 	<!-- 右键菜单 -->
 	<div id="context-menu">
 		<ul class="dropdown-menu" role="menu">
-			<li><a tabindex="-1">下载</a></li>
-			<li><a tabindex="-1">删除</a></li>
-			<li><a href="#" data-toggle="modal" data-target="#renameModal">重命名</a></li>
-			<li><a href="#" data-toggle="modal" data-target="#removeModal">移动到</a></li>
+			<li><a tabindex="-1"><span class="glyphicon glyphicon-cloud-download"></span> 下载</a></li>
+			<li><a tabindex="-1"><span class="glyphicon glyphicon-trash"></span> 删除</a></li>
+			<li><a href="#" data-toggle="modal" data-target="#renameModal"><span class="glyphicon glyphicon-edit"></span> 重命名</a></li>
+			<li><a href="#" data-toggle="modal" data-target="#removeModal"><span class="glyphicon glyphicon-cloud-move"></span> 移动到</a></li>
 		</ul>
 	</div>
 
