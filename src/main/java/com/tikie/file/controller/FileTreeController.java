@@ -4,16 +4,13 @@ import com.github.pagehelper.PageInfo;
 import com.tikie.common.ExceptionConstant;
 import com.tikie.file.model.FileTree;
 import com.tikie.file.model.SuperTreeVo;
-import com.tikie.file.model.TFile;
+
 import com.tikie.file.service.FileTreeService;
 import com.tikie.file.service.TFileService;
-import com.tikie.util.DownloadUtil;
 import com.tikie.util.Result;
-import com.tikie.util.ZipUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -49,7 +44,7 @@ public class FileTreeController {
             @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示数量", dataType = "Long", paramType = "query")
     })
-    @GetMapping("/list")
+    @PostMapping("/list")
     public Result<PageInfo<SuperTreeVo>> selectListTreeBySuper(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo, @RequestParam(value = "pageSize",defaultValue = "0") int pageSize){
         if ("".equals(pageNo +"") && "".equals(pageSize + "")){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
