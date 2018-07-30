@@ -15,9 +15,7 @@ public interface FileTreeMapper {
 
     int delete(String id);
 
-    Page<SuperTreeVo> selectListTreeBySuper();
-
-    FileTree selectFileTreeById(String id);
+    List<FileTree> selectTreeSelective(FileTree fileTree);
 
     int deleteFileTreeByOneId(@Param("fileTree") FileTree fileTree);
 

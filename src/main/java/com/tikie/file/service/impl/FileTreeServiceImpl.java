@@ -173,27 +173,43 @@ public class FileTreeServiceImpl implements FileTreeService {
 
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
-    public PageInfo<SuperTreeVo> selectListTreeBySuper(int pageNo, int pageSize) {
-        Page<SuperTreeVo> pages = null;
-        PageInfo<SuperTreeVo> pageInfo = null;
+    public List<FileTree> selectListTreeBySuper() {
+        List<FileTree> list = null;
+        FileTree fileTree = new FileTree();
         try {
-            PageHelper.startPage(pageNo, pageSize);
-            pages = fileTreeMapper.selectListTreeBySuper();
-            pageInfo = new PageInfo<>(pages);
-            logger.info("==== selectListTreeBySuper@exec:{} ====", pageInfo);
+            fileTree.setPid("#");
+            list = fileTreeMapper.selectTreeSelective(fileTree);
+            logger.info("==== selectListTreeBySuper@exec:{} ====", list);
         }catch (Exception e){
             e.printStackTrace();
             logger.error("==== selectListTreeBySuper@err:{} ====", e);
         }
-        return pageInfo;
+        return list;
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+    @Override
+    public List<FileTree> selectListTreeByAll() {
+        List<FileTree> list = null;
+        FileTree fileTree = new FileTree();
+        try {
+            fileTree.setPid("1");
+            list = fileTreeMapper.selectTreeSelective(fileTree);
+            logger.info("==== selectListTreeBySuper@exec:{} ====", list);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("==== selectListTreeBySuper@err:{} ====", e);
+        }
+        return list;
     }
 
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
     public FileTree selectFileTreeById(String id) {
-        FileTree fileTree = null;
+        FileTree fileTree = new FileTree();
         try {
-            fileTree = fileTreeMapper.selectFileTreeById(id);
+            fileTree.setId(id);
+            fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
             logger.info("==== selectFileTreeById@exec:{} ====", fileTree);
         }catch (Exception e){
             e.printStackTrace();
@@ -204,10 +220,44 @@ public class FileTreeServiceImpl implements FileTreeService {
 
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
+    public List<FileTree> selectFileTreeByPid(String pid) {
+        List<FileTree> list = null;
+        FileTree fileTree = new FileTree();
+        try {
+            fileTree.setPid(pid);
+            list = fileTreeMapper.selectTreeSelective(fileTree);
+            logger.info("==== selectFileTreeByPid@exec:{} ====", list);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("==== selectFileTreeByPid@err:{} ====", e);
+        }
+        return list;
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+    @Override
+    public List<FileTree> selectFileTreeByName(String name) {
+        List<FileTree> list = null;
+        FileTree fileTree = new FileTree();
+        try {
+            fileTree.setName(name);
+            list = fileTreeMapper.selectTreeSelective(fileTree);
+            logger.info("==== selectFileTreeByName@exec:{} ====", list);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("==== selectFileTreeByName@err:{} ====", e);
+        }
+        return list;
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+    @Override
     public Boolean deleteFileTreeByOneId(String id) {
         int state = 0;
+        FileTree fileTree = null;
         try {
-            FileTree fileTree = fileTreeMapper.selectFileTreeById(id);
+            fileTree.setId(id);
+            fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
             fileTree.setReback(fileTree.getFileId());
             state = fileTreeMapper.deleteFileTreeByOneId(fileTree);
             logger.info("==== deleteFileTreeByOneId@exec:{} ====", state);
@@ -222,8 +272,10 @@ public class FileTreeServiceImpl implements FileTreeService {
     @Override
     public Boolean reanameFileTreeByOneId(String id, String name) {
         int state = 0;
+        FileTree fileTree = null;
         try {
-            FileTree fileTree = fileTreeMapper.selectFileTreeById(id);
+            fileTree.setId(id);
+            fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
             String type = StringUtils.substringAfterLast(fileTree.getName(),".");
             name = name + "." + type;
             fileTree.setName(name);
@@ -260,9 +312,11 @@ public class FileTreeServiceImpl implements FileTreeService {
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
     public Boolean copyFile(String id, String pid) {
+        FileTree fileTree = null;
         int state = 0;
         try{
-            FileTree fileTree = fileTreeMapper.selectFileTreeById(id);
+            fileTree.setId(id);
+            fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
             fileTree.setId(UUIDUtil.getUUID());
             if (!pid.equals(fileTree.getPid())){
                 fileTree.setPid(pid);
@@ -281,8 +335,10 @@ public class FileTreeServiceImpl implements FileTreeService {
     @Override
     public Boolean removeFile(String id, String pid) {
         int state = 0;
+        FileTree fileTree = null;
         try{
-            FileTree fileTree = fileTreeMapper.selectFileTreeById(id);
+            fileTree.setId(id);
+            fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
             fileTree.setId(UUIDUtil.getUUID());
             if (!pid.equals(fileTree.getPid())){
                 fileTree.setPid(pid);
@@ -304,8 +360,10 @@ public class FileTreeServiceImpl implements FileTreeService {
     @Override
     public Map<String,Object> detail(String id) {
         Map<String,Object> map = new HashMap<>();
+        FileTree fileTree = null;
         try {
-            FileTree fileTree = fileTreeMapper.selectFileTreeById(id);
+            fileTree.setId(id);
+            fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
             TFile tFile = tFileService.selectByPrimaryKey(fileTree.getFileId());
             map.put("类型",StringUtils.substringAfterLast(fileTree.getName(),".") + "文件");
             map.put("大小",fileTree.getSize());

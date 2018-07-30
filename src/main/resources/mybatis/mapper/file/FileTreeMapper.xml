@@ -106,29 +106,21 @@
     where id = #{id}
   </delete>
 
-  <!--树形文件展示 顶级-->
-  <select id="selectListTreeBySuper" resultType="com.tikie.file.model.SuperTreeVo">
-    SELECT
-        id,
-        is_file AS isFile,
-        `name`,
-        size,
-        utime
-    FROM
-        `tb_file_tree`
-    <where>
-      pid = "#"
-    </where>
-  </select>
-
-  <!--拿到一条树形文件记录-->
-  <select id="selectFileTreeById" parameterType="String" resultType="com.tikie.file.model.FileTree">
+  <select id="selectTreeSelective" parameterType="com.tikie.file.model.FileTree" resultType="com.tikie.file.model.FileTree">
     SELECT
       <include refid="Base_Column_List" />
     FROM
         `tb_file_tree`
     <where>
-      id = #{id}
+      <if test="id != null and id != ''">
+        and id = #{id}
+      </if>
+      <if test="pid != null and pid != ''">
+        and pid = #{pid}
+      </if>
+      <if test="name != null and name != ''">
+        and name LIKE "%"#{name}"%"
+      </if>
     </where>
   </select>
 
@@ -146,6 +138,6 @@
         SET `name` = #{fileTree.name}
         WHERE
 	      id = #{fileTree.id}
-    </update>
+   </update>
 
 </mapper>

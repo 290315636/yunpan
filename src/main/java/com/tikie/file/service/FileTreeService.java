@@ -25,9 +25,15 @@ public interface FileTreeService {
 
     Boolean uploadFile(Map<String, MultipartFile> files, String baseFilePath, String pid);
 
-    PageInfo<SuperTreeVo> selectListTreeBySuper(int pageNo, int pageSize);
+    List<FileTree> selectListTreeBySuper();
+
+    List<FileTree> selectListTreeByAll();
 
     FileTree selectFileTreeById(String id);
+
+    List<FileTree> selectFileTreeByPid(String pid);
+
+    List<FileTree> selectFileTreeByName(String name);
 
     Boolean deleteFileTreeByOneId(String id);
 

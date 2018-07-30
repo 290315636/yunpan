@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,24 +40,36 @@ public class FileTreeController {
     TFileService tFileService;
 
 
-    @ApiOperation(value = "树形文件展示 顶级")
+    @ApiOperation(value = "树形文件展示 左侧分类")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "pageSize", value = "每页显示数量", dataType = "Long", paramType = "query")
     })
-    @PostMapping("/list")
-    public Result<PageInfo<SuperTreeVo>> selectListTreeBySuper(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo, @RequestParam(value = "pageSize",defaultValue = "0") int pageSize){
-        if ("".equals(pageNo +"") && "".equals(pageSize + "")){
-            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
-        }
-        PageInfo<SuperTreeVo> pageInfo = null;
+    @GetMapping("/left")
+    public Result<List<FileTree>> selectListTreeBySuper(){
+        List<FileTree> list = null;
         try {
-            pageInfo = fileTreeService.selectListTreeBySuper(pageNo, pageSize);
-            logger.info("selectListTreeBySuper@exec:{}",pageInfo);
-            return Result.success(pageInfo);
+            list = fileTreeService.selectListTreeBySuper();
+            logger.info("selectListTreeBySuper@exec:{}",list);
+            return Result.success(list);
         }catch (Exception e){
             e.printStackTrace();
             logger.error("selectListTreeBySuper@err:{}",e);
+            return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
+        }
+    }
+
+    @ApiOperation(value = "树形文件展示 全部")
+    @ApiImplicitParams({
+    })
+    @GetMapping("/list")
+    public Result<List<FileTree>> selectListTreeByAll(){
+        List<FileTree> list = null;
+        try {
+            list = fileTreeService.selectListTreeByAll();
+            logger.info("selectListTreeByAll@exec:{}",list);
+            return Result.success(list);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("selectListTreeByAll@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
     }
@@ -65,7 +78,7 @@ public class FileTreeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "树形文件 id", dataType = "String", paramType = "query", required = true)
     })
-    @GetMapping("/find")
+    @GetMapping("/findFile")
     public Result<FileTree> selectFileTreeById(@RequestParam(value = "id") String id){
         if (StringUtils.isBlank(id)){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
@@ -78,6 +91,48 @@ public class FileTreeController {
         }catch (Exception e){
             e.printStackTrace();
             logger.error("selectFileTreeById@err:{}",e);
+            return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
+        }
+    }
+
+    @ApiOperation(value = "拿到一条树形文件夹记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pid", value = "树形文件 pid", dataType = "String", paramType = "query", required = true)
+    })
+    @GetMapping("/findFolder")
+    public Result<List<FileTree>> selectFileTreeByPid(@RequestParam(value = "pid") String pid){
+        if (StringUtils.isBlank(pid)){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        List<FileTree> list = null;
+        try {
+            list = fileTreeService.selectFileTreeByPid(pid);
+            logger.info("selectFileTreeByPid@exec:{}",list);
+            return Result.success(list);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("selectFileTreeByPid@err:{}",e);
+            return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
+        }
+    }
+
+    @ApiOperation(value = "搜索")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "树形文件 name", dataType = "String", paramType = "query", required = true)
+    })
+    @GetMapping("/search")
+    public Result<List<FileTree>> selectFileTreeByName(@RequestParam(value = "name") String name){
+        if (StringUtils.isBlank(name)){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        List<FileTree> list = null;
+        try {
+            list = fileTreeService.selectFileTreeByName(name);
+            logger.info("selectFileTreeByName@exec:{}",list);
+            return Result.success(list);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("selectFileTreeByName@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
     }
