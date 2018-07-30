@@ -85,10 +85,11 @@ var FileList = function(){
 //				console.log('here');
 //			});
 			Message.init();
+			FileList.getFile('/file-tree/list');
 		},
-		getFile: function(url, p_id) {
-            $.post(url, {}, function () {
-
+		getFile: function(url) { // 查询顶层文件
+            $.post(url, {}, function (data) {
+            	console.log(data);
             });
         }
 	}

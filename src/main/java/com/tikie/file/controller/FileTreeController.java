@@ -32,7 +32,7 @@ import java.util.Map;
  * @date 2018-07-25
  */
 @RestController
-@RequestMapping("/show")
+@RequestMapping("/file-tree")
 public class FileTreeController {
 
     private static Logger logger = LoggerFactory.getLogger(FileController.class);

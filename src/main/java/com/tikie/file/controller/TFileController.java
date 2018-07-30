@@ -28,7 +28,6 @@ public class TFileController {
     @Resource
     private TFileService tFileService;
 
-
     @ApiOperation(value = "文件删除")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "文件id", dataType = "String", paramType = "query", required = true)
