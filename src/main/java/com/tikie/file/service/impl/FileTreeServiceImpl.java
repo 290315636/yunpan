@@ -76,10 +76,10 @@ public class FileTreeServiceImpl implements FileTreeService {
             String addr = baseFilePath + fileName;         // 保存到服务器目录的文件全路径
             long size = item.getSize();                    // 文件大小
 
-            logger.info("文件名称：{}", fileName);
-            logger.info("文件类型：{}", fileType);
-            logger.info("文件物理地址：{}", addr);
-            logger.info("文件大小：{}", FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
+//            logger.info("文件名称：{}", fileName);
+//            logger.info("文件类型：{}", fileType);
+//            logger.info("文件物理地址：{}", addr);
+//            logger.info("文件大小：{}", FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
 
             File savedFile = new File(baseFilePath, fileName);
 //            String md5 = MD5Util.getFileMD5(savedFile);
@@ -98,7 +98,7 @@ public class FileTreeServiceImpl implements FileTreeService {
                 tree.setName(fileName);
                 tree.setFileId(fileId);
                 tree.setPid(pid); 
-                tree.setSize(size);
+                tree.setSize(FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
                 state = fileTreeMapper.insertSelective(tree);
                 continue;
             }
@@ -148,8 +148,8 @@ public class FileTreeServiceImpl implements FileTreeService {
             tree.setName(fileName);
             tree.setFileId(fileId);
             tree.setIsFile(true);
-            tree.setPid("#");//TODO
-            tree.setSize(size);
+            tree.setPid(pid);
+            tree.setSize(FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
             // 更新文件树 到数据库
             state = fileTreeMapper.insertSelective(tree);
         }

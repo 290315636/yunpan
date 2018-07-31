@@ -88,7 +88,14 @@
     <!-- 文件展示样式 table-condensed 一start -->
     <div id="file-container" class="container-fluid">
     	<table id="show-file" class="table table-hover">
-		  <tr>
+    	  <tr th:each="prod : ${data.data}">
+    	  	  <td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+		      <td th:text="${prod.name}"></td>
+		      <td th:text="${prod.size}"></td>
+		      <td th:text="${#strings.substringBefore(prod.utime,'.')}"></td>
+		      <!-- <td th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}"></td> -->
+	      </tr>
+		  <!-- <tr>
 		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
 		  	<td>需要资料找我1.jpg</td>
 		  	<td class="col-md-1">29KB</td>
@@ -105,14 +112,14 @@
 		  	<td>需要资料找我2.jpg</td>
 		  	<td class="col-md-1">29KB</td>
 		  	<td class="col-md-2">2018-06-11 09:26</td>
-		  </tr>
+		  </tr> -->
 		</table>
     </div>
     <!-- 文件展示样式一end -->
     
     <!-- Modal模型层start -->
-	<div class="modal fade bs-example-modal-lg" id="upload-file-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	  <div class="modal-dialog modal-lg">
+	<div class="modal fade bs-example-modal-lg" id="upload-file-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> 
+	 <div class="modal-dialog modal-lg">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -129,6 +136,7 @@
 	  </div>
 	</div>
     <!-- Modal模型层end -->
+    
     
   </div>
 </body>

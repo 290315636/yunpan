@@ -8,10 +8,14 @@
 package com.tikie.file.controller;
 
 import com.tikie.common.CommonEnums;
+import com.tikie.common.ExceptionConstant;
 import com.tikie.common.JsonResult;
+import com.tikie.file.model.FileTree;
 import com.tikie.file.service.FileTreeService;
 import com.tikie.file.service.TFileService;
 import com.tikie.util.DateUtil;
+import com.tikie.util.Result;
+
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -35,11 +39,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * @author zhaocs
@@ -74,7 +75,15 @@ public class FileController {
     @RequestMapping(value="/yunpan", method=RequestMethod.GET)
     public String list(Model model){
     	model.addAttribute("tms", "yunpan");
-//    	tFileService.
+    	List<FileTree> list = null;
+        try {
+            list = tFileTreeService.selectListTreeByAll();
+            logger.info("selectListTreeByAll@exec:{}",list);
+            model.addAttribute("data", Result.success(list));
+        }catch (Exception e){
+            logger.error("selectListTreeByAll@err:{}",e);
+            model.addAttribute("data", Result.fail(ExceptionConstant.TFILE_SELECT_FAIL));
+        }
     	return "file/list";
     }
 
@@ -121,11 +130,12 @@ public class FileController {
     // 文件下载相关代码
     @RequestMapping("/shared/{code}")
     public String downloadFile(HttpServletRequest request, HttpServletResponse response) {
-        String fileName = "aim_test.txt";// 设置文件名，根据code替换成要下载的文件名 TODO
-        if (fileName != null) {
+        String fileName = "5e68dd8646bc4bd72b0ecab3c360aa80.jpg";// 设置文件名，根据code替换成要下载的文件名 TODO
+//        if (fileName != null) {
             //设置文件路径
-            String realPath = "D:/aim/";
-            File file = new File(realPath , fileName);
+            String realPath = "c:/vfs/yunpan/201807/5e68dd8646bc4bd72b0ecab3c360aa80.jpg";
+//            File file = new File(realPath , fileName);
+            File file = new File(realPath);
             if (file.exists()) {
                 response.setContentType("application/force-download");// 设置强制下载不打开
                 response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
@@ -161,7 +171,7 @@ public class FileController {
                     }
                 }
             }
-        }
+//        }
         return null;
     }
 }

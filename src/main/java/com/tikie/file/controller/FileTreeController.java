@@ -1,9 +1,7 @@
 package com.tikie.file.controller;
 
-import com.github.pagehelper.PageInfo;
 import com.tikie.common.ExceptionConstant;
 import com.tikie.file.model.FileTree;
-import com.tikie.file.model.SuperTreeVo;
 
 import com.tikie.file.service.FileTreeService;
 import com.tikie.file.service.TFileService;
@@ -15,11 +13,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.*;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +28,7 @@ import java.util.Map;
  * @author zhangshitai
  * @date 2018-07-25
  */
-@RestController
+@Controller
 @RequestMapping("/file-tree")
 public class FileTreeController {
 
@@ -315,7 +315,7 @@ public class FileTreeController {
             @ApiImplicitParam(name = "id", value = "id", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping("/shared/{id}")
-    public String downloadFile(@RequestParam(value = "id") String id, HttpServletRequest request, HttpServletResponse response) {
+    public String downloadFile(@PathVariable(value = "id") String id, HttpServletRequest request, HttpServletResponse response) {
 
         String fileName = fileTreeService.selectFileTreeById(id).getName();// 设置文件名，根据code替换成要下载的文件名 TODO
         if (fileName != null) {

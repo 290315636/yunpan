@@ -21,7 +21,7 @@ public class FileTree implements Serializable {
 
     private String reback;
 
-    private Long size;
+    private String size;
 
     private String md5;
 
@@ -99,11 +99,11 @@ public class FileTree implements Serializable {
         this.reback = reback == null ? null : reback.trim();
     }
 
-    public Long getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(Long size) {
+    public void setSize(String size) {
         this.size = size;
     }
 
