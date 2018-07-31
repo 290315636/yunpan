@@ -78,10 +78,10 @@
 	<!-- 右键菜单 -->
 	<div id="context-menu">
 		<ul class="dropdown-menu" role="menu">
-			<li><a tabindex="-1"><span class="glyphicon glyphicon-cloud-download"></span> 下载</a></li>
-			<li><a tabindex="-1"><span class="glyphicon glyphicon-trash"></span> 删除</a></li>
-			<li><a href="#" data-toggle="modal" data-target="#renameModal"><span class="glyphicon glyphicon-edit"></span> 重命名</a></li>
-			<li><a href="#" data-toggle="modal" data-target="#removeModal"><span class="glyphicon glyphicon-cloud-move"></span> 移动到</a></li>
+			<li><a th:href="@{#}"><span class="glyphicon glyphicon-cloud-download"></span> 下载</a></li>
+			<li><a th:href="@{#}" tabindex="-1"><span class="glyphicon glyphicon-trash"></span> 删除</a></li>
+			<li><a th:href="@{#}" data-toggle="modal" data-target="#renameModal"><span class="glyphicon glyphicon-edit"></span> 重命名</a></li>
+			<li><a th:href="@{#}" data-toggle="modal" data-target="#removeModal"><span class="glyphicon glyphicon-cloud-move"></span> 移动到</a></li>
 		</ul>
 	</div>
 
@@ -89,7 +89,7 @@
     <div id="file-container" class="container-fluid">
     	<table id="show-file" class="table table-hover">
     	  <tr th:each="prod : ${data.data}">
-    	  	  <td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
+    	  	  <td class="col-md-1" th:data-id="${prod.id}"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
 		      <td th:text="${prod.name}"></td>
 		      <td th:text="${prod.size}"></td>
 		      <td th:text="${#strings.substringBefore(prod.utime,'.')}"></td>

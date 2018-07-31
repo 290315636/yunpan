@@ -128,14 +128,15 @@ public class FileController {
     }
     
     // 文件下载相关代码
-    @RequestMapping("/shared/{code}")
-    public String downloadFile(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/download")
+    public String downloadFile(HttpServletRequest request, HttpServletResponse response, String id) {
+    	logger.info(id);
         String fileName = "5e68dd8646bc4bd72b0ecab3c360aa80.jpg";// 设置文件名，根据code替换成要下载的文件名 TODO
 //        if (fileName != null) {
             //设置文件路径
             String realPath = "c:/vfs/yunpan/201807/5e68dd8646bc4bd72b0ecab3c360aa80.jpg";
-//            File file = new File(realPath , fileName);
-            File file = new File(realPath);
+            File file = new File(realPath , fileName);
+//            File file = new File(realPath);
             if (file.exists()) {
                 response.setContentType("application/force-download");// 设置强制下载不打开
                 response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
