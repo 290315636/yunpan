@@ -72,8 +72,9 @@ public class TFileServiceImpl implements TFileService{
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
     public TFile selectByPrimaryKey(String id) {
-    	TFile tFile = null;
+    	TFile tFile = new TFile();
         try {
+            tFile.setId(id);
             tFile = tFileMapper.selectByPrimaryKey(id);
             logger.info("==== selectByPrimaryKey@exec:{} ====", tFile);
         }catch (Exception e){

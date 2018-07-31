@@ -47,5 +47,5 @@ public interface FileTreeService {
 
     Map<String,Object> detail(String id);
 
-    Boolean downloads(String fileId, HttpServletRequest request, HttpServletResponse response);
+    void downloads(String fileId, HttpServletRequest request, HttpServletResponse response);
 }

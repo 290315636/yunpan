@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
@@ -292,19 +293,71 @@ public class FileTreeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fileId", value = "id", dataType = "String", paramType = "query", required = true)
     })
-    @PostMapping("downloads")
+    @GetMapping("downloads")
     public Result<Object> downloads(String fileId, HttpServletRequest request, HttpServletResponse response) {
         if (StringUtils.isBlank(fileId)){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
         }
         try {
-            Boolean download = fileTreeService.downloads(fileId, request, response);
-            logger.info("downloads@exec:{}",download);
-            return Result.success(download);
+            fileTreeService.downloads(fileId, request, response);
+            logger.info("downloads@exec:{}","success");
+            return Result.success("success");
         }catch (Exception e){
             e.printStackTrace();
             logger.error("downloads@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
+    }
+
+    // 文件下载相关代码
+    @ApiOperation(value = "下载指定文件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", dataType = "String", paramType = "query", required = true)
+    })
+    @GetMapping("/shared/{id}")
+    public String downloadFile(@RequestParam(value = "id") String id, HttpServletRequest request, HttpServletResponse response) {
+
+        String fileName = fileTreeService.selectFileTreeById(id).getName();// 设置文件名，根据code替换成要下载的文件名 TODO
+        if (fileName != null) {
+            //设置文件路径
+            String realPath = tFileService.selectByPrimaryKey(fileTreeService.selectFileTreeById(id).getFileId()).getPath();
+            File file = new File(realPath , fileName);
+            if (file.exists()) {
+                response.setContentType("application/force-download");// 设置强制下载不打开
+                response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
+                byte[] buffer = new byte[1024];
+                FileInputStream fis = null;
+                BufferedInputStream bis = null;
+                try {
+                    fis = new FileInputStream(file);
+                    bis = new BufferedInputStream(fis);
+                    OutputStream os = response.getOutputStream();
+                    int i = bis.read(buffer);
+                    while (i != -1) {
+                        os.write(buffer, 0, i);
+                        i = bis.read(buffer);
+                    }
+                    System.out.println("success");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (bis != null) {
+                        try {
+                            bis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (fis != null) {
+                        try {
+                            fis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

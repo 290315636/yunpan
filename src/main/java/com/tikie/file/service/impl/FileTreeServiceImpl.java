@@ -23,8 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -254,7 +253,7 @@ public class FileTreeServiceImpl implements FileTreeService {
     @Override
     public Boolean deleteFileTreeByOneId(String id) {
         int state = 0;
-        FileTree fileTree = null;
+        FileTree fileTree = new FileTree();
         try {
             fileTree.setId(id);
             fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
@@ -272,7 +271,7 @@ public class FileTreeServiceImpl implements FileTreeService {
     @Override
     public Boolean reanameFileTreeByOneId(String id, String name) {
         int state = 0;
-        FileTree fileTree = null;
+        FileTree fileTree = new FileTree();
         try {
             fileTree.setId(id);
             fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
@@ -312,7 +311,7 @@ public class FileTreeServiceImpl implements FileTreeService {
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
     public Boolean copyFile(String id, String pid) {
-        FileTree fileTree = null;
+        FileTree fileTree = new FileTree();
         int state = 0;
         try{
             fileTree.setId(id);
@@ -335,7 +334,7 @@ public class FileTreeServiceImpl implements FileTreeService {
     @Override
     public Boolean removeFile(String id, String pid) {
         int state = 0;
-        FileTree fileTree = null;
+        FileTree fileTree = new FileTree();
         try{
             fileTree.setId(id);
             fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
@@ -360,14 +359,14 @@ public class FileTreeServiceImpl implements FileTreeService {
     @Override
     public Map<String,Object> detail(String id) {
         Map<String,Object> map = new HashMap<>();
-        FileTree fileTree = null;
+        FileTree fileTree = new FileTree();
         try {
             fileTree.setId(id);
             fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
             TFile tFile = tFileService.selectByPrimaryKey(fileTree.getFileId());
             map.put("类型",StringUtils.substringAfterLast(fileTree.getName(),".") + "文件");
             map.put("大小",fileTree.getSize());
-            map.put("位置",tFile.getPath());
+            map.put("位置",StringUtils.replace(tFile.getPath(),"\\","/"));
             map.put("修改时间",fileTree.getUtime());
             logger.info("==== detail@exec:{} ====", map);
         }catch (Exception e){
@@ -379,19 +378,25 @@ public class FileTreeServiceImpl implements FileTreeService {
 
     // 下载指定文件
     @Override
-    public Boolean downloads(String fileId, HttpServletRequest request, HttpServletResponse response) {
+    public void downloads(String fileId, HttpServletRequest request, HttpServletResponse response) {
 
-        int state = 0;
         String[] fileIds = fileId.split(",");
         // 打包路径
-        String realPath = request.getRealPath("/");
+        String realPath = request.getSession().getServletContext().getRealPath("/");
         String[] filePath = new String[fileIds.length];
 
+        String[] s = new String[fileIds.length];
+        int ma = fileIds.length;
         for (int i = 0; i < fileIds.length; i++) {
             String id = fileIds[i];
-            TFile tFile = tFileService.selectByPrimaryKey(id);
+            FileTree fileTree = new FileTree();
+            fileTree.setId(id);
+            // 文件的id
+            String fileId1 = fileTreeMapper.selectTreeSelective(fileTree).get(0).getFileId();
+            TFile tFile = tFileService.selectByPrimaryKey(fileId1);
             // 原文件
             String srcFile = tFile.getPath() + tFile.getName();
+            s[i] = tFile.getName();
             // 临时目录
             String destPath = realPath;
             try {
@@ -402,23 +407,69 @@ public class FileTreeServiceImpl implements FileTreeService {
                 e.printStackTrace();
             }
             // 文件的临时路径
-            filePath[i] = destPath + tFile.getName() + "." + tFile.getType();
+            filePath[i] = destPath + tFile.getName();;
         }
 
         String downloadFilePath = filePath[0];
+
         if (fileIds.length > 1) {
             // 打包
             String zipPath = realPath + "Files.zip";
             ZipUtil.files2Zip(filePath, zipPath);
             downloadFilePath = zipPath;
         }
+
         // 下载
         try {
             DownloadUtil.downloadLocal(downloadFilePath,request, response);
+//            downloadFile("500457601.jpg",realPath, request,response);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return state > 0;
 
+    }
+    public String downloadFile(String fileName, String realPath,HttpServletRequest request, HttpServletResponse response) {
+//        String fileName = "500457601.jpg";// 设置文件名，根据code替换成要下载的文件名 TODO
+        if (fileName != null) {
+            //设置文件路径
+//            String realPath = "E:\\vfs\\yunpan\\201807";
+            File file = new File(realPath , fileName);
+            if (file.exists()) {
+                response.setContentType("multipart/form-data\n");// 设置强制下载不打开
+                response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
+                byte[] buffer = new byte[1024];
+                FileInputStream fis = null;
+                BufferedInputStream bis = null;
+                try {
+                    fis = new FileInputStream(file);
+                    bis = new BufferedInputStream(fis);
+                    OutputStream os = response.getOutputStream();
+                    int i = bis.read(buffer);
+                    while (i != -1) {
+                        os.write(buffer, 0, i);
+                        i = bis.read(buffer);
+                    }
+                    System.out.println("success");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (bis != null) {
+                        try {
+                            bis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (fis != null) {
+                        try {
+                            fis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 }
