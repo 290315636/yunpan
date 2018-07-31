@@ -13,12 +13,26 @@
   <sql id="Base_Column_List">
     id, tree_ids, code, ctime, edate, download_count, vcode
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from tb_file_share
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectBySelective" parameterType="com.tikie.file.model.FileShare" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    tb_file_share
+    <where>
+      <if test="code != null and code != ''">
+        and code = #{code}
+      </if>
+    </where>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from tb_file_share
     where id = #{id,jdbcType=VARCHAR}
@@ -43,9 +57,7 @@
       <if test="code != null">
         code,
       </if>
-      <if test="ctime != null">
-        ctime,
-      </if>
+      ctime,
       <if test="edate != null">
         edate,
       </if>
@@ -66,9 +78,7 @@
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
       </if>
-      <if test="ctime != null">
-        #{ctime,jdbcType=TIMESTAMP},
-      </if>
+      NOW(),
       <if test="edate != null">
         #{edate,jdbcType=DATE},
       </if>

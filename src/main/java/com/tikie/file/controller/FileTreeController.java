@@ -28,7 +28,7 @@ import java.util.Map;
  * @author zhangshitai
  * @date 2018-07-25
  */
-@Controller
+@RestController
 @RequestMapping("/file-tree")
 public class FileTreeController {
 

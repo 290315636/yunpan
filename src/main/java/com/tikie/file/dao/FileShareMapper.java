@@ -11,6 +11,8 @@ public interface FileShareMapper {
 
     FileShare selectByPrimaryKey(String id);
 
+    FileShare selectBySelective(FileShare fileShare);
+
     int updateByPrimaryKeySelective(FileShare record);
 
     int updateByPrimaryKey(FileShare record);
