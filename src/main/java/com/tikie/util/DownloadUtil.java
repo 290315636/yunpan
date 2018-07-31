@@ -49,7 +49,7 @@ public class DownloadUtil {
         return response;
     }
 	
-	public static void downloadLocal(String path,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException {
+	public static void downloadLocal(String path,String name,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException {
 		// path是指欲下载的文件的路径。
         File file = new File(path);
         // 取得文件名。
@@ -69,7 +69,7 @@ public class DownloadUtil {
 	    response.reset();
 //	    response.setContentType("multipart/form-data\n");
 	    response.setContentType("application/force-download");
-	    response.addHeader("Content-Disposition", "attachment; filename=" + filename);
+	    response.addHeader("Content-Disposition", "attachment; filename=" + name);
 	    // 循环取出流中的数据
 	    byte[] b = new byte[10000];
 	    int len;

@@ -73,8 +73,8 @@ public class FileTreeServiceImpl implements FileTreeService {
         for (MultipartFile item : files.values()) {
             String fileName = item.getOriginalFilename();    // 当前上传文件全名称
             String fileType = item.getContentType();         // 当前上传文件类型
-            String addr = baseFilePath;         			 // 保存到服务器目录的文件路径
-            long size = item.getSize();                      // 文件大小
+            String addr = baseFilePath + fileName;         // 保存到服务器目录的文件全路径
+            long size = item.getSize();                    // 文件大小
 
 //            logger.info("文件名称：{}", fileName);
 //            logger.info("文件类型：{}", fileType);
@@ -387,12 +387,14 @@ public class FileTreeServiceImpl implements FileTreeService {
 
         String[] s = new String[fileIds.length];
         int ma = fileIds.length;
+        String name = null;
         for (int i = 0; i < fileIds.length; i++) {
             String id = fileIds[i];
             FileTree fileTree = new FileTree();
             fileTree.setId(id);
             // 文件的id
             String fileId1 = fileTreeMapper.selectTreeSelective(fileTree).get(0).getFileId();
+            name = fileTreeMapper.selectTreeSelective(fileTree).get(0).getName();
             TFile tFile = tFileService.selectByPrimaryKey(fileId1);
             // 原文件
             String srcFile = tFile.getPath() + tFile.getName();
@@ -421,7 +423,7 @@ public class FileTreeServiceImpl implements FileTreeService {
 
         // 下载
         try {
-            DownloadUtil.downloadLocal(downloadFilePath,request, response);
+            DownloadUtil.downloadLocal(downloadFilePath,name,request, response);
 //            downloadFile("500457601.jpg",realPath, request,response);
         } catch (Exception e) {
             e.printStackTrace();
