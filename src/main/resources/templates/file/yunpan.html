@@ -12,12 +12,16 @@
   	<div class="container-fluid breadcrumb">
   		<div class="col-md-7" style="padding-left: 0;padding-right: 0;">
   			<div class="btn-group" role="group" aria-label="...">
-			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-upload"></span> 上传</button>
+			  <button id="file-upload" type="button" class="btn btn-default" data-toggle="modal" data-backdrop="false" data-target="#upload-file-modal">
+			  	<span class="glyphicon glyphicon-cloud-upload"></span> 上传
+			  </button>
 			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> 新建文件夹</button>
 			</div>
 			<div id="file-menu-more" class="btn-group" role="group" aria-label="..." style="display:none;">
 			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share"></span> 分享</button>
-			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-download"></span> 下载</button>
+			  <button type="button" class="btn btn-default">
+			  	<span class="glyphicon glyphicon-cloud-download"></span> 下载
+			  </button>
 			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span> 删除</button>
 			  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span> 重命名</button>
 			  <div class="btn-group" role="group">
@@ -104,8 +108,27 @@
 		  </tr>
 		</table>
     </div>
+    <!-- 文件展示样式一end -->
     
-    <!-- 文件展示样式一start -->
+    <!-- Modal模型层start -->
+	<div class="modal fade bs-example-modal-lg" id="upload-file-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-lg">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">上传文件</h4>
+	      </div>
+	      <div class="modal-body">
+	        <input id="fileUpload" type="file" name="fileUpload" data-preview-file-type="any" data-show-close="false" data-show-preview="true" multiple />
+	      </div>
+	      <!-- <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary">确定</button>
+	      </div> -->
+	    </div>
+	  </div>
+	</div>
+    <!-- Modal模型层end -->
     
   </div>
 </body>

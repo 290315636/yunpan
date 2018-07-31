@@ -67,7 +67,7 @@ public class FileTreeServiceImpl implements FileTreeService {
     }
 
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
-    public Boolean uploadFile(Map<String, MultipartFile> files, String baseFilePath , String pid){
+    public Boolean uploadFile(Map<String, MultipartFile> files, String baseFilePath , String pid, String md5){
         int state = 0;
         List<Map<String, Object>> handle = new ArrayList<>();
         for (MultipartFile item : files.values()) {
@@ -82,7 +82,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             logger.info("文件大小：{}", FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
 
             File savedFile = new File(baseFilePath, fileName);
-            String md5 = MD5Util.getFileMD5(savedFile);
+//            String md5 = MD5Util.getFileMD5(savedFile);
             logger.info("文件md5：{}", md5);
             String fileId = StringUtils.EMPTY;
             Boolean hasMd5 = tFileService.checkMd5FromDB(md5);
@@ -97,7 +97,7 @@ public class FileTreeServiceImpl implements FileTreeService {
                 tree.setIsFile(true);
                 tree.setName(fileName);
                 tree.setFileId(fileId);
-                tree.setPid("#"); // TODO
+                tree.setPid(pid); 
                 tree.setSize(size);
                 state = fileTreeMapper.insertSelective(tree);
                 continue;

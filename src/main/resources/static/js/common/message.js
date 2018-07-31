@@ -5,11 +5,11 @@ var Message = function(){
 	return {
 		init: function(){
 			Message.initMessager('air');
-			Message.showMsg('欢迎使用本系统！', 'success');
-			Message.showMsg('欢迎使用本系统！', 'error');
-			Message.showMsg('欢迎使用本系统！', 'info');
-			Message.showMsg('欢迎使用本系统！', 'warn');
-			Message.showTip('欢迎使用本系统！', 'success');
+//			Message.showMsg('欢迎使用本系统！', 'success');
+//			Message.showMsg('欢迎使用本系统！', 'error');
+//			Message.showMsg('欢迎使用本系统！', 'info');
+//			Message.showMsg('欢迎使用本系统！', 'warn');
+//			Message.showTip('欢迎使用本系统！', 'success');
 //			Message.showTip('欢迎使用本系统！', 'error');
 //			Message.showTip('欢迎使用本系统！', 'info');
 //			Message.showTip('欢迎使用本系统！', 'warn');

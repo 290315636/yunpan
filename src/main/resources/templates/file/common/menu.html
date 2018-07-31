@@ -20,11 +20,11 @@
 	        <!-- Collect the nav links, forms, and other content for toggling -->
 	        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	          <ul id="head-menu" class="nav navbar-nav">
-	            <li><a th:href="@{/file/index}"><span class="glyphicon glyphicon-home"></span> 首页<span class="sr-only">(current)</span></a></li>
-	            <li class="active"><a th:href="@{/file/list}"><span class="glyphicon glyphicon-cloud"></span> 网盘</a></li>
-	            <li><a th:href="@{/file/share}"><span class="glyphicon glyphicon-share"></span> 分享</a></li>
-				<li><a th:href="@{#}"><span class="glyphicon glyphicon-comment"></span> 消息</a></li>
-	            <li class="dropdown">
+	            <li th:class="${tms} eq 'index'? 'active' : ''"><a th:href="@{/file/index}"><span class="glyphicon glyphicon-home"></span> 首页<span class="sr-only">(current)</span></a></li>
+	            <li th:class="${tms} eq 'yunpan'? 'active' : ''"><a th:href="@{/file/yunpan}"><span class="glyphicon glyphicon-cloud"></span> 网盘</a></li>
+	            <li th:class="${tms} eq 'share'? 'active' : ''"><a th:href="@{/file/share}"><span class="glyphicon glyphicon-share"></span> 分享</a></li>
+				<li th:class="${tms} eq 'comment'? 'active' : ''"><a th:href="@{#}"><span class="glyphicon glyphicon-comment"></span> 消息</a></li>
+	            <li th:class="${tms} eq 'more'? 'active' : ''" class="dropdown">
 	              <a th:href="@{#}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-briefcase"></span> 更多<span class="caret"></span></a>
 	              <ul class="dropdown-menu">
 	                <li><a th:href="@{#}"><span class="glyphicon glyphicon-share-alt"></span> 分享动态</a></li>

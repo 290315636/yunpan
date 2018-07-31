@@ -43,12 +43,8 @@
         name,
       </if>
       sort,
-      <if test="ctime != null">
-        ctime,
-      </if>
-      <if test="utime != null">
-        utime,
-      </if>
+      ctime,
+      utime,
       <if test="fileId != null">
         file_id,
       </if>
@@ -76,12 +72,8 @@
         #{name},
       </if>
       #{sort},
-      <if test="ctime != null">
         NOW(),
-      </if>
-      <if test="utime != null">
         NOW(),
-      </if>
       <if test="fileId != null">
         #{fileId},
       </if>

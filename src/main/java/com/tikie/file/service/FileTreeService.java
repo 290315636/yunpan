@@ -23,7 +23,7 @@ public interface FileTreeService {
 
     Boolean delete(String id);
 
-    Boolean uploadFile(Map<String, MultipartFile> files, String baseFilePath, String pid);
+    Boolean uploadFile(Map<String, MultipartFile> files, String baseFilePath, String pid, String md5);
 
     List<FileTree> selectListTreeBySuper();
 

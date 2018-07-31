@@ -11,7 +11,7 @@
     <div th:insert="~{file/common/menu :: menu}"></div>
 
     <div class="modal-body" style="margin-bottom: 46px;">
-        <input type="file" name="fileUpload" id="fileUpload" multiple />
+        <input id="fileUpload" type="file" name="fileUpload" data-show-close="false" data-show-preview="true" multiple />
     </div>
     
     <div th:replace="~{file/common/footer :: copyright}"></div>

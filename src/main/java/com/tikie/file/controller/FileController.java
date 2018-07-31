@@ -10,16 +10,20 @@ package com.tikie.file.controller;
 import com.tikie.common.CommonEnums;
 import com.tikie.common.JsonResult;
 import com.tikie.file.service.FileTreeService;
+import com.tikie.file.service.TFileService;
 import com.tikie.util.DateUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -31,8 +35,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * @author zhaocs
@@ -52,16 +59,23 @@ public class FileController {
     @Resource
     FileTreeService tFileTreeService;
     
+    @Autowired
+    TFileService tFileService;
+    
     @ApiOperation(value="跳转到文件上传页面", notes="页面使用thymeleaf渲染")
     @RequestMapping(value="/index", method=RequestMethod.GET)
     public ModelAndView index(){
-        return new ModelAndView("file/index");
+    	ModelAndView model = new ModelAndView("file/index");
+    	model.addObject("tms", "index"); // 标记选中
+        return model;
     }
     
     @ApiOperation(value="跳转到网盘页面", notes="页面使用thymeleaf渲染")
-    @RequestMapping(value="/list", method=RequestMethod.GET)
-    public ModelAndView list(){
-        return new ModelAndView("file/list");
+    @RequestMapping(value="/yunpan", method=RequestMethod.GET)
+    public String list(Model model){
+    	model.addAttribute("tms", "yunpan");
+//    	tFileService.
+    	return "file/list";
     }
 
     @ApiOperation(value="测试返回json数据", notes="返回json")
@@ -80,8 +94,11 @@ public class FileController {
     @ApiOperation(value="文件上传接口", notes="支持多文件上传")
     @ResponseBody
     @RequestMapping(value = "/upload" ,method = RequestMethod.POST)
-    public JsonResult upload(HttpServletRequest request, HttpServletResponse response){
+    public JsonResult upload(HttpServletRequest request, HttpServletResponse response,
+    		@RequestParam(value = "md5") String md5,@RequestParam(value = "pid") String pid){
 
+    	logger.info(md5);
+    	logger.info(pid);
         //判断保存文件的路径是否存在
     	String baseFilePath = fileuploadPath + DateUtil.getCurrentTime("yyyyMM") + File.separator;
     	baseFilePath = baseFilePath.replace("/", File.separator).replace("\\", File.separator);
@@ -93,7 +110,7 @@ public class FileController {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         Map<String, MultipartFile> map =multipartRequest.getFileMap();
         List<Map<String, Object>> handle = new ArrayList<>();
-        tFileTreeService.uploadFile(map, baseFilePath, "pid" );
+        tFileTreeService.uploadFile(map, baseFilePath, pid, md5);
         
         // 更新返回数据
         return new JsonResult(CommonEnums.StatusCode.SUCCESS.getCode(), 

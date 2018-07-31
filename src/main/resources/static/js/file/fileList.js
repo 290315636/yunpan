@@ -75,6 +75,11 @@ var FileList = function(){
      //        this.getMenu().find("li").eq(2).find('a').html("This was dynamically changed");
      //    }
     // });
+    // 上传文件
+    $('#file-upload').click(function(){
+    	FileInput.resetFileMd5();
+    });
+    
 	// 对外暴漏的函数
 	return {
 		init: function(){
@@ -84,13 +89,18 @@ var FileList = function(){
 //			jQuery('#show-file').bind('click', function(){
 //				console.log('here');
 //			});
-			Message.init();
-			FileList.getFile('/file-tree/list');
+//			Message.init();
+			// 参数1:控件id、参数2:上传地址
+	        FileInput.init("fileUpload", "/file/upload"); 
 		},
-		getFile: function(url) { // 查询顶层文件
+		getLeftFolder: function(url) { // 查询顶层文件夹
             $.post(url, {}, function (data) {
             	console.log(data);
             });
+        },
+        uploadFile: function(){
+        	// <input type="file" name="fileUpload" id="fileUpload" multiple />
+        	
         }
 	}
 }();
