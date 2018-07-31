@@ -76,9 +76,9 @@ var FileList = function(){
      //    }
     // });
     // 上传文件
-    $('#file-upload').click(function(){
-    	FileInput.resetFileMd5();
-    });
+//    $('#file-upload').click(function(){
+//    	FileInput.resetFileMd5();
+//    });
     
 	// 对外暴漏的函数
 	return {
