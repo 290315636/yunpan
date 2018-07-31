@@ -293,7 +293,7 @@ public class FileTreeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fileId", value = "id", dataType = "String", paramType = "query", required = true)
     })
-    @GetMapping("downloads")
+    @GetMapping("/downloads")
     public Result<Object> downloads(String fileId, HttpServletRequest request, HttpServletResponse response) {
         if (StringUtils.isBlank(fileId)){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);

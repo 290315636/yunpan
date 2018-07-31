@@ -67,7 +67,8 @@ public class DownloadUtil {
 	    InputStream inStream = new FileInputStream(path);// 文件的存放路径
 	    // 设置输出的格式
 	    response.reset();
-	    response.setContentType("multipart/form-data\n");
+//	    response.setContentType("multipart/form-data\n");
+	    response.setContentType("application/force-download");
 	    response.addHeader("Content-Disposition", "attachment; filename=" + filename);
 	    // 循环取出流中的数据
 	    byte[] b = new byte[10000];
