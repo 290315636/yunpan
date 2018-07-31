@@ -73,8 +73,8 @@ public class FileTreeServiceImpl implements FileTreeService {
         for (MultipartFile item : files.values()) {
             String fileName = item.getOriginalFilename();    // 当前上传文件全名称
             String fileType = item.getContentType();         // 当前上传文件类型
-            String addr = baseFilePath + fileName;         // 保存到服务器目录的文件全路径
-            long size = item.getSize();                    // 文件大小
+            String addr = baseFilePath;         			 // 保存到服务器目录的文件路径
+            long size = item.getSize();                      // 文件大小
 
 //            logger.info("文件名称：{}", fileName);
 //            logger.info("文件类型：{}", fileType);

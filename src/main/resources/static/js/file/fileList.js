@@ -51,12 +51,17 @@ var FileList = function(){
     });
 
 	// 右键菜单
+    // 动态修改菜单
     $('#show-file tr').contextmenu({
         target:'#context-menu',
         before: function(e,context) {
             // execute code before context menu if shown
             $('#file-menu-more').show();	// 显示对应可操作菜单
             $(context).find('td:first').html('<span class="glyphicon glyphicon-check"  style="cursor:pointer"></span>');
+            
+	       	console.log($(context).find('td:first').data('id'));
+	       	console.log(this.getMenu().find('ul > li').eq(1).find('a').attr('href'));
+	       	this.getMenu().find('ul > li').eq(0).find('a').prop('href', '/file/download?id='+$(context).find('td:first').data('id'));
         },
         onItem: function(context,e) {
             // execute on menu item selection
@@ -68,17 +73,10 @@ var FileList = function(){
      //    // do something...
     // });
 
-	// 动态修改菜单
-    // $('#main').contextmenu({
-     //    target: "#myMenu",
-     //    before: function(e) {
-     //        this.getMenu().find("li").eq(2).find('a').html("This was dynamically changed");
-     //    }
-    // });
     // 上传文件
-    $('#file-upload').click(function(){
-    	FileInput.resetFileMd5();
-    });
+//    $('#file-upload').click(function(){
+//    	FileInput.resetFileMd5();
+//    });
     
 	// 对外暴漏的函数
 	return {

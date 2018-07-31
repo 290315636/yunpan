@@ -90,12 +90,8 @@
       <if test="path != null">
         path,
       </if>
-      <if test="ctime != null">
-        NOW(),
-      </if>
-      <if test="utime != null">
-        NOW(),
-      </if>
+        ctime,
+        utime,
       type,
       <if test="md5 != null">
         md5,
@@ -117,12 +113,8 @@
       <if test="path != null">
         #{path},
       </if>
-      <if test="ctime != null">
-        #{ctime},
-      </if>
-      <if test="utime != null">
-        #{utime},
-      </if>
+        NOW(),
+        NOW(),
       #{type},
       <if test="md5 != null">
         #{md5},

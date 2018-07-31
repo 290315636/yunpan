@@ -17,9 +17,9 @@ var FileInput = function () {
             // console.log('read chunk nr', currentChunk + 1, 'of', chunks);
             spark.append(e.target.result); // Append array buffer
             currentChunk++;
-            var md5_progress = Math.floor((currentChunk / chunks) * 100);
+//            var md5_progress = Math.floor((currentChunk / chunks) * 100);
 
-            console.log(file.name + "  正在处理，请稍等," + "已完成" + md5_progress + "%");
+//            console.log(file.name + "  正在处理，请稍等," + "已完成" + md5_progress + "%");
 //            var handler_info = document.getElementById("handler_info");
 //            var progressbar = document.getElementsByClassName("progressbar")[0];
             
@@ -29,10 +29,8 @@ var FileInput = function () {
                 loadNext();
             } else {
                 tmp_md5 = spark.end();
-                md5 = tmp_md5;
-                console.log(tmp_md5);
+                console.log('文件MD5:' + tmp_md5);
                 file_md5[file_md5.length] = tmp_md5;
-                
                 if(i == le-1){
 					fn();
 				}
@@ -94,7 +92,7 @@ var FileInput = function () {
 	                return data;
 	            },
 				slugCallback: function (filename) {
-		            return filename.replace('(', '_').replace(']', '_');
+		            return filename.replace('(', '_').replace(')', '_').replace(']', '_').replace('[', '_');
 		        }
 		    });
 			
@@ -110,6 +108,7 @@ var FileInput = function () {
 			
 			// 选择文件时计算文件md5值
 			$("#fileUpload").on("filebatchselected", function(event, files) {
+				file_md5 = [];
 				getMd5From(files, uploadfile2back);
 				
 			});
@@ -123,10 +122,8 @@ var FileInput = function () {
 //			});
 
 	        //导入文件上传完成之后的事件
-	        $("#fileUpload").on("fileuploaded", function (event, file, previewId, index) {
-//	        	console.log(file);
-//	        	console.log(file.name);
-	        	
+	        $("#fileUpload").on("fileuploaded", function (event, data, previewId, index) {
+	        	Message.showMsg('[' + data.files[index].name + ']上传成功！', 'success');
 	        });
 		},
 		resetFileMd5: function(){
