@@ -25,10 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -128,13 +125,16 @@ public class FileController {
     }
     
     // 文件下载相关代码
-    @RequestMapping("/download")
-    public String downloadFile(HttpServletRequest request, HttpServletResponse response, String id) {
+    @ApiOperation(value="文件下载接口", notes="支持多文件上传")
+    @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "String", paramType = "query")
+    @ResponseBody
+    @GetMapping("/download")
+    public String downloadFile(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") String id) {
     	logger.info(id);
-        String fileName = "5e68dd8646bc4bd72b0ecab3c360aa80.jpg";// 设置文件名，根据code替换成要下载的文件名 TODO
+        String fileName = tFileTreeService.selectFileTreeById(id).getName();// 设置文件名，根据code替换成要下载的文件名 TODO
 //        if (fileName != null) {
             //设置文件路径
-            String realPath = "c:/vfs/yunpan/201807/5e68dd8646bc4bd72b0ecab3c360aa80.jpg";
+            String realPath = tFileService.selectByPrimaryKey(tFileTreeService.selectFileTreeById(id).getFileId()).getPath();
             File file = new File(realPath , fileName);
 //            File file = new File(realPath);
             if (file.exists()) {

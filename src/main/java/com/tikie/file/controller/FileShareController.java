@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author zhangshitai
@@ -54,7 +56,7 @@ public class FileShareController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "code", dataType = "String", paramType = "query", required = true)
     })
-    @PostMapping("/code")
+    @GetMapping("/code")
     public Result<FileShare> selectByCode(@RequestParam(value = "code") String code){
         if (StringUtils.isBlank(code)){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
@@ -65,6 +67,26 @@ public class FileShareController {
             return Result.success(fileShare);
         }catch (Exception e){
             logger.error("insertSelective@err:{}",e);
+            return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
+        }
+    }
+
+    @ApiOperation(value = "fileTreeIds")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fileTreeIds", value = "fileTreeIds", dataType = "String", paramType = "query", required = true)
+    })
+    @PostMapping("/fileTreeIds")
+    public Result<String> showCode(@RequestParam(value = "fileTreeIds") String fileTreeIds){
+        if (StringUtils.isBlank(fileTreeIds)){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        try {
+            String s = fileShareService.showCode(fileTreeIds);
+            Map<String,Object> map = new HashMap<>();
+            logger.info("showCode@exec:{}",s);
+            return Result.success(s);
+        }catch (Exception e){
+            logger.error("showCode@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
     }

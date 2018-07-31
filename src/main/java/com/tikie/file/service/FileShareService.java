@@ -11,4 +11,6 @@ public interface FileShareService {
     Boolean insertSelective(String fileTreeIds);
 
     FileShare selectByCode(String code);
+
+    String showCode(String fileTreeIds);
 }

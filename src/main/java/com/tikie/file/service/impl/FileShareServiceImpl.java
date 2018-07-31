@@ -28,9 +28,6 @@ public class FileShareServiceImpl implements FileShareService {
     @Resource
     private FileShareMapper fileShareMapper;
 
-    @Resource
-    private FileTreeService fileTreeService;
-
 
     @Override
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
@@ -64,5 +61,23 @@ public class FileShareServiceImpl implements FileShareService {
             logger.error("==== selectFileTreeByName@err:{} ====", e);
         }
         return fileShare;
+    }
+
+    @Override
+    public String showCode(String fileTreeIds) {
+        FileShare fileShare = new FileShare();
+        String code = null;
+        try{
+            code = StringRandomUtil.getStringRandom(24);
+            fileShare.setId(UUIDUtil.getUUID());
+            fileShare.setTreeIds(fileTreeIds);
+            fileShare.setCode(code);
+            fileShareMapper.insertSelective(fileShare);
+            logger.info("insertSelective@exec:{}",code);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("insertSelective@err:{}",e);
+        }
+        return code;
     }
 }
