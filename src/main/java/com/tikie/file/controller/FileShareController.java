@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public class FileShareController {
     private FileShareService fileShareService;
 
 
-    @ApiOperation(value = "插入分享码")
+    @ApiOperation(value = "存储分享码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fileTreeIds", value = "文件树id, 多个用 ','分隔拼接", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "code", value = "code", dataType = "String", paramType = "query", required = true)
@@ -52,25 +53,26 @@ public class FileShareController {
         }
     }
 
-    @ApiOperation(value = "code")
+    @ApiOperation(value = "通过code得到 文件树id")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "code", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping("/code")
-    public Result<FileShare> selectByCode(@RequestParam(value = "code") String code){
+    public Result<String[]> selectByCode(@RequestParam(value = "code") String code){
         if (StringUtils.isBlank(code)){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
         }
         try {
-            FileShare fileShare = fileShareService.selectByCode(code);
-            logger.info("selectFileTreeById@exec:{}",fileShare);
-            return Result.success(fileShare);
+            String[] treeIds = fileShareService.selectByCode(code);
+            logger.info("selectFileTreeById@exec:{}",treeIds);
+            return Result.success(treeIds);
         }catch (Exception e){
             logger.error("insertSelective@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
     }
 
+    @ApiIgnore
     @ApiOperation(value = "return code")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fileTreeIds", value = "fileTreeIds", dataType = "String", paramType = "query", required = true)

@@ -46,22 +46,23 @@ public class FileShareServiceImpl implements FileShareService {
     }
 
     @Override
-    public FileShare selectByCode(String code) {
+    public String[] selectByCode(String code) {
         FileShare fileShare = new FileShare();
+        String[] treeIds = null;
         try {
             fileShare.setCode(code);
             fileShare = fileShareMapper.selectBySelective(fileShare);
-            String[] fileIds = fileShare.getTreeIds().split(",");
-            for (int i = 0;i<fileIds.length;i++){
-                String id = fileIds[i];
+            treeIds = fileShare.getTreeIds().split(",");
+            for (int i = 0;i<treeIds.length;i++){
+                System.out.println("-----\n" + treeIds[i]);
 
             }
-            logger.info("==== selectFileTreeByName@exec:{} ====", fileShare);
+            logger.info("==== selectFileTreeByName@exec:{} ====", treeIds);
         }catch (Exception e){
             e.printStackTrace();
             logger.error("==== selectFileTreeByName@err:{} ====", e);
         }
-        return fileShare;
+        return treeIds;
     }
 
     @Override
