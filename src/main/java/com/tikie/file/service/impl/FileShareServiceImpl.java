@@ -2,9 +2,7 @@ package com.tikie.file.service.impl;
 
 import com.tikie.file.dao.FileShareMapper;
 import com.tikie.file.model.FileShare;
-import com.tikie.file.model.FileTree;
 import com.tikie.file.service.FileShareService;
-import com.tikie.file.service.FileTreeService;
 import com.tikie.util.StringRandomUtil;
 import com.tikie.util.UUIDUtil;
 import org.slf4j.Logger;
@@ -31,12 +29,10 @@ public class FileShareServiceImpl implements FileShareService {
 
     @Override
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
-    public Boolean insertSelective(String fileTreeIds) {
+    public Boolean insertSelective(String fileTreeIds, String code) {
         int state = 0;
         FileShare fileShare = new FileShare();
-        String code = null;
         try{
-            code = StringRandomUtil.getStringRandom(24);
             fileShare.setId(UUIDUtil.getUUID());
             fileShare.setTreeIds(fileTreeIds);
             fileShare.setCode(code);
@@ -55,6 +51,11 @@ public class FileShareServiceImpl implements FileShareService {
         try {
             fileShare.setCode(code);
             fileShare = fileShareMapper.selectBySelective(fileShare);
+            String[] fileIds = fileShare.getTreeIds().split(",");
+            for (int i = 0;i<fileIds.length;i++){
+                String id = fileIds[i];
+
+            }
             logger.info("==== selectFileTreeByName@exec:{} ====", fileShare);
         }catch (Exception e){
             e.printStackTrace();

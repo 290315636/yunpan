@@ -8,7 +8,7 @@ import com.tikie.file.model.FileShare;
  */
 public interface FileShareService {
 
-    Boolean insertSelective(String fileTreeIds);
+    Boolean insertSelective(String fileTreeIds, String code);
 
     FileShare selectByCode(String code);
 

@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -33,16 +32,17 @@ public class FileShareController {
 
     @ApiOperation(value = "插入分享码")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "fileTreeIds", value = "文件树id, 多个用 ','分隔拼接", dataType = "String", paramType = "query", required = true)
+            @ApiImplicitParam(name = "fileTreeIds", value = "文件树id, 多个用 ','分隔拼接", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "code", value = "code", dataType = "String", paramType = "query", required = true)
     })
     @PostMapping("/shareCode")
-    public Result<String> addShareCode(@RequestParam(value = "fileTreeIds") String fileTreeIds){
+    public Result<String> addShareCode(@RequestParam(value = "fileTreeIds") String fileTreeIds, @RequestParam(value = "code") String code){
         if (StringUtils.isBlank(fileTreeIds)){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
         }
         try {
-            boolean code = fileShareService.insertSelective(fileTreeIds);
-            if (code){
+            boolean b = fileShareService.insertSelective(fileTreeIds, code);
+            if (b){
                 return Result.success("success");
             }
             return Result.fail(ExceptionConstant.TFILE_INSERT_FAIL);
@@ -71,20 +71,21 @@ public class FileShareController {
         }
     }
 
-    @ApiOperation(value = "fileTreeIds")
+    @ApiOperation(value = "return code")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fileTreeIds", value = "fileTreeIds", dataType = "String", paramType = "query", required = true)
     })
     @PostMapping("/fileTreeIds")
-    public Result<String> showCode(@RequestParam(value = "fileTreeIds") String fileTreeIds){
+    public Result<Object> showCode(@RequestParam(value = "fileTreeIds") String fileTreeIds){
         if (StringUtils.isBlank(fileTreeIds)){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
         }
         try {
             String s = fileShareService.showCode(fileTreeIds);
             Map<String,Object> map = new HashMap<>();
-            logger.info("showCode@exec:{}",s);
-            return Result.success(s);
+            map.put("code",s);
+            logger.info("showCode@exec:{}",map);
+            return Result.success(map);
         }catch (Exception e){
             logger.error("showCode@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
