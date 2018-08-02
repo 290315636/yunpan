@@ -1,0 +1,51 @@
+
+.fileicon-position {
+	float: right;
+    cursor: default;
+    display: block;
+    height: 26px;
+    width: 26px;
+    margin-right: 8px;
+}
+
+.fileicon-small-pic,.fileicon-small-music,.fileicon-small-excel-red,.fileicon-small-excel-green,.fileicon-small-ppt,
+.fileicon-small-word,.fileicon-small-grain,.fileicon-small-foler {
+    background-image: url(/img/icons_z_6ae3d28.png);
+}
+
+.fileicon-small-pic,.fileicon-small-music,.fileicon-small-excel-red,.fileicon-small-excel-green,.fileicon-small-ppt,
+.fileicon-small-word,.fileicon-small-grain,.fileicon-small-foler {
+    background-repeat: no-repeat;
+}
+
+.fileicon-small-pic {
+    background-position: -596px -306px;
+}
+
+.fileicon-small-music {
+    background-position: -596px -442px;
+}
+
+.fileicon-small-excel-red {
+    background-position: -596px -374px;
+}
+
+.fileicon-small-excel-green {
+    background-position: -596px -238px;
+}
+
+.fileicon-small-ppt {
+    background-position: -596px -204px;
+}
+
+.fileicon-small-word {
+    background-position: -596px -169px;
+}
+
+.fileicon-small-grain {
+    background-position: -596px 1px;
+}
+
+.fileicon-small-foler {
+    background-position: -469px -628px;
+}

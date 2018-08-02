@@ -11,7 +11,6 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.tikie.file.service.TestService;
 import com.tikie.util.UUIDUtil;
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +25,6 @@ import javax.annotation.Resource;
 
 import java.io.File;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author zhaocs
@@ -90,4 +88,8 @@ public class TestServiceTest {
         }
     }
 
+    @Test
+    public void test9() {
+//    	SMTPTransport
+    }
 }

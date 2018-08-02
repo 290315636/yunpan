@@ -12,11 +12,11 @@
     <result column="pid" jdbcType="VARCHAR" property="pid" />
     <result column="reback" jdbcType="VARCHAR" property="reback" />
     <result column="size" jdbcType="VARCHAR" property="size" />
-    <result column="md5" jdbcType="VARCHAR" property="md5" />
+    <result column="thumbnail" jdbcType="VARCHAR" property="md5" />
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, is_file as isFile, name, sort, ctime, utime, file_id as fileId, pid, reback, size, md5
+    id, is_file as isFile, name, sort, ctime, utime, file_id as fileId, pid, reback, size, thumbnail
   </sql>
 
   <insert id="insert" parameterType="com.tikie.file.model.FileTree">
@@ -27,7 +27,7 @@
     values (#{id,jdbcType=VARCHAR}, #{isFile,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, 
       #{sort,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{utime,jdbcType=TIMESTAMP}, 
       #{fileId,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{reback,jdbcType=VARCHAR}, 
-      #{size,jdbcType=VARCHAR}, #{md5,jdbcType=VARCHAR})
+      #{size,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR})
   </insert>
 
   <insert id="insertSelective" parameterType="com.tikie.file.model.FileTree">
@@ -57,8 +57,8 @@
       <if test="size != null">
         size,
       </if>
-      <if test="md5 != null">
-        md5,
+      <if test="thumbnail != null">
+        thumbnail,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -86,8 +86,8 @@
       <if test="size != null">
         #{size},
       </if>
-      <if test="md5 != null">
-        #{md5},
+      <if test="thumbnail != null">
+        #{thumbnail},
       </if>
     </trim>
   </insert>

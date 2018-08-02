@@ -44,9 +44,9 @@ var FileList = function(){
     $("#show-file tr").bind("click", function(){
         $('#file-menu-more').show();	// 显示对应可操作菜单
         if($(this).find(' td:first span').hasClass('glyphicon-check')){
-            $(this).find(' td:first').html('<span class="glyphicon glyphicon-unchecked"  style="cursor:pointer"></span>');
+            $(this).find(' td:first span').replaceWith('<span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span>');
         }else if(!$(this).find(' td:first span').is('glyphicon-check')){
-            $(this).find(' td:first').html('<span class="glyphicon glyphicon-check"  style="cursor:pointer"></span>');
+            $(this).find(' td:first span').replaceWith('<span class="glyphicon glyphicon-check" style="cursor:pointer"></span>');
         }
     });
 
@@ -57,7 +57,7 @@ var FileList = function(){
         before: function(e,context) {
             // execute code before context menu if shown
             $('#file-menu-more').show();	// 显示对应可操作菜单
-            $(context).find('td:first').html('<span class="glyphicon glyphicon-check"  style="cursor:pointer"></span>');
+            $(context).find('td:first span').replaceWith('<span class="glyphicon glyphicon-check" style="cursor:pointer"></span>');
             
 //	       	console.log($(context).find('td:first').data('id'));
 //	       	console.log(this.getMenu().find('ul > li').eq(1).find('a').attr('href'));

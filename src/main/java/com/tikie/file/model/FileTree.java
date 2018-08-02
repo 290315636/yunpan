@@ -23,7 +23,7 @@ public class FileTree implements Serializable {
 
     private String size;
 
-    private String md5;
+    private String thumbnail;
 
     private static final long serialVersionUID = 1L;
 
@@ -107,12 +107,12 @@ public class FileTree implements Serializable {
         this.size = size;
     }
 
-    public String getMd5() {
-        return md5;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public void setMd5(String md5) {
-        this.md5 = md5 == null ? null : md5.trim();
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail == null ? null : thumbnail.trim();
     }
 
     @Override
@@ -137,7 +137,7 @@ public class FileTree implements Serializable {
             && (this.getPid() == null ? other.getPid() == null : this.getPid().equals(other.getPid()))
             && (this.getReback() == null ? other.getReback() == null : this.getReback().equals(other.getReback()))
             && (this.getSize() == null ? other.getSize() == null : this.getSize().equals(other.getSize()))
-            && (this.getMd5() == null ? other.getMd5() == null : this.getMd5().equals(other.getMd5()));
+            && (this.getThumbnail() == null ? other.getThumbnail() == null : this.getThumbnail().equals(other.getThumbnail()));
     }
 
     @Override
@@ -154,7 +154,7 @@ public class FileTree implements Serializable {
         result = prime * result + ((getPid() == null) ? 0 : getPid().hashCode());
         result = prime * result + ((getReback() == null) ? 0 : getReback().hashCode());
         result = prime * result + ((getSize() == null) ? 0 : getSize().hashCode());
-        result = prime * result + ((getMd5() == null) ? 0 : getMd5().hashCode());
+        result = prime * result + ((getThumbnail() == null) ? 0 : getThumbnail().hashCode());
         return result;
     }
 }
