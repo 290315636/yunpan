@@ -8,7 +8,7 @@ package com.tikie.common;
  * 公共枚举集合
  */
 public class CommonEnums {
-	
+	public static final int MQ_QUEUE_MIN_CODE = 1000;
 	/**
 	 * 功能：输出的json字段的值是StatusCode类决定
 	 *      就是说返回状态的值是成功200还是失败400还是错误404，这些值
@@ -54,16 +54,45 @@ public class CommonEnums {
 	        return code;
 	    }
 
-	    public void setCode(int code) {
+	    public String getMessage() {
+	        return message;
+	    }
+	}
+	
+	// activemq枚举--小于1000为队列
+	public enum MQDestination {
+		// 文件处理业务消息队列
+		FILE_QUEUE(10, "file.queue"),
+		// 文件处理业务消息队列--一个消费者消费完所有消息
+		FILE_QUEUE_EXCLUSIVE(11, "file.queue?consumer.exclusive=true"),
+		FILE_QUEUE_EXCLUSIVE_PRIORITY9(12, "file.queue?consumer.exclusive=true&consumer.priority=9"),
+		
+		OTHER_QUEUE(100, "other.queue"),
+		OTHER_QUEUE_EXCLUSIVE(101, "other.queue?consumer.exclusive=true"),
+		OTHER_QUEUE_EXCLUSIVE_PRIORITY9(102, "other.queue?consumer.exclusive=true&consumer.priority=9"),
+		
+		// 文件处理业务消息队列
+		FILE_TOPIC(1000, "file.topic"),
+				
+		OTHER_TOPIC(9999, "other.queue"),
+		
+		
+		;
+		
+		private int code;
+	    private String message;
+
+	    MQDestination(int code, String message) {
 	        this.code = code;
+	        this.message = message;
+	    }
+
+	    public int getCode() {
+	        return code;
 	    }
 
 	    public String getMessage() {
 	        return message;
-	    }
-
-	    public void setMessage(String message) {
-	        this.message = message;
 	    }
 	}
 }

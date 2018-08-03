@@ -70,6 +70,7 @@
     
 ### 历史更新
     
+    1.0.6 实现activemq推送消息
     1.0.5 精细化配置开发环境和生产环境
     1.0.4 规范化数据存储位置:物理存放地址basePath+type+年月
     1.0.3 打通数据库：mybatis + generator + druid + mysql

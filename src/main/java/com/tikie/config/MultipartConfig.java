@@ -5,11 +5,14 @@ package com.tikie.config;
 
 import java.io.File;
 
+import javax.jms.ConnectionFactory;
 import javax.servlet.MultipartConfigElement;
 
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jms.config.JmsListenerContainerFactory;
+import org.springframework.jms.config.SimpleJmsListenerContainerFactory;
 
 /**
  * @author zhaocs
@@ -30,5 +33,14 @@ public class MultipartConfig {
         }
         factory.setLocation(location);
         return factory.createMultipartConfig();
+    }
+    
+    // 在pub/sub模式中，对消息的监听需要对containerFactory进行以下配置
+    @Bean
+    JmsListenerContainerFactory<?> myJmsContainerFactory(ConnectionFactory connectionFactory){
+    	SimpleJmsListenerContainerFactory factory = new SimpleJmsListenerContainerFactory();
+    	factory.setConnectionFactory(connectionFactory);
+    	factory.setPubSubDomain(true);
+    	return factory;
     }
 }

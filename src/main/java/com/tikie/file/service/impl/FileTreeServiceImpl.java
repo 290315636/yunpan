@@ -3,6 +3,8 @@ package com.tikie.file.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.tikie.common.CommonEnums.MQDestination;
+import com.tikie.file.active.Producer;
 import com.tikie.file.dao.FileTreeMapper;
 import com.tikie.file.model.FileTree;
 import com.tikie.file.model.SuperTreeVo;
@@ -45,6 +47,9 @@ public class FileTreeServiceImpl implements FileTreeService {
     @Resource
     private TFileService tFileService;
 
+    @Resource
+    Producer producer;
+    
     @Override
     public Boolean insert(FileTree record) {
         return null;
@@ -100,6 +105,7 @@ public class FileTreeServiceImpl implements FileTreeService {
                 tree.setPid(pid); 
                 tree.setSize(FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
                 state = fileTreeMapper.insertSelective(tree);
+                producer.send(MQDestination.FILE_QUEUE, tree);
                 continue;
             }
 
@@ -152,6 +158,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             tree.setSize(FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
             // 更新文件树 到数据库
             state = fileTreeMapper.insertSelective(tree);
+            producer.send(MQDestination.FILE_QUEUE, tree);
         }
         return state > 0;
     }

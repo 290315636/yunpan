@@ -3,6 +3,7 @@ package com.tikie.file;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.jms.annotation.EnableJms;
 import org.mybatis.spring.annotation.MapperScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -13,6 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @SpringBootApplication
 @EnableSwagger2
+@EnableJms
 @ComponentScan("com.tikie")
 @MapperScan("com.tikie.*.dao")
 public class TikieBootstrapFileuploadApplication {

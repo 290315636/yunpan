@@ -61,8 +61,8 @@ var FileList = function(){
             
 //	       	console.log($(context).find('td:first').data('id'));
 //	       	console.log(this.getMenu().find('ul > li').eq(1).find('a').attr('href'));
-//	       	this.getMenu().find('ul > li').eq(0).find('a').prop('href', '/file/download?id='+$(context).find('td:first').data('id'));
-	       	this.getMenu().find('ul > li').eq(0).find('a').prop('href', '../file-tree/downloads?fileId='+$(context).find('td:first').data('id'));
+	       	this.getMenu().find('ul > li').eq(0).find('a').prop('href', '/file/download?id='+$(context).find('td:first').data('id'));
+//	       	this.getMenu().find('ul > li').eq(0).find('a').prop('href', '../file-tree/downloads?fileId='+$(context).find('td:first').data('id'));
         },
         onItem: function(context,e) {
             // execute on menu item selection

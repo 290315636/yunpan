@@ -25,6 +25,14 @@ tikie:
       path: c:\vfs\yunpan\  # 物理存放地址basePath+type+年月
       
 spring:
+  activemq:
+    broker-url: tcp://192.168.1.248:61616
+    user: admin
+    password: admin
+    pool:
+      enabled: false
+    packages:
+      trust-all: true #注意 对象传输需开启包白名单 否则会报错
   servlet:
     multipart:
       max-file-size: 10Mb  # 单个文件上传大小

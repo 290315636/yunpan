@@ -9,6 +9,9 @@ package com.tikie.file;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.tikie.common.CommonEnums.MQDestination;
+import com.tikie.file.active.Producer;
+import com.tikie.file.active.Publisher;
 import com.tikie.file.service.TestService;
 import com.tikie.util.UUIDUtil;
 import org.junit.Ignore;
@@ -25,6 +28,8 @@ import javax.annotation.Resource;
 
 import java.io.File;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author zhaocs
@@ -40,6 +45,12 @@ public class TestServiceTest {
     
     @Value("${tikie.project.upload.path}")
     private String path;
+    
+    @Resource
+    Producer producer;
+    
+    @Resource
+    Publisher publisher;
     
     @Test
     public void test1() {
@@ -89,7 +100,21 @@ public class TestServiceTest {
     }
 
     @Test
-    public void test9() {
-//    	SMTPTransport
+    public void test10() {
+    	for(int i=0;i<10;i++) {
+    		Map<String, Object> map = new HashMap<>();
+    		map.put("name", "zhang" + i);
+    		map.put("age", 20 + i);
+    		map.put("sex", i%2==0?"男":"女");
+    		
+    		producer.send(MQDestination.FILE_QUEUE, map.toString());
+    	}
+    }
+    
+    @Test
+    public void test11() {
+    	for(int i=0;i<10;i++) {
+    		publisher.publish("test.topic", "生产消息" + i);
+    	}
     }
 }
