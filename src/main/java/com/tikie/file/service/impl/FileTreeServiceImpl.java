@@ -74,24 +74,18 @@ public class FileTreeServiceImpl implements FileTreeService {
         for (MultipartFile item : files.values()) {
             String fileName = item.getOriginalFilename();    // 当前上传文件全名称
             String fileType = item.getContentType();         // 当前上传文件类型
-            String addr = baseFilePath + fileName;         // 保存到服务器目录的文件全路径
-            long size = item.getSize();                    // 文件大小
+            String addr = baseFilePath + fileName;           // 只做目录下校验是否已存在
+            long size = item.getSize();                      // 文件大小
             String thumbnail = StringUtils.EMPTY;
             // 处理缩略图
             for(FileTreeThumbnail nail :FileTreeThumbnail.values()) {
-            	if(fileType.toLowerCase().contains(nail.getMessage())) {
+            	if(fileType.toLowerCase().contains(nail.getType())) {
                 	thumbnail = nail.getCss();
                 }
             }
 
-//            logger.info("文件名称：{}", fileName);
-//            logger.info("文件类型：{}", fileType);
-//            logger.info("文件物理地址：{}", addr);
-//            logger.info("文件大小：{}", FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
-
             File savedFile = new File(baseFilePath, fileName);
-//            String md5 = MD5Util.getFileMD5(savedFile);
-            logger.info("文件md5：{}", md5);
+//            logger.info("文件md5：{}", md5);
             String fileId = StringUtils.EMPTY;
             Boolean hasMd5 = tFileService.checkMd5FromDB(md5);
 
@@ -115,7 +109,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             }
 
             fileId = UUIDUtil.getUUID();
-            TFile file = new TFile(fileId, fileName, "#", size, addr, fileType, md5);
+            TFile file = new TFile(fileId, fileName, "#", size, baseFilePath, fileType, md5);
             // 需要保存文件
             // 查询目录下是否存在同名文件
             Boolean hasFile = FileUtil.checkFileIsExists(addr);
@@ -306,6 +300,8 @@ public class FileTreeServiceImpl implements FileTreeService {
             fileTree.setPid(pid);
             fileTree.setCtime("now");
             fileTree.setUtime("now");
+            fileTree.setThumbnail(FileTreeThumbnail.FOLDER.getCss());
+            fileTree.setType(FileTreeThumbnail.FOLDER.getType());
             state =  fileTreeMapper.insertSelective(fileTree);
             logger.info("createNewFolder@exec:{}",state);
         }catch (Exception e){

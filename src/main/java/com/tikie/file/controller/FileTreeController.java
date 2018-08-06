@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -186,7 +185,7 @@ public class FileTreeController {
             @ApiImplicitParam(name = "name", value = "name", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "pid", value = "pid", dataType = "String", paramType = "query")
     })
-    @PostMapping("/folder")
+    @PostMapping("/addFolder")
     public Result<String> createNewFolder(@RequestParam(value = "name") String name, @RequestParam(value = "pid",defaultValue = "#") String pid) {
         if (StringUtils.isBlank(name)){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
@@ -198,7 +197,7 @@ public class FileTreeController {
             }
             return Result.fail(ExceptionConstant.TFILE_INSERT_FAIL);
         }catch (Exception e){
-            logger.error("insertSelective@err:{}",e);
+            logger.error("createNewFolder@err:{}", e.getMessage());
             return Result.fail(ExceptionConstant.TFILE_INSERT_FAIL);
         }
     }

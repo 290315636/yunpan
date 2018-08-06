@@ -64,7 +64,7 @@ var FileInput = function () {
 	            uploadUrl: uploadUrl,                                   //上传的地址
 //	            allowedFileExtensions: ['jpg', 'gif', 'png'],    		//接收的文件后缀
 	            showClose : true,										//显示右上角X关闭
-	            showRemove : false,										//显示移除按钮,跟随文本框的那个
+	            showRemove : true,										//显示移除按钮,跟随文本框的那个
 	            showUpload : false,										//是否显示上传后的按钮
 	            showBrowse : true,										//是否显示上传前的上传按钮
 	            showCaption: true,                                     //是否显示标题
@@ -84,6 +84,7 @@ var FileInput = function () {
 	            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
 	            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
 	            uploadExtraData:function (previewId, index) {
+	            	console.log($('.breadcrumb > li:last').data('pid'));
 	            	//传参
 	        	    var data = {
 	        	    	"pid": "1",

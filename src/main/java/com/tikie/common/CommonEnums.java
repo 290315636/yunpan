@@ -103,19 +103,19 @@ public class CommonEnums {
 		
 		private String css;
 
-	    private String message;
+	    private String type;
 
-	    FileTreeThumbnail(String css, String message) {
+	    FileTreeThumbnail(String css, String type) {
 	        this.css = css;
-	        this.message = message;
+	        this.type = type;
 	    }
 
 	    public String getCss() {
 	        return css;
 	    }
 
-	    public String getMessage() {
-	        return message;
+	    public String getType() {
+	        return type;
 	    }
 	}
 }

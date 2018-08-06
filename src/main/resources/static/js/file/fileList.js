@@ -41,13 +41,17 @@ var FileList = function(){
     });
 
 	// 点击文件列表后选中和取消
-    $("#show-file tr").bind("click", function(){
-        $('#file-menu-more').show();	// 显示对应可操作菜单
-        if($(this).find(' td:first span').hasClass('glyphicon-check')){
-            $(this).find(' td:first span').replaceWith('<span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span>');
-        }else if(!$(this).find(' td:first span').is('glyphicon-check')){
-            $(this).find(' td:first span').replaceWith('<span class="glyphicon glyphicon-check" style="cursor:pointer"></span>');
-        }
+    $("#show-file").on("click", "tr", function(){
+    	if($(this).index()==0 && $(this).find('input').is('input')){
+    		// 新建文件夹生成的一条记录
+    	}else{
+    		$('#file-menu-more').show();	// 显示对应可操作菜单
+            if($(this).find(' td:first span').hasClass('glyphicon-check')){
+                $(this).find(' td:first span').replaceWith('<span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span>');
+            }else if(!$(this).find(' td:first span').is('glyphicon-check')){
+                $(this).find(' td:first span').replaceWith('<span class="glyphicon glyphicon-check" style="cursor:pointer"></span>');
+            }
+    	}
     });
 
 	// 右键菜单
@@ -69,6 +73,39 @@ var FileList = function(){
         }
     });
 
+    // 点击路径导航事件
+    $('.breadcrumb > li').bind("click", function(){
+    	$(this).addClass("active").siblings().removeClass("active");
+    	$(this).html($(this).find('a').html());
+    	$(this).nextAll().remove();
+    });
+    
+    // 点击新建文件夹
+    $('.glyphicon-plus').parent().bind("click", function(){
+    	var nowTime=new Date().Format("yyyy-MM-dd HH:mm:ss");
+    	var str = '<tr>                                                                         '+
+    	'  <td class="col-md-1" data-id="">                                           '+
+    	'	<span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span>'+
+    	'	<div class="fileicon-position fileicon-small-foler"></div>                '+
+    	'  </td>                                                                      '+
+    	'  <td>                                                                       '+
+    	'	<div class="input-group input-group-sm">                                              '+
+    	'	    <input type="text" class="form-control" placeholder="新建文件夹" aria-label="...">             '+
+    	'		<div class="input-group-btn">                                         '+
+    	'		  <button onclick="FileList.folderCancel()" class="btn btn-default glyphicon glyphicon-remove" type="button"></button>          '+
+    	'		  <button onclick="FileList.folderConfirm(this)" class="btn btn-default glyphicon glyphicon-ok" type="button"></button>          '+
+    	'		</div>                                                                '+
+    	'	</div>                                                                    '+
+    	'  </td>                                                                      '+
+    	'  <td>0</td>                                                                 '+
+    	'  <td>'+nowTime+'</td>                                                                  '+
+    	'</tr>                                                                        ';
+//    	console.log(str);
+    	
+    	$('#show-file tbody').prepend(str);
+    });
+    
+    
 	// 显示菜单时
     // $('#show-file tr').on('show.bs.context',function () {
      //    // do something...
@@ -100,6 +137,33 @@ var FileList = function(){
         uploadFile: function(){
         	// <input type="file" name="fileUpload" id="fileUpload" multiple />
         	
+        },
+        folderCancel: function(){
+        	$('#show-file tr:first').remove();
+        },
+        folderConfirm: function(_this, url){// 添加文件夹到数据库
+        	if(!url)url = "/file-tree/addFolder";
+        	var name = $(_this).parent().parent().find('input').val();
+        	var pid = $('#breadcrumb').find('li:last').data('pid');
+        	if(!name){
+        		Message.showMsg('文件夹名称不能为空！', 'warn');
+        		FileList.folderCancel();
+        		return;
+        	}else if(!pid){
+        		Message.showMsg('非法操作！', 'error');
+        		FileList.folderCancel();
+        		return;
+        	}
+        	
+        	$.post(url, {name:name,pid:pid}, function (data) {
+            	if(data.isSuccess){
+            		Message.showMsg('新建文件夹成功！', 'success');
+            		$(_this).parent().parent().html(name);
+            	}else{
+            		Message.showMsg('新建文件夹失败,请稍后重试！', 'error');
+            		FileList.folderCancel();
+            	}
+            });
         }
 	}
 }();
