@@ -43,6 +43,7 @@ public class CommonEnums {
 	    UNKNOWN_ERROR(499, "未知错误");
 
 	    private int code;
+
 	    private String message;
 
 	    StatusCode(int code, String message) {
@@ -74,10 +75,7 @@ public class CommonEnums {
 		// 文件处理业务消息队列
 		FILE_TOPIC(1000, "file.topic"),
 				
-		OTHER_TOPIC(9999, "other.queue"),
-		
-		
-		;
+		OTHER_TOPIC(9999, "other.queue");
 		
 		private int code;
 	    private String message;
@@ -89,6 +87,31 @@ public class CommonEnums {
 
 	    public int getCode() {
 	        return code;
+	    }
+
+	    public String getMessage() {
+	        return message;
+	    }
+	}
+	
+	// 缩略图
+	public enum FileTreeThumbnail{
+		// 图片类型
+		IMAGE("fileicon-position fileicon-small-pic", "image"),
+		// 文件夹类型类型
+		FOLDER("fileicon-position fileicon-small-foler", "folder");
+		
+		private String css;
+
+	    private String message;
+
+	    FileTreeThumbnail(String css, String message) {
+	        this.css = css;
+	        this.message = message;
+	    }
+
+	    public String getCss() {
+	        return css;
 	    }
 
 	    public String getMessage() {

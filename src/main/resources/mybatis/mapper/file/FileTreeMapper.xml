@@ -12,22 +12,23 @@
     <result column="pid" jdbcType="VARCHAR" property="pid" />
     <result column="reback" jdbcType="VARCHAR" property="reback" />
     <result column="size" jdbcType="VARCHAR" property="size" />
-    <result column="thumbnail" jdbcType="VARCHAR" property="md5" />
+    <result column="thumbnail" jdbcType="VARCHAR" property="thumbnail" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, is_file as isFile, name, sort, ctime, utime, file_id as fileId, pid, reback, size, thumbnail
+    id, is_file as isFile, name, sort, ctime, utime, file_id as fileId, pid, reback, size, thumbnail, type
   </sql>
 
   <insert id="insert" parameterType="com.tikie.file.model.FileTree">
     insert into tb_file_tree (id, is_file, name, 
       sort, ctime, utime, 
       file_id, pid, reback, 
-      size, md5)
+      size, thumbnail, type)
     values (#{id,jdbcType=VARCHAR}, #{isFile,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, 
       #{sort,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{utime,jdbcType=TIMESTAMP}, 
       #{fileId,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{reback,jdbcType=VARCHAR}, 
-      #{size,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR})
+      #{size,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
   </insert>
 
   <insert id="insertSelective" parameterType="com.tikie.file.model.FileTree">
@@ -60,6 +61,9 @@
       <if test="thumbnail != null">
         thumbnail,
       </if>
+      <if test="type != null">
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -88,6 +92,9 @@
       </if>
       <if test="thumbnail != null">
         #{thumbnail},
+      </if>
+      <if test="type != null">
+        #{type},
       </if>
     </trim>
   </insert>
@@ -118,11 +125,16 @@
 
   <!-- 删除一条树形文件记录-->
   <update id="deleteFileTreeByOneId" parameterType="com.tikie.file.model.FileTree">
-        UPDATE tb_file_tree
-        SET reback = #{fileTree.reback}
-        WHERE
-	      id = #{fileTree.id}
-    </update>
+      UPDATE tb_file_tree
+      SET reback = #{fileTree.reback}
+      WHERE
+     id = #{fileTree.id}
+  </update>
+    
+  <!-- 更新文件夹的大小-->
+  <update id="updateFileTreeFolderSize" parameterType="com.tikie.file.model.FileTree">
+      UPDATE `tb_file_tree` SET size = IFNULL(size, 0) + (SELECT size FROM `tb_file` WHERE id = #{fileId})WHERE id = #{pid}
+  </update>
 
   <!-- 重命名一条树形文件记录-->
   <update id="reanameFileTreeByOneId" parameterType="com.tikie.file.model.FileTree">

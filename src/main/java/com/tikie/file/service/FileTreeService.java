@@ -1,10 +1,6 @@
 package com.tikie.file.service;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
 import com.tikie.file.model.FileTree;
-import com.tikie.file.model.SuperTreeVo;
-import com.tikie.file.model.TFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,4 +44,12 @@ public interface FileTreeService {
     Map<String,Object> detail(String id);
 
     void downloads(String fileId, HttpServletRequest request, HttpServletResponse response);
+    
+    /**
+     * 更新文件夹的大小
+     * @param record.fileId		源文件id
+     * @param record.folderId		文件夹id
+     * @return
+     */
+    Boolean updateFileTreeFolderSize(FileTree record);
 }

@@ -24,6 +24,8 @@ public class FileTree implements Serializable {
     private String size;
 
     private String thumbnail;
+    
+    private String type;
 
     private static final long serialVersionUID = 1L;
 
@@ -115,7 +117,15 @@ public class FileTree implements Serializable {
         this.thumbnail = thumbnail == null ? null : thumbnail.trim();
     }
 
-    @Override
+    public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	@Override
     public boolean equals(Object that) {
         if (this == that) {
             return true;
@@ -157,4 +167,12 @@ public class FileTree implements Serializable {
         result = prime * result + ((getThumbnail() == null) ? 0 : getThumbnail().hashCode());
         return result;
     }
+
+	@Override
+	public String toString() {
+		return "FileTree [id=" + id + ", isFile=" + isFile + ", name=" + name + ", sort=" + sort + ", ctime=" + ctime
+				+ ", utime=" + utime + ", fileId=" + fileId + ", pid=" + pid + ", reback=" + reback + ", size=" + size
+				+ ", thumbnail=" + thumbnail + ", type=" + type + "]";
+	}
+
 }

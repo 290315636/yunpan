@@ -1,25 +1,22 @@
 package com.tikie.file.service.impl;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.tikie.common.CommonEnums.FileTreeThumbnail;
 import com.tikie.common.CommonEnums.MQDestination;
 import com.tikie.file.active.Producer;
 import com.tikie.file.dao.FileTreeMapper;
 import com.tikie.file.model.FileTree;
-import com.tikie.file.model.SuperTreeVo;
 import com.tikie.file.model.TFile;
 import com.tikie.file.service.TFileService;
 import com.tikie.file.service.FileTreeService;
 import com.tikie.util.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -63,10 +60,9 @@ public class FileTreeServiceImpl implements FileTreeService {
             FileTree tree = new FileTree();
             tree.setId(UUIDUtil.getUUID());
             state =  fileTreeMapper.insertSelective(record);
-            logger.info("insertSelective@exec:{}",tree);
+            logger.info("insertSelective@exec:{}", tree);
         }catch (Exception e){
-            e.printStackTrace();
-            logger.error("insertSelective@err:{}",e);
+            logger.error("insertSelective@err:{}", e.getMessage());
         }
         return state > 0;
     }
@@ -80,6 +76,13 @@ public class FileTreeServiceImpl implements FileTreeService {
             String fileType = item.getContentType();         // 当前上传文件类型
             String addr = baseFilePath + fileName;         // 保存到服务器目录的文件全路径
             long size = item.getSize();                    // 文件大小
+            String thumbnail = StringUtils.EMPTY;
+            // 处理缩略图
+            for(FileTreeThumbnail nail :FileTreeThumbnail.values()) {
+            	if(fileType.toLowerCase().contains(nail.getMessage())) {
+                	thumbnail = nail.getCss();
+                }
+            }
 
 //            logger.info("文件名称：{}", fileName);
 //            logger.info("文件类型：{}", fileType);
@@ -103,6 +106,8 @@ public class FileTreeServiceImpl implements FileTreeService {
                 tree.setName(fileName);
                 tree.setFileId(fileId);
                 tree.setPid(pid); 
+                tree.setType(fileType);
+                tree.setThumbnail(thumbnail);
                 tree.setSize(FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
                 state = fileTreeMapper.insertSelective(tree);
                 producer.send(MQDestination.FILE_QUEUE, tree);
@@ -129,32 +134,35 @@ public class FileTreeServiceImpl implements FileTreeService {
                     handle.add(failedFile);
                     continue;
                 }
+            }else {
+            	// 存在同名文件
+                String subfix = StringUtils.substringAfterLast(fileName, ".");
+                String savedName = UUIDUtil.getUUID() + "." + subfix;
+                File savedFil = new File(baseFilePath, savedName);
+                try {
+                    item.transferTo(savedFil);// 保存
+                    // 更新文件数据到数据库
+                    file.setName(savedName);
+                    Boolean isSa = tFileService.insertSelective(file);
+                    logger.info("insertSelective@exec:{}",isSa);
+                } catch (IOException | IllegalStateException e) {
+                    logger.error(e.getMessage());
+                    Map<String, Object> failedFile = new HashMap<>();
+                    failedFile.put("name", fileName);
+                    failedFile.put("size", size); // 转化单位
+                    handle.add(failedFile);
+                    continue;
+                }
             }
-            // 存在同名文件
-            String subfix = StringUtils.substringAfterLast(fileName, ".");
-            String savedName = UUIDUtil.getUUID() + "." + subfix;
-            File savedFil = new File(baseFilePath, savedName);
-            try {
-                item.transferTo(savedFil);// 保存
-                // 更新文件数据到数据库
-                file.setName(savedName);
-                Boolean isSa = tFileService.insertSelective(file);
-                logger.info("insertSelective@exec:{}",isSa);
-            } catch (IOException | IllegalStateException e) {
-                logger.error(e.getMessage());
-                Map<String, Object> failedFile = new HashMap<>();
-                failedFile.put("name", fileName);
-                failedFile.put("size", size); // 转化单位
-                handle.add(failedFile);
-                continue;
-            }
-
+            
             FileTree tree = new FileTree();
             tree.setId(UUIDUtil.getUUID());
             tree.setName(fileName);
             tree.setFileId(fileId);
             tree.setIsFile(true);
             tree.setPid(pid);
+            tree.setType(fileType);
+            tree.setThumbnail(thumbnail);
             tree.setSize(FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
             // 更新文件树 到数据库
             state = fileTreeMapper.insertSelective(tree);
@@ -171,8 +179,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             state =  fileTreeMapper.delete(id);
             logger.info("removeFile@exec:{}",state);
         }catch (Exception e){
-            e.printStackTrace();
-            logger.error("removeFile@err:{}",e);
+            logger.error("removeFile@err:{}", e.getMessage());
         }
         return state > 0;
     }
@@ -187,8 +194,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             list = fileTreeMapper.selectTreeSelective(fileTree);
             logger.info("==== selectListTreeBySuper@exec:{} ====", list);
         }catch (Exception e){
-            e.printStackTrace();
-            logger.error("==== selectListTreeBySuper@err:{} ====", e);
+            logger.error("==== selectListTreeBySuper@err:{} ====", e.getMessage());
         }
         return list;
     }
@@ -203,8 +209,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             list = fileTreeMapper.selectTreeSelective(fileTree);
             logger.info("==== selectListTreeBySuper@exec:{} ====", list);
         }catch (Exception e){
-            e.printStackTrace();
-            logger.error("==== selectListTreeBySuper@err:{} ====", e);
+            logger.error("==== selectListTreeBySuper@err:{} ====", e.getMessage());
         }
         return list;
     }
@@ -218,8 +223,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
             logger.info("==== selectFileTreeById@exec:{} ====", fileTree);
         }catch (Exception e){
-            e.printStackTrace();
-            logger.error("==== selectFileTreeById@err:{} ====", e);
+            logger.error("==== selectFileTreeById@err:{} ====", e.getMessage());
         }
         return fileTree;
     }
@@ -234,8 +238,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             list = fileTreeMapper.selectTreeSelective(fileTree);
             logger.info("==== selectFileTreeByPid@exec:{} ====", list);
         }catch (Exception e){
-            e.printStackTrace();
-            logger.error("==== selectFileTreeByPid@err:{} ====", e);
+            logger.error("==== selectFileTreeByPid@err:{} ====", e.getMessage());
         }
         return list;
     }
@@ -250,8 +253,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             list = fileTreeMapper.selectTreeSelective(fileTree);
             logger.info("==== selectFileTreeByName@exec:{} ====", list);
         }catch (Exception e){
-            e.printStackTrace();
-            logger.error("==== selectFileTreeByName@err:{} ====", e);
+            logger.error("==== selectFileTreeByName@err:{} ====", e.getMessage());
         }
         return list;
     }
@@ -268,8 +270,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             state = fileTreeMapper.deleteFileTreeByOneId(fileTree);
             logger.info("==== deleteFileTreeByOneId@exec:{} ====", state);
         }catch (Exception e){
-            e.printStackTrace();
-            logger.error("==== deleteFileTreeByOneId@err:{} ====", e);
+            logger.error("==== deleteFileTreeByOneId@err:{} ====", e.getMessage());
         }
         return state > 0;
     }
@@ -288,8 +289,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             state = fileTreeMapper.reanameFileTreeByOneId(fileTree);
             logger.info("==== deleteFileTreeByOneId@exec:{} ====", state);
         }catch (Exception e){
-            e.printStackTrace();
-            logger.error("==== deleteFileTreeByOneId@err:{} ====", e);
+            logger.error("==== deleteFileTreeByOneId@err:{} ====", e.getMessage());
         }
         return state > 0;
     }
@@ -331,8 +331,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             state =  fileTreeMapper.insertSelective(fileTree);
             logger.info("copyFile@exec:{}",state);
         }catch (Exception e){
-            e.printStackTrace();
-            logger.error("copyFile@err:{}",e);
+            logger.error("copyFile@err:{}", e.getMessage());
         }
         return state > 0;
     }
@@ -356,8 +355,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             }
             logger.info("copyFile@exec:{}",state);
         }catch (Exception e){
-            e.printStackTrace();
-            logger.error("copyFile@err:{}",e);
+            logger.error("copyFile@err:{}", e.getMessage());
         }
         return state > 0;
     }
@@ -393,7 +391,7 @@ public class FileTreeServiceImpl implements FileTreeService {
         String[] filePath = new String[fileIds.length];
 
         String[] s = new String[fileIds.length];
-        int ma = fileIds.length;
+//        int ma = fileIds.length;
         String name = null;
         for (int i = 0; i < fileIds.length; i++) {
             String id = fileIds[i];
@@ -481,4 +479,18 @@ public class FileTreeServiceImpl implements FileTreeService {
         }
         return null;
     }
+
+	@Override
+	public Boolean updateFileTreeFolderSize(FileTree record) {
+		Assert.assertNotNull(record.getFileId());
+		Assert.assertNotNull(record.getPid());
+		int state = 0;
+		try {
+			state = fileTreeMapper.updateFileTreeFolderSize(record);
+			logger.info("updateFileTreeFolderSize@exec:{}", state);
+		}catch(Exception e) {
+			logger.error("updateFileTreeFolderSize@err:{}", e.getMessage());
+		}
+		return state >=0;
+	}
 }

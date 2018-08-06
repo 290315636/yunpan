@@ -10,6 +10,8 @@ import javax.jms.Destination;
 
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import com.tikie.common.CommonEnums.MQDestination;
  */
 @Service
 public class Producer {
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Resource
 	private JmsMessagingTemplate jmsMessagingTemplate;
 	
@@ -33,6 +37,10 @@ public class Producer {
 			target = new ActiveMQQueue(destination.getMessage());
 		}else {
 			target = new ActiveMQTopic(destination.getMessage());
+		}
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("异步消息处理 >>[发送]>>文件上传：{}", message.toString());
 		}
 		
 		jmsMessagingTemplate.convertAndSend(target, message);

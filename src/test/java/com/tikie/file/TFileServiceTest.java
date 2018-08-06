@@ -1,4 +1,4 @@
-package com.tikie.file.service.impl;
+package com.tikie.file;
 
 import com.tikie.file.model.TFile;
 import com.tikie.file.service.TFileService;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class TFileServiceImplTest {
+public class TFileServiceTest {
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
