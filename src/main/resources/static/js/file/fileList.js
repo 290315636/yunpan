@@ -219,6 +219,44 @@ var FileList = function(){
             		Message.showMsg('删除失败:' + msg.resultMsg, 'error');
             	}
         	}, {}, 'delete');
+        },
+        file2Rename: function(_this){
+        	var targetRecord = $('#show-file tr').eq($(_this).data('record-index')).find('td:eq(1)');
+        	var id = $('#show-file tr').eq($(_this).data('record-index')).find('td:eq(0)').data('id').trim();
+        	var old = $(targetRecord).html().trim();
+        	var str = '	<div class="input-group input-group-sm">                                              '+
+        	'	    <input type="text" class="form-control" placeholder="'+old+'" value="'+old+'" aria-label="...">             '+
+        	'		<div class="input-group-btn">                                         '+
+        	'		  <button onclick="FileList.fileRenameCancel(this,\''+old+'\');" class="btn btn-default glyphicon glyphicon-remove" type="button"></button>'+
+        	'		  <button onclick="FileList.fileRenameConfirm(this,\''+id+'\',\''+old+'\');" class="btn btn-default glyphicon glyphicon-ok" type="button"></button>'+
+        	'		</div>                                                                '+
+        	'	</div>                                                                    ';
+        	$(targetRecord).html(str);
+        },
+        fileRenameCancel: function(_this, old){
+        	$(_this).parent().parent().parent().html(old);
+        },
+        fileRenameConfirm: function(_this, id, old){
+        	var name = $(_this).parent().parent().find('input').val();
+        	console.log(name);
+        	if(!name){
+        		Message.showMsg('名称不能为空！', 'warn');
+        		FileList.fileRenameCancel(_this, old);
+        		return;
+        	}else if(!id){
+        		Message.showMsg('非法操作！', 'error');
+        		FileList.fileRenameCancel(_this, old);
+        		return;
+        	}
+        	var url = "/file-tree/rename?id=" + id + '&name=' + name;
+        	FileList.sendRequest(url, function(msg){
+        		if(msg.isSuccess){
+            		Message.showMsg('重命名成功！', 'success');
+            		FileList.fileRenameCancel(_this, name);
+            	}else{
+            		Message.showMsg('重命名失败:' + msg.resultMsg, 'error');
+            	}
+        	}, {}, 'put');
         }
 	}
 }();
