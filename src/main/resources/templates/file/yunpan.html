@@ -77,7 +77,7 @@
 		<ul class="dropdown-menu" role="menu">
 			<li><a th:href="@{#}"><span class="glyphicon glyphicon-cloud-download"></span> 下载</a></li>
 			<li onclick="FileList.fileReback(this);"><a th:href="@{#}" tabindex="-1"><span class="glyphicon glyphicon-trash"></span> 删除</a></li>
-			<li><a th:href="@{#}" data-toggle="modal" data-target="#renameModal"><span class="glyphicon glyphicon-edit"></span> 重命名</a></li>
+			<li onclick="FileList.file2Rename(this);"><a th:href="@{#}" data-toggle="modal" data-target="#renameModal"><span class="glyphicon glyphicon-edit"></span> 重命名</a></li>
 			<li><a th:href="@{#}" data-toggle="modal" data-target="#removeModal"><span class="glyphicon glyphicon-cloud-move"></span> 移动到</a></li>
 		</ul>
 	</div>

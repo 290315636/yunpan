@@ -277,14 +277,11 @@ public class FileTreeServiceImpl implements FileTreeService {
         FileTree fileTree = new FileTree();
         try {
             fileTree.setId(id);
-            fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
-            String type = StringUtils.substringAfterLast(fileTree.getName(),".");
-            name = name + "." + type;
             fileTree.setName(name);
             state = fileTreeMapper.reanameFileTreeByOneId(fileTree);
-            logger.info("==== deleteFileTreeByOneId@exec:{} ====", state);
+            logger.info("==== reanameFileTreeByOneId@exec:{} ====", state);
         }catch (Exception e){
-            logger.error("==== deleteFileTreeByOneId@err:{} ====", e.getMessage());
+            logger.error("==== reanameFileTreeByOneId@err:{} ====", e.getMessage());
         }
         return state > 0;
     }
