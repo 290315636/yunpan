@@ -108,7 +108,6 @@ var FileList = function(){
     	'  <td>0</td>                                                                 '+
     	'  <td>'+nowTime+'</td>                                                                  '+
     	'</tr>                                                                        ';
-//    	console.log(str);
     	
     	$('#show-file tbody').prepend(str);
     });
@@ -129,11 +128,7 @@ var FileList = function(){
 		init: function(){
 //			IndexInit.showMessage("您好，欢迎使用本系统!");
 //			IndexInit.showMessage("您好，我是您的小密，有事请找我!");
-//			console.log(jQuery('#show-file').html());
-//			jQuery('#show-file').bind('click', function(){
-//				console.log('here');
-//			});
-//			Message.init();
+			Message.init();
 			// 参数1:控件id、参数2:上传地址
 	        FileInput.init("fileUpload", "/file/upload"); 
 		},
@@ -166,40 +161,64 @@ var FileList = function(){
         	$.post(url, {name:name,pid:pid}, function (data) {
             	if(data.isSuccess){
             		Message.showMsg('新建文件夹成功！', 'success');
-            		$(_this).parent().parent().html(name);
+//            		$(_this).parent().parent().html(name);// TODO 新增的记录监听不到右键事件
+            		window.location.href = '/file/yunpan';
             	}else{
             		Message.showMsg('新建文件夹失败,请稍后重试！', 'error');
             		FileList.folderCancel();
             	}
             });
         },
-        fileDelete: function(_this, url){
-        	if(!url)url = "/file-tree/delete?id=";
+        sendRequest: function(url, callback, data, method){
+        	if(!data)data = {};
+        	if(!method)method = 'post';
+        	$.ajax({
+                url: url,
+                type: method,
+                contentType: "application/json",
+                dataType: "json",
+                data: data,
+                success: function(msg){
+                	callback(msg);
+                },
+                error: function(xhr, textstatus, thrown){
+                	Message.showMsg('操作失败,请稍后重试！', 'error');
+                }
+            });
+        },
+        fileReback: function(_this, url){
         	var id = $(_this).data('id');
+        	if(!url)url = "/file-tree/reback?id=" + id;
         	if(!id){
         		Message.showMsg('非法操作！', 'warn');
         		return;
         	}
-        	url += id; 
-        	$.ajax({
-                url:url,
-                type:"delete",
-                contentType:"application/json",
-                dataType:"json",
-                data:{},
-                success:function(msg){
-                	if(msg.isSuccess){
-                		Message.showMsg('删除成功！', 'success');
-//                		window.location.href = '/file/yunpan';
-                		$('#show-file tr').eq($(_this).data('record-index')).remove();
-                	}else{
-                		Message.showMsg('删除失败,请稍后重试！', 'error');
-                	}
-                },
-                error:function(xhr,textstatus,thrown){
-                	Message.showMsg('删除失败,请稍后重试！', 'error');
-                }
-            });
+        	FileList.sendRequest(url, function(msg){
+        		if(msg.isSuccess){
+            		Message.showMsg('删除成功！', 'success');
+//            		window.location.href = '/file/yunpan';
+            		$('#show-file tr').eq($(_this).data('record-index')).remove();
+            	}else{
+            		Message.showMsg('删除失败:' + msg.resultMsg, 'error');
+            	}
+        	}, {}, 'put');
+        },
+        fileDelete: function(_this, url){
+        	var id = $(_this).data('id');
+        	if(!url)url = "/file-tree/delete?id=" + id;
+        	if(!id){
+        		Message.showMsg('非法操作！', 'warn');
+        		return;
+        	}
+        	FileList.sendRequest(url, function(msg){
+        		if(msg.isSuccess){
+            		Message.showMsg('删除成功！', 'success');
+//            		window.location.href = '/file/yunpan';
+            		$('#show-file tr').eq($(_this).data('record-index')).remove();
+            	}else{
+            		Message.showMsg('删除失败:' + msg.resultMsg, 'error');
+            	}
+        	}, {}, 'delete');
         }
 	}
 }();

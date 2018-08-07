@@ -6,6 +6,7 @@ import com.alibaba.fastjson.serializer.JSONSerializer;
 import com.alibaba.fastjson.serializer.SerializeWriter;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import javax.annotation.PostConstruct;
+
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;

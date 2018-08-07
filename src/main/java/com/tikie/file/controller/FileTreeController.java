@@ -248,10 +248,10 @@ public class FileTreeController {
 
     @ApiOperation(value = "删除")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "文件id", dataType = "String", paramType = "query", required = true)
+            @ApiImplicitParam(name = "id", value = "文件id", dataType = "String", required = true)
     })
-    @DeleteMapping("/delete")
-    public Result<String> deleteFile(@RequestParam(value = "id") String id) {
+    @DeleteMapping(value="/delete")
+    public Result<String> deleteFile(String id) {
         if (StringUtils.isBlank(id)){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
         }
