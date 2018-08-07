@@ -128,7 +128,7 @@ public class FileController {
     @ApiOperation(value="文件下载接口", notes="支持多文件上传")
     @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "String", paramType = "query")
     @ResponseBody
-    @GetMapping("/download")
+    @PostMapping("/download")
     public String downloadFile(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") String id) {
     	logger.info(id);
         String fileName = tFileTreeService.selectFileTreeById(id).getName();// 设置文件名，根据code替换成要下载的文件名 TODO

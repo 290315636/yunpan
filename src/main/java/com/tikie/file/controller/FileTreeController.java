@@ -246,12 +246,12 @@ public class FileTreeController {
         }
     }
 
-    @ApiOperation(value = "物理删除")
+    @ApiOperation(value = "删除")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "文件id", dataType = "String", paramType = "query", required = true)
     })
     @DeleteMapping("/delete")
-    public Result<String> removeFile(@RequestParam(value = "id") String id) {
+    public Result<String> deleteFile(@RequestParam(value = "id") String id) {
         if (StringUtils.isBlank(id)){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
         }
@@ -260,10 +260,10 @@ public class FileTreeController {
             if (remove){
                 return Result.success("success");
             }
-            logger.info("removeFile@exec:{}",remove);
+            logger.info("deleteFile@exec:{}",remove);
             return Result.fail(ExceptionConstant.TFILE_DELETE_FAIL);
         }catch (Exception e){
-            logger.error("removeFile@err:{}",e);
+            logger.error("deleteFile@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_DELETE_FAIL);
         }
     }

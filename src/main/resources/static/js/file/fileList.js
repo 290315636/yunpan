@@ -43,7 +43,12 @@ var FileList = function(){
 	// 点击文件列表后选中和取消
     $("#show-file").on("click", "tr", function(){
     	if($(this).index()==0 && $(this).find('input').is('input')){
-    		// 新建文件夹生成的一条记录
+    		// 新建文件夹生成的一条记录-->监听enter事件
+    		$(this).find('input').keyup(function(event){
+			  if(event.keyCode ==13){
+				  $(this).next().children('button:last').click();
+			  }
+			});
     	}else{
     		$('#file-menu-more').show();	// 显示对应可操作菜单
             if($(this).find(' td:first span').hasClass('glyphicon-check')){
@@ -62,6 +67,9 @@ var FileList = function(){
             // execute code before context menu if shown
             $('#file-menu-more').show();	// 显示对应可操作菜单
             $(context).find('td:first span').replaceWith('<span class="glyphicon glyphicon-check" style="cursor:pointer"></span>');
+            // 每个选项加上隐藏属性
+            this.getMenu().find('ul > li').data('id', $(context).find('td:first').data('id'));
+            this.getMenu().find('ul > li').data('record-index', $(context).index());
             
 //	       	console.log($(context).find('td:first').data('id'));
 //	       	console.log(this.getMenu().find('ul > li').eq(1).find('a').attr('href'));
@@ -163,6 +171,34 @@ var FileList = function(){
             		Message.showMsg('新建文件夹失败,请稍后重试！', 'error');
             		FileList.folderCancel();
             	}
+            });
+        },
+        fileDelete: function(_this, url){
+        	if(!url)url = "/file-tree/delete?id=";
+        	var id = $(_this).data('id');
+        	if(!id){
+        		Message.showMsg('非法操作！', 'warn');
+        		return;
+        	}
+        	url += id; 
+        	$.ajax({
+                url:url,
+                type:"delete",
+                contentType:"application/json",
+                dataType:"json",
+                data:{},
+                success:function(msg){
+                	if(msg.isSuccess){
+                		Message.showMsg('删除成功！', 'success');
+//                		window.location.href = '/file/yunpan';
+                		$('#show-file tr').eq($(_this).data('record-index')).remove();
+                	}else{
+                		Message.showMsg('删除失败,请稍后重试！', 'error');
+                	}
+                },
+                error:function(xhr,textstatus,thrown){
+                	Message.showMsg('删除失败,请稍后重试！', 'error');
+                }
             });
         }
 	}
