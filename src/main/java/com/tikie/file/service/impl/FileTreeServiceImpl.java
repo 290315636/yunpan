@@ -23,10 +23,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author zhangshitai
@@ -260,7 +259,9 @@ public class FileTreeServiceImpl implements FileTreeService {
         try {
             fileTree.setId(id);
             fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
-            fileTree.setReback(fileTree.getFileId());
+            fileTree.setReback(fileTree.getPid());
+            DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            fileTree.setUtime(dateFormat2.format(new Date()));
             state = fileTreeMapper.deleteFileTreeByOneId(fileTree);
             logger.info("==== deleteFileTreeByOneId@exec:{} ====", state);
         }catch (Exception e){
@@ -320,9 +321,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             fileTree.setId(id);
             fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
             fileTree.setId(UUIDUtil.getUUID());
-            if (!pid.equals(fileTree.getPid())){
-                fileTree.setPid(pid);
-            }
+            fileTree.setPid(pid);
             fileTree.setUtime("now");
             state =  fileTreeMapper.insertSelective(fileTree);
             logger.info("copyFile@exec:{}",state);
@@ -340,15 +339,14 @@ public class FileTreeServiceImpl implements FileTreeService {
         try{
             fileTree.setId(id);
             fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
-            fileTree.setId(UUIDUtil.getUUID());
-            if (!pid.equals(fileTree.getPid())){
+            if (pid == null){
+                fileTree.setPid(fileTree.getReback());
+            }else {
                 fileTree.setPid(pid);
             }
-            fileTree.setUtime("now");
-            state =  fileTreeMapper.insertSelective(fileTree);
-            if (state > 0){
-                fileTreeMapper.delete(id);
-            }
+            DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            fileTree.setUtime(dateFormat2.format(new Date()));
+            state = fileTreeMapper.removeById(fileTree);
             logger.info("copyFile@exec:{}",state);
         }catch (Exception e){
             logger.error("copyFile@err:{}", e.getMessage());
@@ -489,4 +487,9 @@ public class FileTreeServiceImpl implements FileTreeService {
 		}
 		return state >=0;
 	}
+
+    public static void main(String[] args) {
+        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println(dateFormat2.format(new Date()));
+    }
 }

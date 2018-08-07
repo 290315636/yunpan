@@ -126,11 +126,19 @@
   <!-- 删除一条树形文件记录-->
   <update id="deleteFileTreeByOneId" parameterType="com.tikie.file.model.FileTree">
       UPDATE tb_file_tree
-      SET reback = pid , pid = 9
+      SET pid = #{pid}, reback = pid, pid = 9
       WHERE
      id = #{fileTree.id}
   </update>
-    
+
+  <!-- 移动-->
+  <update id="removeById" parameterType="com.tikie.file.model.FileTree">
+      UPDATE tb_file_tree
+      SET pid = #{pid}, utime = #{utime}
+      WHERE
+     id = #{id}
+  </update>
+
   <!-- 更新文件夹的大小-->
   <update id="updateFileTreeFolderSize" parameterType="com.tikie.file.model.FileTree">
       UPDATE `tb_file_tree` SET size = IFNULL(size, 0) + (SELECT size FROM `tb_file` WHERE id = #{fileId})WHERE id = #{pid}

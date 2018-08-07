@@ -141,7 +141,7 @@ public class FileTreeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "树形文件 id", dataType = "String", paramType = "query", required = true)
     })
-    @PutMapping("/reback")
+    @PutMapping("/inputReback")
     public Result<Object> deleteFileTreeByOneId(@RequestParam(value = "id") String id){
         if (StringUtils.isBlank(id)){
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
@@ -236,6 +236,27 @@ public class FileTreeController {
         }
         try {
             boolean copyFile = fileTreeService.removeFile(id, pid);
+            if (copyFile){
+                return Result.success("success");
+            }
+            return Result.fail(ExceptionConstant.TFILE_REMOVE_FAIL);
+        }catch (Exception e){
+            logger.error("insertSelective@err:{}",e);
+            return Result.fail(ExceptionConstant.TFILE_REMOVE_FAIL);
+        }
+    }
+
+    @ApiOperation(value = "将回收站文件还原")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", dataType = "String", paramType = "query", required = true),
+    })
+    @PostMapping("/reback")
+    public Result<String> rebackFile(@RequestParam(value = "id") String id) {
+        if (StringUtils.isBlank(id)){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        try {
+            boolean copyFile = fileTreeService.removeFile(id,null);
             if (copyFile){
                 return Result.success("success");
             }

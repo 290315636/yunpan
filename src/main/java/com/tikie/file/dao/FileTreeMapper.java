@@ -17,6 +17,8 @@ public interface FileTreeMapper {
 
     int deleteFileTreeByOneId(@Param("fileTree") FileTree fileTree);
 
+    int removeById(FileTree fileTree);
+
     int reanameFileTreeByOneId(@Param("fileTree") FileTree fileTree);
     
     int updateFileTreeFolderSize(FileTree record);
