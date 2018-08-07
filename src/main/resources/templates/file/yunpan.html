@@ -78,7 +78,7 @@
 			<li><a th:href="@{#}"><span class="glyphicon glyphicon-cloud-download"></span> 下载</a></li>
 			<li onclick="FileList.fileReback(this);"><a th:href="@{#}" tabindex="-1"><span class="glyphicon glyphicon-trash"></span> 删除</a></li>
 			<li onclick="FileList.file2Rename(this);"><a th:href="@{#}" data-toggle="modal" data-target="#renameModal"><span class="glyphicon glyphicon-edit"></span> 重命名</a></li>
-			<li><a th:href="@{#}" data-toggle="modal" data-target="#removeModal"><span class="glyphicon glyphicon-cloud-move"></span> 移动到</a></li>
+			<li><a th:href="@{#}" data-toggle="modal" data-target="#removeModal"><span class="glyphicon glyphicon-move"></span> 移动到</a></li>
 		</ul>
 	</div>
 
@@ -91,28 +91,10 @@
     	  	  	<div th:class="${prod.thumbnail}"></div>
     	  	  </td>
 		      <td th:text="${prod.name}"></td>
-		      <td th:text="${prod.size}"></td>
-		      <td th:text="${#strings.substringBefore(prod.utime,'.')}"></td>
+		      <td class="col-md-1" th:text="${prod.size} == '0'? '-' : ${prod.size}"></td>
+		      <td class="col-md-2" th:text="${#strings.substringBefore(prod.utime,'.')}"></td>
 		      <!-- <td th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}"></td> -->
 	      </tr>
-		  <!-- <tr>
-		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
-		  	<td>需要资料找我1.jpg</td>
-		  	<td class="col-md-1">29KB</td>
-		  	<td class="col-md-2">2018-06-11 09:26</td>
-		  </tr>
-		  <tr>
-		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
-		  	<td>需要资料找我2.jpg</td>
-		  	<td class="col-md-1">29KB</td>
-		  	<td class="col-md-2">2018-06-11 09:26</td>
-		  </tr>
-		  <tr>
-		  	<td class="col-md-1"><span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span></td>
-		  	<td>需要资料找我2.jpg</td>
-		  	<td class="col-md-1">29KB</td>
-		  	<td class="col-md-2">2018-06-11 09:26</td>
-		  </tr> -->
 		</table>
     </div>
     <!-- 文件展示样式一end -->
@@ -137,6 +119,17 @@
 	</div>
     <!-- 文件上传模型层end -->
     
+    
+    <script id = "file-list-tpl" type = "text/template">
+        {@each data as it,index}
+			<tr>
+    	  	  <td class="col-md-1" data-id="${it.id}">
+    	  	  	<span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span>
+    	  	  	<div></div>
+    	  	  </td>
+	      </tr>
+		{@/each}
+	</script>
     
   </div>
 </body>

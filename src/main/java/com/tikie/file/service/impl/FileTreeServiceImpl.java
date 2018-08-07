@@ -303,7 +303,6 @@ public class FileTreeServiceImpl implements FileTreeService {
             state =  fileTreeMapper.insertSelective(fileTree);
             logger.info("createNewFolder@exec:{}",state);
         }catch (Exception e){
-            e.printStackTrace();
             logger.error("createNewFolder@err:{}",e);
         }
         return state > 0;

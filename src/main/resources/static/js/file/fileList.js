@@ -1,7 +1,7 @@
 // 云盘展示页面--js
 var FileList = function(){
 	// 公共变量
-	
+	var TimeFn = null; // 单击事件
 	// 私有函数
 	
 	// 监听事件
@@ -42,21 +42,44 @@ var FileList = function(){
 
 	// 点击文件列表后选中和取消
     $("#show-file").on("click", "tr", function(){
-    	if($(this).index()==0 && $(this).find('input').is('input')){
-    		// 新建文件夹生成的一条记录-->监听enter事件
-    		$(this).find('input').keyup(function(event){
-			  if(event.keyCode ==13){
-				  $(this).next().children('button:last').click();
-			  }
-			});
-    	}else{
-    		$('#file-menu-more').show();	// 显示对应可操作菜单
-            if($(this).find(' td:first span').hasClass('glyphicon-check')){
-                $(this).find(' td:first span').replaceWith('<span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span>');
-            }else if(!$(this).find(' td:first span').is('glyphicon-check')){
-                $(this).find(' td:first span').replaceWith('<span class="glyphicon glyphicon-check" style="cursor:pointer"></span>');
-            }
-    	}
+    	var _this = $(this);
+    	// 取消上次延时未执行的方法
+        clearTimeout(TimeFn);
+        //执行延时
+        TimeFn = setTimeout(function(){
+            //do function在此处写单击事件要执行的代码
+        	if($(_this).index()==0 && $(_this).find('input').is('input')){
+        		// 新建文件夹生成的一条记录-->监听enter事件
+        		$(_this).find('input').keyup(function(event){
+    			  if(event.keyCode ==13){
+    				  $(this).next().children('button:last').click();
+    			  }
+    			});
+        	}else{
+        		if($(_this).find('td:first div').hasClass('fileicon-small-foler')){
+        			$('#file-menu-more').hide();	// 隐藏对应可操作菜单
+        		}else{
+        			$('#file-menu-more').show();	// 显示对应可操作菜单
+        		}
+        		// 选中/取消
+        		if($(_this).find(' td:first span').hasClass('glyphicon-check')){
+                    $(_this).find(' td:first span').replaceWith('<span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span>');
+                }else if(!$(_this).find(' td:first span').is('glyphicon-check')){
+                    $(_this).find(' td:first span').replaceWith('<span class="glyphicon glyphicon-check" style="cursor:pointer"></span>');
+                }
+        	}
+        },300);
+    });
+    
+    $("#show-file").on("dblclick", "tr", function(ev){
+    	ev.stopPropagation();
+    	// 取消上次延时未执行的方法
+        clearTimeout(TimeFn);
+        //双击事件的执行代码
+        var id = $(this).find('td:first').data('id');
+        var name = $(this).find('td:eq(1)').html();
+//        console.log(id);
+        FileList.findFolder(id, name);
     });
 
 	// 右键菜单
@@ -64,17 +87,26 @@ var FileList = function(){
     $('#show-file tr').contextmenu({
         target:'#context-menu',
         before: function(e,context) {
-            // execute code before context menu if shown
-            $('#file-menu-more').show();	// 显示对应可操作菜单
-            $(context).find('td:first span').replaceWith('<span class="glyphicon glyphicon-check" style="cursor:pointer"></span>');
-            // 每个选项加上隐藏属性
+        	// execute code before context menu if shown
+        	// 每个选项加上隐藏属性
             this.getMenu().find('ul > li').data('id', $(context).find('td:first').data('id'));
             this.getMenu().find('ul > li').data('record-index', $(context).index());
+            $(context).find('td:first span').replaceWith('<span class="glyphicon glyphicon-check" style="cursor:pointer"></span>');
             
-//	       	console.log($(context).find('td:first').data('id'));
-//	       	console.log(this.getMenu().find('ul > li').eq(1).find('a').attr('href'));
-	       	this.getMenu().find('ul > li').eq(0).find('a').prop('href', '/file/download?id='+$(context).find('td:first').data('id'));
-//	       	this.getMenu().find('ul > li').eq(0).find('a').prop('href', '../file-tree/downloads?fileId='+$(context).find('td:first').data('id'));
+        	if($(context).find('td:first div').hasClass('fileicon-small-foler')){// 文件夹
+        		this.getMenu().find('ul > li:first').hide();
+    			this.getMenu().find('ul > li:last').hide();
+    			$('#file-menu-more').hide();	// 隐藏对应可操作菜单
+    		}else{
+    			this.getMenu().find('ul > li:first').show();
+    			this.getMenu().find('ul > li:last').show();
+    			$('#file-menu-more').show();	// 显示对应可操作菜单
+    			
+//    	       	console.log($(context).find('td:first').data('id'));
+//    	       	console.log(this.getMenu().find('ul > li').eq(1).find('a').attr('href'));
+    	       	this.getMenu().find('ul > li').eq(0).find('a').prop('href', '/file/download?id='+$(context).find('td:first').data('id'));
+//    	       	this.getMenu().find('ul > li').eq(0).find('a').prop('href', '../file-tree/downloads?fileId='+$(context).find('td:first').data('id'));
+    		}
         },
         onItem: function(context,e) {
             // execute on menu item selection
@@ -105,7 +137,7 @@ var FileList = function(){
     	'		</div>                                                                '+
     	'	</div>                                                                    '+
     	'  </td>                                                                      '+
-    	'  <td>0</td>                                                                 '+
+    	'  <td>-</td>                                                                 '+
     	'  <td>'+nowTime+'</td>                                                                  '+
     	'</tr>                                                                        ';
     	
@@ -188,7 +220,7 @@ var FileList = function(){
         },
         fileReback: function(_this, url){
         	var id = $(_this).data('id');
-        	if(!url)url = "/file-tree/reback?id=" + id;
+        	if(!url)url = "/file-tree/inputReback?id=" + id;
         	if(!id){
         		Message.showMsg('非法操作！', 'warn');
         		return;
@@ -257,6 +289,25 @@ var FileList = function(){
             		Message.showMsg('重命名失败:' + msg.resultMsg, 'error');
             	}
         	}, {}, 'put');
+        },
+        findFolder: function(pid, name){
+        	var url = '/file-tree/findFolder'
+        	if(!pid && !name){
+        		Message.showMsg('非法操作！', 'warn');
+        		return;
+        	}
+        	$.get(url, {pid:pid}, function (msg) {
+        		if(msg.isSuccess){
+        			// 进入文件夹
+        			var str = '<li class="active" data-pid="'+pid+'"><a href="#">'+name+'</a></li>';
+        			$('#breadcrumb li').removeClass('active').append(str);
+            		if(msg.data.length == 0){ 
+            			$('#show-file tr').remove();
+            		}
+            	}else{
+            		Message.showMsg('查询失败:' + msg.resultMsg, 'error');
+            	}
+        	});
         }
 	}
 }();
