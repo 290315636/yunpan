@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tikie.quartz.job.CanTransferParm;
 import com.tikie.quartz.job.HelloJobOne;
-import com.tikie.quartz.job.HelloJobTwo;
 import com.tikie.quartz.service.QuartzService;
 
 /**

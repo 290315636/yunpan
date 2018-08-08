@@ -75,6 +75,7 @@ var IndexInit = function (){
 					randomNum = Math.floor(Math.random()*(timeObj.value.length));
 
 					$('#g_welcome').text(timeObj.value[randomNum]);
+					$('#g_welcome').addClass('animated lightSpeedIn');
 					$.data($('#g_welcome')[0], 'time-period', timeObj.key);
 				}
 			}
