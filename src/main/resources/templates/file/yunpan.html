@@ -68,7 +68,7 @@
 
     <!-- 路径导航start -->
     <ol id="breadcrumb" class="breadcrumb">
-	  <li class="active" data-pid="1"><a href="#"><span class="glyphicon glyphicon-home"></span> 云盘</a></li>
+	  <li class="active" onclick="FileList.findFolder(1, '云盘');" data-pid="1"><a href="javascript:void(0);"><span class="glyphicon glyphicon-home"></span> 云盘</a></li>
 	</ol>
     <!-- 路径导航end -->
 
@@ -81,20 +81,11 @@
 			<li><a th:href="@{#}" data-toggle="modal" data-target="#removeModal"><span class="glyphicon glyphicon-move"></span> 移动到</a></li>
 		</ul>
 	</div>
-
+	
     <!-- 文件展示样式 table-condensed 一start -->
     <div id="file-container" class="container-fluid">
     	<table id="show-file" class="table table-hover">
-    	  <tr th:each="prod : ${data.data}">
-    	  	  <td class="col-md-1" th:data-id="${prod.id}">
-    	  	  	<span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span>
-    	  	  	<div th:class="${prod.thumbnail}"></div>
-    	  	  </td>
-		      <td th:text="${prod.name}"></td>
-		      <td class="col-md-1" th:text="${prod.size} == '0'? '-' : ${prod.size}"></td>
-		      <td class="col-md-2" th:text="${#strings.substringBefore(prod.utime,'.')}"></td>
-		      <!-- <td th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}"></td> -->
-	      </tr>
+    	  <tbody></tbody>
 		</table>
     </div>
     <!-- 文件展示样式一end -->
@@ -119,14 +110,17 @@
 	</div>
     <!-- 文件上传模型层end -->
     
-    
+    <!-- 重新渲染文件列表模板 -->
     <script id = "file-list-tpl" type = "text/template">
         {@each data as it,index}
 			<tr>
-    	  	  <td class="col-md-1" data-id="${it.id}">
+    	  	  <td class="col-md-1" data-id="${{it.id}">
     	  	  	<span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span>
-    	  	  	<div></div>
+    	  	  	<div class="${{it.thumbnail}"></div>
     	  	  </td>
+			  <td>${{it.name}</td>
+		      <td class="col-md-1">${{it.size|change2Mb}</td>
+		      <td class="col-md-2">${{it.utime|substringBefore}</td>
 	      </tr>
 		{@/each}
 	</script>

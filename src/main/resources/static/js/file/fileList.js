@@ -81,44 +81,13 @@ var FileList = function(){
 //        console.log(id);
         FileList.findFolder(id, name);
     });
-
-	// 右键菜单
-    // 动态修改菜单
-    $('#show-file tr').contextmenu({
-        target:'#context-menu',
-        before: function(e,context) {
-        	// execute code before context menu if shown
-        	// 每个选项加上隐藏属性
-            this.getMenu().find('ul > li').data('id', $(context).find('td:first').data('id'));
-            this.getMenu().find('ul > li').data('record-index', $(context).index());
-            $(context).find('td:first span').replaceWith('<span class="glyphicon glyphicon-check" style="cursor:pointer"></span>');
-            
-        	if($(context).find('td:first div').hasClass('fileicon-small-foler')){// 文件夹
-        		this.getMenu().find('ul > li:first').hide();
-    			this.getMenu().find('ul > li:last').hide();
-    			$('#file-menu-more').hide();	// 隐藏对应可操作菜单
-    		}else{
-    			this.getMenu().find('ul > li:first').show();
-    			this.getMenu().find('ul > li:last').show();
-    			$('#file-menu-more').show();	// 显示对应可操作菜单
-    			
-//    	       	console.log($(context).find('td:first').data('id'));
-//    	       	console.log(this.getMenu().find('ul > li').eq(1).find('a').attr('href'));
-    	       	this.getMenu().find('ul > li').eq(0).find('a').prop('href', '/file/download?id='+$(context).find('td:first').data('id'));
-//    	       	this.getMenu().find('ul > li').eq(0).find('a').prop('href', '../file-tree/downloads?fileId='+$(context).find('td:first').data('id'));
-    		}
-        },
-        onItem: function(context,e) {
-            // execute on menu item selection
-        }
-    });
-
+    
     // 点击路径导航事件
-    $('.breadcrumb > li').bind("click", function(){
-    	$(this).addClass("active").siblings().removeClass("active");
-    	$(this).html($(this).find('a').html());
-    	$(this).nextAll().remove();
-    });
+//    $('.breadcrumb > li').bind("click", function(){
+//    	$(this).addClass("active").siblings().removeClass("active");
+//    	$(this).html($(this).find('a').html());
+//    	$(this).nextAll().remove();
+//    });
     
     // 点击新建文件夹
     $('.glyphicon-plus').parent().bind("click", function(){
@@ -163,6 +132,41 @@ var FileList = function(){
 			Message.init();
 			// 参数1:控件id、参数2:上传地址
 	        FileInput.init("fileUpload", "/file/upload"); 
+	        // 初始化第一层文件夹
+	        FileList.findFolder(1, '云盘');
+	        // 初始化文件夹列表的右键事件
+	        FileList.initRightClick();
+		},
+		initRightClick: function(){ // 右键菜单事件监听
+		    // 动态修改菜单
+		    $('#show-file tr').contextmenu({
+		        target:'#context-menu',
+		        before: function(e,context) {
+		        	// execute code before context menu if shown
+		        	// 每个选项加上隐藏属性
+		            this.getMenu().find('ul > li').data('id', $(context).find('td:first').data('id'));
+		            this.getMenu().find('ul > li').data('record-index', $(context).index());
+		            $(context).find('td:first span').replaceWith('<span class="glyphicon glyphicon-check" style="cursor:pointer"></span>');
+		            
+		        	if($(context).find('td:first div').hasClass('fileicon-small-foler')){// 文件夹
+		        		this.getMenu().find('ul > li:first').hide();
+		    			this.getMenu().find('ul > li:last').hide();
+		    			$('#file-menu-more').hide();	// 隐藏对应可操作菜单
+		    		}else{
+		    			this.getMenu().find('ul > li:first').show();
+		    			this.getMenu().find('ul > li:last').show();
+		    			$('#file-menu-more').show();	// 显示对应可操作菜单
+		    			
+//		    	       	console.log($(context).find('td:first').data('id'));
+//		    	       	console.log(this.getMenu().find('ul > li').eq(1).find('a').attr('href'));
+		    	       	this.getMenu().find('ul > li').eq(0).find('a').prop('href', '/file/download?id='+$(context).find('td:first').data('id'));
+//		    	       	this.getMenu().find('ul > li').eq(0).find('a').prop('href', '../file-tree/downloads?fileId='+$(context).find('td:first').data('id'));
+		    		}
+		        },
+		        onItem: function(context,e) {
+		            // execute on menu item selection
+		        }
+		    });
 		},
 		getLeftFolder: function(url) { // 查询顶层文件夹
             $.post(url, {}, function (data) {
@@ -193,8 +197,10 @@ var FileList = function(){
         	$.post(url, {name:name,pid:pid}, function (data) {
             	if(data.isSuccess){
             		Message.showMsg('新建文件夹成功！', 'success');
-//            		$(_this).parent().parent().html(name);// TODO 新增的记录监听不到右键事件
-            		window.location.href = '/file/yunpan';
+            		$(_this).parent().parent().html(name);
+//            		window.location.href = '/file/yunpan';
+            		// 重新监听右键事件
+            		FileList.initRightClick();
             	}else{
             		Message.showMsg('新建文件夹失败,请稍后重试！', 'error');
             		FileList.folderCancel();
@@ -227,11 +233,11 @@ var FileList = function(){
         	}
         	FileList.sendRequest(url, function(msg){
         		if(msg.isSuccess){
-            		Message.showMsg('删除成功！', 'success');
-//            		window.location.href = '/file/yunpan';
+            		Message.showMsg('删除到回收站成功！', 'success');
+//            		window.location.href = '/file/yunpan'; // 不推荐重新刷新页面
             		$('#show-file tr').eq($(_this).data('record-index')).remove();
             	}else{
-            		Message.showMsg('删除失败:' + msg.resultMsg, 'error');
+            		Message.showMsg('删除到回收站失败:' + msg.resultMsg, 'error');
             	}
         	}, {}, 'put');
         },
@@ -244,11 +250,11 @@ var FileList = function(){
         	}
         	FileList.sendRequest(url, function(msg){
         		if(msg.isSuccess){
-            		Message.showMsg('删除成功！', 'success');
+            		Message.showMsg('彻底删除成功！', 'success');
 //            		window.location.href = '/file/yunpan';
             		$('#show-file tr').eq($(_this).data('record-index')).remove();
             	}else{
-            		Message.showMsg('删除失败:' + msg.resultMsg, 'error');
+            		Message.showMsg('彻底删除失败:' + msg.resultMsg, 'error');
             	}
         	}, {}, 'delete');
         },
@@ -296,14 +302,48 @@ var FileList = function(){
         		Message.showMsg('非法操作！', 'warn');
         		return;
         	}
+        	if(typeof pid =='string'){
+        		pid = pid.trim();
+        	}
         	$.get(url, {pid:pid}, function (msg) {
         		if(msg.isSuccess){
         			// 进入文件夹
-        			var str = '<li class="active" data-pid="'+pid+'"><a href="#">'+name+'</a></li>';
-        			$('#breadcrumb li').removeClass('active').append(str);
-            		if(msg.data.length == 0){ 
-            			$('#show-file tr').remove();
-            		}
+        			var targetIndex = -1;
+        			$('#breadcrumb li').each(function(index, element){
+        				if($(element).data('pid') == pid){
+        					targetIndex = index;
+        					return true;
+        				}
+    			    });
+        			var str = '';
+        			if(targetIndex ==0){
+        				$('#breadcrumb').empty();
+        				str = '<li class="active" onclick="FileList.findFolder(\''+pid+'\', \''+name+'\');" data-pid="'+pid+'"><a href="javascript:void(0);"><span class="glyphicon glyphicon-home"></span> '+name+'</a></li>';
+        			}else{
+        				if(targetIndex !=-1 && targetIndex != $('#breadcrumb li:last').index()){
+        					$('#breadcrumb').find('li').eq(targetIndex - 1).nextAll().remove();
+        				}
+        				str = '<li class="active" data-pid="'+pid+'"><span class="glyphicon glyphicon-folder-open"></span> '+name+'</li>';
+        			}
+        			
+        			// 更新导航
+        			if($('#breadcrumb li:last').index() > 0){ // 更新倒数第二个导航
+        				var prev_id = $('#breadcrumb li:last').data('pid');
+        				var prev_name = $('#breadcrumb li:last').text().trim();
+        				var prev_html = '<li data-pid="'+prev_id+'" onclick="FileList.findFolder(\''+prev_id+'\', \''+prev_name+'\');"><a href="javascript:void(0);"><span class="glyphicon glyphicon-folder-close"></span> ' + prev_name + '</a></li>';
+        				$('#breadcrumb li:last').remove();
+        				$('#breadcrumb li:last').after(prev_html);
+        			}
+        			$('#breadcrumb li:last').removeClass('active');
+        			$('#breadcrumb').append(str);
+        			
+        			// 更新子文件夹里的内容
+        			$('#show-file tr').remove();
+            		var tpl = $('#file-list-tpl').html();
+            		var html = juicer(tpl, msg);
+            		$('#show-file tbody').append(html);
+            		// 重新监听右键事件
+            		FileList.initRightClick();
             	}else{
             		Message.showMsg('查询失败:' + msg.resultMsg, 'error');
             	}

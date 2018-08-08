@@ -84,10 +84,10 @@ var FileInput = function () {
 	            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
 	            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
 	            uploadExtraData:function (previewId, index) {
-	            	console.log($('.breadcrumb > li:last').data('pid'));
+//	            	console.log($('#breadcrumb').find('li:last').data('pid'));// TODO此方法被多次执行
 	            	//传参
 	        	    var data = {
-	        	    	"pid": "1",
+	        	    	"pid": $('#breadcrumb').find('li:last').data('pid'),
 	                    "md5": file_md5[index]      //此处自定义传参
 	                };
 	                return data;

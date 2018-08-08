@@ -72,15 +72,15 @@ public class FileController {
     @RequestMapping(value="/yunpan", method=RequestMethod.GET)
     public String list(Model model){
     	model.addAttribute("tms", "yunpan");
-    	List<FileTree> list = null;
-        try {
-            list = tFileTreeService.selectListTreeByAll();
-            logger.info("selectListTreeByAll@exec:{}",list);
-            model.addAttribute("data", Result.success(list));
-        }catch (Exception e){
-            logger.error("selectListTreeByAll@err:{}",e);
-            model.addAttribute("data", Result.fail(ExceptionConstant.TFILE_SELECT_FAIL));
-        }
+//    	List<FileTree> list = null;
+//        try {
+//            list = tFileTreeService.selectListTreeByAll();
+//            logger.info("selectListTreeByAll@exec:{}",list);
+//            model.addAttribute("data", Result.success(list));
+//        }catch (Exception e){
+//            logger.error("selectListTreeByAll@err:{}",e);
+//            model.addAttribute("data", Result.fail(ExceptionConstant.TFILE_SELECT_FAIL));
+//        }
     	return "file/list";
     }
 

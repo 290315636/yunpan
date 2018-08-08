@@ -62,6 +62,7 @@ var IndexInit = function (){
 		init: function(){ // 对外暴漏的方法
 			IndexInit.initWelcome();
 			IndexInit.datePrototype();
+			IndexInit.juicerInit();
 		},
 		//顶部问候语设置
 		initWelcome: function(){
@@ -100,6 +101,42 @@ var IndexInit = function (){
 			    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));  
 			    return fmt;  
 			}  
+		},
+		change2Mb: function(size) {
+			if(!size || size == '0' || size == 0){
+				return '-';
+			}else if(size.indexOf('Mb')!=-1){
+				return size;
+			}else{
+				return (parseInt(size) / 1024 /1024).toFixed(2) + 'Mb';
+			}
+		},
+		substringBefore: function(str, delimiter){
+			if(!delimiter)delimiter = '.';
+			if(str.indexOf(delimiter) < 0){
+				return str;
+			}
+			return str.substring(0, str.indexOf(delimiter));
+		},
+		juicerInit: function(){
+			// 重置边界--避免和其他模板冲突
+			juicer.set({
+			    'tag::operationOpen': '{@',			// 默认{@
+			    'tag::operationClose': '}',			// 默认}
+			    'tag::interpolateOpen': '${{',		// 默认${
+			    'tag::interpolateClose': '}',		// 默认}
+			    'tag::noneencodeOpen': '$${',		// 默认$${
+			    'tag::noneencodeClose': '}',		// 默认}
+			    'tag::commentOpen': '{{#',			// 默认{#
+			    'tag::commentClose': '}'			// 默认}
+			});
+			
+			var links = function(data) {
+				return '<a href="' + data.href + '" alt="' + data.alt + '" />';
+			};
+			
+			juicer.register('change2Mb', IndexInit.change2Mb); // 注册自定义函数--单位换算（字节转化为Mb）
+			juicer.register('substringBefore', IndexInit.substringBefore); // 注册自定义函数--字符串截取
 		}
 	};
 }();
