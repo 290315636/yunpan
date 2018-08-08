@@ -33,7 +33,7 @@ public class FileTreeServiceTest {
     	FileTree record = new FileTree();
     	record.setFileId("d8383274ccd04745ae40ee825af69aa5");
     	record.setPid("1");
-    	Boolean isTrue = fileTreeService.updateFileTreeFolderSize(record);
+    	Boolean isTrue = fileTreeService.updateFileTreeFolderSize(record, true);
     	Assert.assertTrue(isTrue);
     }
 }

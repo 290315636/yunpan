@@ -68,6 +68,18 @@ public class CommonEnums {
 		FILE_QUEUE_EXCLUSIVE(11, "file.queue?consumer.exclusive=true"),
 		FILE_QUEUE_EXCLUSIVE_PRIORITY9(12, "file.queue?consumer.exclusive=true&consumer.priority=9"),
 		
+		// 删除到回收站
+		FILE_QUEUE_REBACK(13, "file.reback.queue"),
+		// 文件处理业务消息队列--一个消费者消费完所有消息
+		FILE_QUEUE_REBACK_EXCLUSIVE(14, "file.reback.queue?consumer.exclusive=true"),
+		FILE_QUEUE_REBACK_EXCLUSIVE_PRIORITY9(15, "file.reback.queue?consumer.exclusive=true&consumer.priority=9"),
+		
+		// 彻底删除
+		FILE_QUEUE_DEL(16, "file.del.queue"),
+		// 文件处理业务消息队列--一个消费者消费完所有消息
+		FILE_QUEUE_DEL_EXCLUSIVE(17, "file.del.queue?consumer.exclusive=true"),
+		FILE_QUEUE_DEL_EXCLUSIVE_PRIORITY9(18, "file.del.queue?consumer.exclusive=true&consumer.priority=9"),
+		
 		OTHER_QUEUE(100, "other.queue"),
 		OTHER_QUEUE_EXCLUSIVE(101, "other.queue?consumer.exclusive=true"),
 		OTHER_QUEUE_EXCLUSIVE_PRIORITY9(102, "other.queue?consumer.exclusive=true&consumer.priority=9"),

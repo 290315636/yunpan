@@ -2,7 +2,7 @@ package com.tikie.file.service.impl;
 
 import com.tikie.common.CommonEnums.FileTreeThumbnail;
 import com.tikie.common.CommonEnums.MQDestination;
-import com.tikie.file.active.Producer;
+import com.tikie.file.activemq.Producer;
 import com.tikie.file.dao.FileTreeMapper;
 import com.tikie.file.model.FileTree;
 import com.tikie.file.model.TFile;
@@ -99,7 +99,7 @@ public class FileTreeServiceImpl implements FileTreeService {
                 tree.setName(fileName);
                 tree.setFileId(fileId);
                 tree.setPid(pid); 
-                tree.setType(fileType);
+                tree.setType(fileType.split("/")[0]);
                 tree.setThumbnail(thumbnail);
                 tree.setSize(FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
                 state = fileTreeMapper.insertSelective(tree);
@@ -154,7 +154,7 @@ public class FileTreeServiceImpl implements FileTreeService {
             tree.setFileId(fileId);
             tree.setIsFile(true);
             tree.setPid(pid);
-            tree.setType(fileType);
+            tree.setType(fileType.split("/")[0]);
             tree.setThumbnail(thumbnail);
             tree.setSize(FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
             // 更新文件树 到数据库
@@ -471,12 +471,17 @@ public class FileTreeServiceImpl implements FileTreeService {
     }
 
 	@Override
-	public Boolean updateFileTreeFolderSize(FileTree record) {
+	public Boolean updateFileTreeFolderSize(FileTree record, Boolean isCreat) {
 		Assert.assertNotNull(record.getFileId());
 		Assert.assertNotNull(record.getPid());
 		int state = 0;
 		try {
-			state = fileTreeMapper.updateFileTreeFolderSize(record);
+			if(isCreat) {
+				state = fileTreeMapper.updateFileTreeAddFolderSize(record);
+			}else {
+				state = fileTreeMapper.updateFileTreeDelFolderSize(record);
+			}
+			
 			logger.info("updateFileTreeFolderSize@exec:{}", state);
 		}catch(Exception e) {
 			logger.error("updateFileTreeFolderSize@err:{}", e.getMessage());

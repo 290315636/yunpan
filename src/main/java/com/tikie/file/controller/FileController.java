@@ -8,13 +8,10 @@
 package com.tikie.file.controller;
 
 import com.tikie.common.CommonEnums;
-import com.tikie.common.ExceptionConstant;
 import com.tikie.common.JsonResult;
-import com.tikie.file.model.FileTree;
 import com.tikie.file.service.FileTreeService;
 import com.tikie.file.service.TFileService;
 import com.tikie.util.DateUtil;
-import com.tikie.util.Result;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -72,15 +69,6 @@ public class FileController {
     @RequestMapping(value="/yunpan", method=RequestMethod.GET)
     public String list(Model model){
     	model.addAttribute("tms", "yunpan");
-//    	List<FileTree> list = null;
-//        try {
-//            list = tFileTreeService.selectListTreeByAll();
-//            logger.info("selectListTreeByAll@exec:{}",list);
-//            model.addAttribute("data", Result.success(list));
-//        }catch (Exception e){
-//            logger.error("selectListTreeByAll@err:{}",e);
-//            model.addAttribute("data", Result.fail(ExceptionConstant.TFILE_SELECT_FAIL));
-//        }
     	return "file/list";
     }
 

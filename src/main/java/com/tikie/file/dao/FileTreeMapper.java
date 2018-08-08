@@ -21,6 +21,8 @@ public interface FileTreeMapper {
 
     int reanameFileTreeByOneId(@Param("fileTree") FileTree fileTree);
     
-    int updateFileTreeFolderSize(FileTree record);
+    int updateFileTreeAddFolderSize(FileTree record);
+    
+    int updateFileTreeDelFolderSize(FileTree record);
 
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.tikie.file.active;
+package com.tikie.file.activemq;
 
 import javax.annotation.Resource;
 import javax.jms.Destination;

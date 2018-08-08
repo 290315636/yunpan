@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.tikie.file.active;
+package com.tikie.file.activemq;
 
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
