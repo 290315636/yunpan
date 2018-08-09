@@ -259,9 +259,9 @@ public class FileTreeServiceImpl implements FileTreeService {
         try {
             fileTree.setId(id);
             fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
-            fileTree.setReback(fileTree.getPid());
             DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             fileTree.setUtime(dateFormat2.format(new Date()));
+            fileTree.setPid("9");  // pid设置为回收站的id
             state = fileTreeMapper.deleteFileTreeByOneId(fileTree);
             logger.info("==== deleteFileTreeByOneId@exec:{} ====", state);
         }catch (Exception e){

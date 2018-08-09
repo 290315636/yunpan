@@ -126,7 +126,10 @@
   <!-- 删除一条树形文件记录-->
   <update id="deleteFileTreeByOneId" parameterType="com.tikie.file.model.FileTree">
       UPDATE tb_file_tree
-      SET pid = #{pid}, reback = pid, pid = 9
+      SET reback = pid, pid = #{fileTree.pid}
+      <if test="fileTree.utime != null">
+        ,utime = #{fileTree.utime}
+      </if>
       WHERE
      id = #{fileTree.id}
   </update>
