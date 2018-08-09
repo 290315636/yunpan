@@ -60,9 +60,10 @@ var IndexInit = function (){
 
 	return {
 		init: function(){ // 对外暴漏的方法
-			IndexInit.initWelcome();
-			IndexInit.datePrototype();
-			IndexInit.juicerInit();
+			IndexInit.initAnimate();		// 初始化动作样式
+			IndexInit.initWelcome();		// 初始化欢迎语
+			IndexInit.datePrototype();		// 初始化日期原生方法
+			IndexInit.juicerInit();			// 初始化html片段处理方法
 		},
 		//顶部问候语设置
 		initWelcome: function(){
@@ -75,7 +76,10 @@ var IndexInit = function (){
 					randomNum = Math.floor(Math.random()*(timeObj.value.length));
 
 					$('#g_welcome').text(timeObj.value[randomNum]);
-					$('#g_welcome').addClass('animated lightSpeedIn');
+					$('#g_welcome').animateCss('lightSpeedIn');
+//					$('#g_welcome').animateCss('lightSpeedIn', function() {
+//					  // Do somthing after animation
+//					});
 					$.data($('#g_welcome')[0], 'time-period', timeObj.key);
 				}
 			}
@@ -138,6 +142,34 @@ var IndexInit = function (){
 			
 			juicer.register('change2Mb', IndexInit.change2Mb); // 注册自定义函数--单位换算（字节转化为Mb）
 			juicer.register('substringBefore', IndexInit.substringBefore); // 注册自定义函数--字符串截取
+		},
+		initAnimate: function() { // 初始化jquery,增加animate的相应方法
+			$.fn.extend({
+			  animateCss: function(animationName, callback) {
+			    var animationEnd = (function(el) {
+			      var animations = {
+			        animation: 'animationend',
+			        OAnimation: 'oAnimationEnd',
+			        MozAnimation: 'mozAnimationEnd',
+			        WebkitAnimation: 'webkitAnimationEnd',
+			      };
+
+			      for (var t in animations) {
+			        if (el.style[t] !== undefined) {
+			          return animations[t];
+			        }
+			      }
+			    })(document.createElement('div'));
+
+			    this.addClass('animated ' + animationName).one(animationEnd, function() {
+			      $(this).removeClass('animated ' + animationName);
+
+			      if (typeof callback === 'function') callback();
+			    });
+
+			    return this;
+			  },
+			});
 		}
 	};
 }();
