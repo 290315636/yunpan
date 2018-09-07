@@ -157,6 +157,7 @@ public class CommonEnums {
         RTF("fileicon-position fileicon-small-document", FileType.RTF.getTinyType()),
         TXT("fileicon-position fileicon-small-txt", FileType.TXT.getTinyType()),
         LOG("fileicon-position fileicon-small-document", FileType.LOG.getTinyType()),
+        SH("fileicon-position fileicon-small-code", FileType.SH.getTinyType()),
         SQL("fileicon-position fileicon-small-document", FileType.SQL.getTinyType()),
         HTM("fileicon-position fileicon-small-html", FileType.HTM.getTinyType()),
         HTML("fileicon-position fileicon-small-html", FileType.HTML.getTinyType()),
@@ -213,10 +214,12 @@ public class CommonEnums {
         WV("fileicon-position fileicon-small-music", FileType.WV.getTinyType()),
 	    
         // 其他类型
-        EXE("fileicon-position fileicon-small-document", FileType.EXE.getTinyType()),
-        BAT("fileicon-position fileicon-small-document", FileType.BAT.getTinyType()),
+        EXE("fileicon-position fileicon-small-yun", FileType.EXE.getTinyType()),
+        BAT("fileicon-position fileicon-small-yun", FileType.BAT.getTinyType()),
         ZIP("fileicon-position fileicon-small-zip", FileType.ZIP.getTinyType()),
         RAR("fileicon-position fileicon-small-zip", FileType.RAR.getTinyType()),
+        ISO("fileicon-position fileicon-small-yun", FileType.ISO.getTinyType()),
+        GZ("fileicon-position fileicon-small-zip", FileType.GZ.getTinyType()),
         OTHER("fileicon-position fileicon-small-other", FileType.OTHER.getTinyType()),
 		// 文件夹类型类型
 		FOLDER("fileicon-position fileicon-small-foler", FileType.FOLDER.getTinyType());
@@ -280,6 +283,7 @@ public class CommonEnums {
 	    RTF("rtf", CommonEnums.STRING_DOCUMENT),
 	    TXT("txt", CommonEnums.STRING_DOCUMENT),
 	    LOG("log", CommonEnums.STRING_DOCUMENT),
+	    SH("log", CommonEnums.STRING_DOCUMENT),
 	    SQL("sql", CommonEnums.STRING_DOCUMENT),
 	    HTM("htm", CommonEnums.STRING_DOCUMENT),
 	    HTML("html", CommonEnums.STRING_DOCUMENT),
@@ -336,10 +340,12 @@ public class CommonEnums {
         WV("wv", CommonEnums.STRING_MUSIC),
         
         // 其他类型
-        EXE("exe", "exe"),
-        BAT("bat", "bat"),
-        ZIP("zip", "zip"),
-        RAR("rar", "rar"),
+        EXE("exe", CommonEnums.STRING_OTHER),
+        BAT("bat", CommonEnums.STRING_OTHER),
+        ZIP("zip", CommonEnums.STRING_OTHER),
+        RAR("rar", CommonEnums.STRING_OTHER),
+        ISO("iso", CommonEnums.STRING_OTHER),
+        GZ("gz", CommonEnums.STRING_OTHER),
         OTHER(CommonEnums.STRING_OTHER, CommonEnums.STRING_OTHER),
         // 文件夹类型类型
         FOLDER(CommonEnums.STRING_FOLDER, CommonEnums.STRING_FOLDER);

@@ -123,7 +123,7 @@
     </where>
   </select>
 
-  <!-- 删除一条树形文件记录-->
+  <!-- 删除一条树形文件记录 TODO type设为garbage,增加一个字段保存删除前的类型 -->
   <update id="deleteFileTreeByOneId" parameterType="com.tikie.file.model.FileTree">
       UPDATE tb_file_tree
       SET reback = pid, pid = #{fileTree.pid}
@@ -158,4 +158,6 @@
 	      id = #{fileTree.id}
    </update>
 
+   <!-- SELECT COUNT(*),`type` FROM `tb_file_tree` WHERE is_file=1 GROUP BY `type`; -->
+   
 </mapper>
