@@ -3,8 +3,8 @@ spring:
     active: dev
   aop:
     proxy-target-class: true
-  thymeleaf:  
-    cache: false  # 关闭缓存
-    servlet:
-      content-type: text/html
+#  thymeleaf:                 # 不使用模板引擎，方便做前后端分离
+#    cache: false  # 关闭缓存
+#    servlet:
+#      content-type: text/html
     

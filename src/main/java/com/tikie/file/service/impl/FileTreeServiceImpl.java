@@ -1,6 +1,7 @@
 package com.tikie.file.service.impl;
 
 import com.tikie.common.CommonEnums.FileTreeThumbnail;
+import com.tikie.common.CommonEnums.FileType;
 import com.tikie.common.CommonEnums.MQDestination;
 import com.tikie.file.activemq.Producer;
 import com.tikie.file.dao.FileTreeMapper;
@@ -65,26 +66,45 @@ public class FileTreeServiceImpl implements FileTreeService {
         }
         return state > 0;
     }
+    
+    /**
+     * 
+     * @param fileName      文件名称（xxx.png）
+     * @return              文件类型（图片返回image）
+     */
+    private String getFileType(String suffix) {
+        // 处理类别类型：图片（png jpg jpeg等）
+        for(FileType file :FileType.values()) {
+            // 排除不需要判断的类型
+            if(FileType.FOLDER == file) {
+                continue;
+            }else if(StringUtils.equalsIgnoreCase(suffix, file.getTinyType())) {
+                return file.getType();
+            }
+        }
+        // 其他的
+        return FileType.OTHER.getType();
+    }
 
-    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
+    @Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
     public Boolean uploadFile(Map<String, MultipartFile> files, String baseFilePath , String pid, String md5){
         int state = 0;
         List<Map<String, Object>> handle = new ArrayList<>();
         for (MultipartFile item : files.values()) {
-            String fileName = item.getOriginalFilename();    // 当前上传文件全名称
-            String fileType = item.getContentType();         // 当前上传文件类型
-            String addr = baseFilePath + fileName;           // 只做目录下校验是否已存在
-            long size = item.getSize();                      // 文件大小
+            String fileName = item.getOriginalFilename();                   // 当前上传文件全名称
+            String suffix = StringUtils.substringAfterLast(fileName, ".");
+            String fileType = getFileType(suffix);                          // 当前上传文件类型
+            String addr = baseFilePath + fileName;                          // 只做目录下校验是否已存在
+            long size = item.getSize();                                     // 文件大小
             String thumbnail = StringUtils.EMPTY;
             // 处理缩略图
             for(FileTreeThumbnail nail :FileTreeThumbnail.values()) {
-            	if(fileType.toLowerCase().contains(nail.getType())) {
+            	if(StringUtils.equalsIgnoreCase(suffix, nail.getType())) {
                 	thumbnail = nail.getCss();
                 }
             }
 
             File savedFile = new File(baseFilePath, fileName);
-//            logger.info("文件md5：{}", md5);
             String fileId = StringUtils.EMPTY;
             Boolean hasMd5 = tFileService.checkMd5FromDB(md5);
 
@@ -99,7 +119,7 @@ public class FileTreeServiceImpl implements FileTreeService {
                 tree.setName(fileName);
                 tree.setFileId(fileId);
                 tree.setPid(pid); 
-                tree.setType(fileType.split("/")[0]);
+                tree.setType(fileType);
                 tree.setThumbnail(thumbnail);
                 tree.setSize(FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
                 state = fileTreeMapper.insertSelective(tree);
@@ -154,10 +174,10 @@ public class FileTreeServiceImpl implements FileTreeService {
             tree.setFileId(fileId);
             tree.setIsFile(true);
             tree.setPid(pid);
-            tree.setType(fileType.split("/")[0]);
+            tree.setType(fileType);
             tree.setThumbnail(thumbnail);
             tree.setSize(FileSizeUtil.FormetFileSize(size, FileSizeUtil.SIZETYPE_MB) + "Mb");
-            // 更新文件树 到数据库
+            // 更新文件树到数据库
             state = fileTreeMapper.insertSelective(tree);
             producer.send(MQDestination.FILE_QUEUE, tree);
         }

@@ -43,7 +43,7 @@
             <columnOverride column="utime" javaType="String" />
         </table> -->
         
-        <table tableName="tb_file" domainObjectName="TFile" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        <!-- <table tableName="tb_file" domainObjectName="TFile" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <columnOverride column="count" javaType="int" />
             <columnOverride column="type" javaType="int" />
             <columnOverride column="ctime" javaType="String" />
@@ -59,7 +59,7 @@
         <table tableName="tb_file_share" domainObjectName="FileShare" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <columnOverride column="ctime" javaType="String" />
             <columnOverride column="edate" javaType="String" />
-        </table>
+        </table> -->
         
         <table tableName="tb_file_statistic" domainObjectName="FileStatistic" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <columnOverride column="relate_count" javaType="int" />

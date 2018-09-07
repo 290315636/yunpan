@@ -7,7 +7,7 @@
  */
 package com.tikie.file.controller;
 
-import com.tikie.common.CommonEnums;
+import com.tikie.common.CommonEnums.StatusCode;
 import com.tikie.common.JsonResult;
 import com.tikie.file.service.FileTreeService;
 import com.tikie.file.service.TFileService;
@@ -107,8 +107,8 @@ public class FileController {
         tFileTreeService.uploadFile(map, baseFilePath, pid, md5);
         
         // 更新返回数据
-        return new JsonResult(CommonEnums.StatusCode.SUCCESS.getCode(), 
-        		CommonEnums.StatusCode.SUCCESS.getMessage(), 
+        return new JsonResult(StatusCode.SUCCESS.getCode(), 
+        		StatusCode.SUCCESS.getMessage(), 
         		handle);
     }
     

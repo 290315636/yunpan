@@ -8,44 +8,129 @@
     margin-right: 8px;
 }
 
+.fileicon-small-point,.fileicon-small-code,.fileicon-small-txt,.fileicon-small-share-red,.fileicon-small-document,
 .fileicon-small-pic,.fileicon-small-music,.fileicon-small-excel-red,.fileicon-small-excel-green,.fileicon-small-ppt,
-.fileicon-small-word,.fileicon-small-grain,.fileicon-small-foler {
+.fileicon-small-movie,.fileicon-small-gift,.fileicon-small-word,.fileicon-small-grain,.fileicon-foler,
+.fileicon-small-share-transparent,.fileicon-small-yun,.fileicon-small-folder,.fileicon-small-folder-heart,
+.fileicon-small-folder-lock,.fileicon-small-folder-computer,.fileicon-small-folder-phone,.fileicon-small-android,
+.fileicon-small-ps,.fileicon-small-desktop-computer,.fileicon-small-ai,.fileicon-small-mac,.fileicon-small-pencil,
+.fileicon-small-report,.fileicon-small-aa,.fileicon-small-html,.fileicon-small-video,.fileicon-small-zip,
+.fileicon-small-zipper {
     background-image: url(/img/icons_z_6ae3d28.png);
 }
 
+.fileicon-small-point,.fileicon-small-code,.fileicon-small-txt,.fileicon-small-share-red,.fileicon-small-document,
 .fileicon-small-pic,.fileicon-small-music,.fileicon-small-excel-red,.fileicon-small-excel-green,.fileicon-small-ppt,
-.fileicon-small-word,.fileicon-small-grain,.fileicon-small-foler {
+.fileicon-small-movie,.fileicon-small-gift,.fileicon-small-word,.fileicon-small-grain,.fileicon-foler,
+.fileicon-small-share-transparent,.fileicon-small-yun,.fileicon-small-folder,.fileicon-small-folder-heart,
+.fileicon-small-folder-lock,.fileicon-small-folder-computer,.fileicon-small-folder-phone,.fileicon-small-android,
+.fileicon-small-ps,.fileicon-small-desktop-computer,.fileicon-small-ai,.fileicon-small-mac,.fileicon-small-pencil,
+.fileicon-small-report,.fileicon-small-aa,.fileicon-small-html,.fileicon-small-video,.fileicon-small-zip,
+.fileicon-small-zipper {
     background-repeat: no-repeat;
-}
-
-.fileicon-small-pic {
-    background-position: -596px -306px;
-}
-
-.fileicon-small-music {
-    background-position: -596px -442px;
-}
-
-.fileicon-small-excel-red {
-    background-position: -596px -374px;
-}
-
-.fileicon-small-excel-green {
-    background-position: -596px -238px;
-}
-
-.fileicon-small-ppt {
-    background-position: -596px -204px;
-}
-
-.fileicon-small-word {
-    background-position: -596px -169px;
 }
 
 .fileicon-small-grain {
     background-position: -596px 1px;
 }
+.fileicon-small-point {
+    background-position: -596px -34px;
+}
+.fileicon-small-code {
+    background-position: -596px -68px;
+}
+.fileicon-small-txt {
+    background-position: -596px -102px;
+}
+.fileicon-small-share-red {
+    background-position: -596px -136px;
+}
+.fileicon-small-word {
+    background-position: -596px -169px;
+}
+.fileicon-small-ppt {
+    background-position: -596px -204px;
+}
+.fileicon-small-excel-green {
+    background-position: -596px -238px;
+}
+.fileicon-small-document {
+    background-position: -596px -272px;
+}
+.fileicon-small-pic {
+    background-position: -596px -306px;
+}
+.fileicon-small-movie {
+    background-position: -596px -340px;
+}
+.fileicon-small-excel-red {
+    background-position: -596px -374px;
+}
+.fileicon-small-gift {
+    background-position: -596px -408px;
+}
+.fileicon-small-music {
+    background-position: -596px -442px;
+}
+.fileicon-small-share-transparent {
+    background-position: -596px -478px;
+}
+.fileicon-small-yun {
+    background-position: -596px -566px;
+}
+.fileicon-small-folder {
+    background-position: -596px -864px;
+}
+.fileicon-small-folder-heart {
+    background-position: -596px -900px;
+}
+.fileicon-small-folder-lock {
+    background-position: -596px -936px;
+}
+.fileicon-small-folder-computer {
+    background-position: -596px -972px;
+}
+.fileicon-small-folder-phone {
+    background-position: -594px -1049px;
+}
+.fileicon-small-android {
+    background-position: -596px -1118px;
+}
+.fileicon-small-ps {
+    background-position: -596px -1152px;
+}
+.fileicon-small-desktop-computer {
+    background-position: -596px -1186px;
+}
+.fileicon-small-ai {
+    background-position: -596px -1220px;
+}
+.fileicon-small-mac {
+    background-position: -596px -1254px;
+}
+.fileicon-small-pencil {
+    background-position: -596px -1322px;
+}
+.fileicon-small-report {
+    background-position: -596px -1355px;
+}
+.fileicon-small-aa {
+    background-position: -596px -1390px;
+}
+.fileicon-small-html {
+    background-position: -594px -1459px;
+}
+.fileicon-small-video {
+    background-position: -596px -1596px;
+}
+.fileicon-small-zip {
+    background-position: -596px -1666px;
+}
+.fileicon-small-zipper {
+    background-position: -596px -1698px;
+}
 
-.fileicon-small-foler {
+
+.fileicon-foler {
     background-position: -469px -628px;
 }

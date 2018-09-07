@@ -12,8 +12,6 @@ import javax.annotation.Resource;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.hibernate.validator.constraints.CreditCardNumber;
-import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,10 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tikie.file.dao.TestMapper;
 import com.tikie.file.model.Test;
 import com.tikie.file.service.TestService;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author zhaocs
