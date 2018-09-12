@@ -223,7 +223,7 @@ public class CommonEnums {
         CFG("fileicon-position fileicon-small-yun", FileType.CFG.getTinyType()),
         OTHER("fileicon-position fileicon-small-other", FileType.OTHER.getTinyType()),
 		// 文件夹类型类型
-		FOLDER("fileicon-position fileicon-small-foler", FileType.FOLDER.getTinyType());
+		FOLDER("fileicon-position fileicon-small-folder", FileType.FOLDER.getTinyType());
 		
 		private String css;
 

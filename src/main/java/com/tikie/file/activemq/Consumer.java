@@ -39,7 +39,7 @@ public class Consumer {
 				logger.debug("异步消息处理 >>[接收]>>文件上传：{}", record.toString());
 			}
 			
-			// 更新父级文件夹的大小
+			// 更新父级文件夹的大小--TODO 文件夹的父级也需要更新
 			fileTreeService.updateFileTreeFolderSize(record, true);
 			// 更新文件统计信息
 			
