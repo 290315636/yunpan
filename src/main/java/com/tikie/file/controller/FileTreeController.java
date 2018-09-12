@@ -40,19 +40,18 @@ public class FileTreeController {
     TFileService tFileService;
 
 
-    @ApiOperation(value = "树形文件展示 左侧分类")
+    @ApiOperation(value = "树形文件展示左侧分类")
     @ApiImplicitParams({
     })
-    @GetMapping("/left")
-    public Result<List<FileTree>> selectListTreeBySuper(){
-        List<FileTree> list = null;
+    @PostMapping("/left-count")
+    public Result<Map<String, Object>> getFileCountMap(){
+        Map<String, Object> map = null;
         try {
-            list = fileTreeService.selectListTreeBySuper();
-            logger.info("selectListTreeBySuper@exec:{}",list);
-            return Result.success(list);
+            map = fileTreeService.getFileCountMap();
+            logger.info("getFileCountMap@exec:{}",map);
+            return Result.success(map);
         }catch (Exception e){
-            e.printStackTrace();
-            logger.error("selectListTreeBySuper@err:{}",e);
+            logger.error("getFileCountMap@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
     }
@@ -68,7 +67,6 @@ public class FileTreeController {
             logger.info("selectListTreeByAll@exec:{}",list);
             return Result.success(list);
         }catch (Exception e){
-            e.printStackTrace();
             logger.error("selectListTreeByAll@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
@@ -89,7 +87,6 @@ public class FileTreeController {
             logger.info("selectFileTreeById@exec:{}",fileTree);
             return Result.success(fileTree);
         }catch (Exception e){
-            e.printStackTrace();
             logger.error("selectFileTreeById@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
@@ -110,7 +107,6 @@ public class FileTreeController {
             logger.info("selectFileTreeByPid@exec:{}",list);
             return Result.success(list);
         }catch (Exception e){
-            e.printStackTrace();
             logger.error("selectFileTreeByPid@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
@@ -131,7 +127,6 @@ public class FileTreeController {
             logger.info("selectFileTreeByName@exec:{}",list);
             return Result.success(list);
         }catch (Exception e){
-            e.printStackTrace();
             logger.error("selectFileTreeByName@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
@@ -303,7 +298,6 @@ public class FileTreeController {
             logger.info("detail@exec:{}",map);
             return Result.success(map);
         }catch (Exception e){
-            e.printStackTrace();
             logger.error("detail@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
@@ -323,7 +317,6 @@ public class FileTreeController {
             logger.info("downloads@exec:{}","success");
             return Result.success("success");
         }catch (Exception e){
-            e.printStackTrace();
             logger.error("downloads@err:{}",e);
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }

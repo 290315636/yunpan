@@ -3,6 +3,8 @@
  */
 package com.tikie.file;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.junit.Assert;
@@ -35,5 +37,11 @@ public class FileTreeServiceTest {
     	record.setPid("1");
     	Boolean isTrue = fileTreeService.updateFileTreeFolderSize(record, true);
     	Assert.assertTrue(isTrue);
+    }
+    
+    @Test
+    public void test1() {
+        Map<String, Object> map = fileTreeService.getFileCountMap();
+        logger.info(map.toString());
     }
 }

@@ -53,4 +53,6 @@ public interface FileTreeService {
      * @return
      */
     Boolean updateFileTreeFolderSize(FileTree record, Boolean isCreat);
+    
+    Map<String, Object> getFileCountMap();
 }

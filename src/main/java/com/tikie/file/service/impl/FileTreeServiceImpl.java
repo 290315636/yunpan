@@ -1,5 +1,7 @@
 package com.tikie.file.service.impl;
 
+import com.tikie.common.CommonEnums;
+import com.tikie.common.CommonEnums.FileCount;
 import com.tikie.common.CommonEnums.FileTreeThumbnail;
 import com.tikie.common.CommonEnums.FileType;
 import com.tikie.common.CommonEnums.MQDestination;
@@ -230,10 +232,10 @@ public class FileTreeServiceImpl implements FileTreeService {
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
     public FileTree selectFileTreeById(String id) {
+        Assert.assertNotNull(id);
         FileTree fileTree = new FileTree();
         try {
-            fileTree.setId(id);
-            fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
+            fileTree = fileTreeMapper.selectByPrimaryKey(id);
             logger.info("==== selectFileTreeById@exec:{} ====", fileTree);
         }catch (Exception e){
             logger.error("==== selectFileTreeById@err:{} ====", e.getMessage());
@@ -274,14 +276,13 @@ public class FileTreeServiceImpl implements FileTreeService {
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
     public Boolean deleteFileTreeByOneId(String id) {
+        Assert.assertNotNull(id);
         int state = 0;
         FileTree fileTree = new FileTree();
         try {
             fileTree.setId(id);
-            fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
-            DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            fileTree.setUtime(dateFormat2.format(new Date()));
-            fileTree.setPid("9");  // pid设置为回收站的id
+            fileTree.setPid("9");                           // pid设置为回收站的id
+            fileTree.setType(FileCount.TRASH.getType());    // 更新文件夹类型
             state = fileTreeMapper.deleteFileTreeByOneId(fileTree);
             logger.info("==== deleteFileTreeByOneId@exec:{} ====", state);
         }catch (Exception e){
@@ -334,8 +335,7 @@ public class FileTreeServiceImpl implements FileTreeService {
         FileTree fileTree = new FileTree();
         int state = 0;
         try{
-            fileTree.setId(id);
-            fileTree = fileTreeMapper.selectTreeSelective(fileTree).get(0);
+            fileTree = fileTreeMapper.selectByPrimaryKey(id);
             fileTree.setId(UUIDUtil.getUUID());
             fileTree.setPid(pid);
             fileTree.setUtime("now");
@@ -509,8 +509,45 @@ public class FileTreeServiceImpl implements FileTreeService {
 		return state >=0;
 	}
 
+//    public static void main(String[] args) {
+//        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        System.out.println(dateFormat2.format(new Date()));
+//    }
+
+    @Override
+    public Map<String, Object> getFileCountMap() {
+        Map<String, Object> resultMap = new HashMap<>();
+        for(FileCount fileCount:FileCount.values()) {
+            resultMap.put(fileCount.getType(), fileCount.getInit());
+        }
+        Set<Map<String, Object>> dbSet = fileTreeMapper.getFileCountMap();
+        int total = 0;
+        for(Map<String, Object> map:dbSet) {
+            resultMap.put(map.get("type").toString(), map.get("count"));
+            total += Integer.parseInt(map.get("count").toString());
+        }
+        // TODO 增加分享统计
+        
+        resultMap.put("total", total);
+        
+        return resultMap;
+    }
+    
     public static void main(String[] args) {
-        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.println(dateFormat2.format(new Date()));
+        Set<Map<String, Object>> resultSet = new HashSet<>();
+        for(FileCount fileCount:FileCount.values()) {
+            Map<String, Object> initMap = new HashMap<>();
+            initMap.put("type", fileCount.getType());
+            initMap.put("count", fileCount.getInit());
+            resultSet.add(initMap);
+        }
+        Map<String, Object> initMap = new HashMap<>();
+        initMap.put("type", CommonEnums.STRING_IMAGE);
+        initMap.put("count", 3);
+        resultSet.add(initMap);
+        
+        for(Map<String, Object> map:resultSet) {
+            System.out.println(map.toString());
+        }
     }
 }

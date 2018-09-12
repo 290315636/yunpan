@@ -4,18 +4,21 @@
   <body>
   <!-- 左部导航start -->
   <div id="file-left" th:fragment="left" class="col-md-2">
-  	<ul class="nav nav-pills nav-stacked">
-	  <li><a href="#"><span>折叠</span><span class="pull-right glyphicon glyphicon-indent-right"></span></a></li>
-	  <li role="presentation" class="active"><a href="#"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> <span>全部文件<span class="pull-right badge">22</span></span></a></li>
-	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> <span>图片<span class="pull-right badge">4</span></span></a></li>
-	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span>文档<span class="pull-right badge">1</span></span></a></li>
-	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> <span>视频<span class="pull-right badge">2</span></span></a></li>
-	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-grain" aria-hidden="true"></span> <span>种子<span class="pull-right badge">3</span></span></a></li>
-	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-music" aria-hidden="true"></span> <span>音乐<span class="pull-right badge">4</span></span></a></li>
-	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span> <span>其他<span class="pull-right badge">5</span></span></a></li>
-	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> <span>我的分享<span class="pull-right badge">1</span></span></a></li>
-	  <li role="presentation"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <span>回收站<span class="pull-right badge">2</span></span></a></li>
+  	<ul id="left-file-count" class="nav nav-pills nav-stacked">
     </ul>
+    <!-- 重新渲染文件列表模板 -->
+    <script id = "left-file-count-tpl" type = "text/template">
+      <li><a href="#"><span>折叠</span><span class="pull-right glyphicon glyphicon-indent-right"></span></a></li>
+      <li role="presentation" class="active"><a href="#"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> <span>全部文件<span class="pull-right badge">${{total}</span></span></a></li>
+      <li role="presentation"><a href="#"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> <span>图片<span class="pull-right badge">${{image}</span></span></a></li>
+      <li role="presentation"><a href="#"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span>文档<span class="pull-right badge">${{document}</span></span></a></li>
+      <li role="presentation"><a href="#"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> <span>视频<span class="pull-right badge">${{video}</span></span></a></li>
+      <li role="presentation"><a href="#"><span class="glyphicon glyphicon-grain" aria-hidden="true"></span> <span>种子<span class="pull-right badge">${{grain}</span></span></a></li>
+      <li role="presentation"><a href="#"><span class="glyphicon glyphicon-music" aria-hidden="true"></span> <span>音乐<span class="pull-right badge">${{music}</span></span></a></li>
+      <li role="presentation"><a href="#"><span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span> <span>其他<span class="pull-right badge">${{other}</span></span></a></li>
+      <li role="presentation"><a href="#"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> <span>我的分享<span class="pull-right badge">${{share}</span></span></a></li>
+      <li role="presentation"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> <span>回收站<span class="pull-right badge">${{trash}</span></span></a></li>
+    </script>
     <div class="left-zone-size" style="margin-top: 10px;">
     	<div class="progress" style="height: 15px;margin-bottom: 15px;">
 		  <div class="progress-bar progress-sm progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;">

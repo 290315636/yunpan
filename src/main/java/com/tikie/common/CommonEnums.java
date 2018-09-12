@@ -220,6 +220,7 @@ public class CommonEnums {
         RAR("fileicon-position fileicon-small-zip", FileType.RAR.getTinyType()),
         ISO("fileicon-position fileicon-small-yun", FileType.ISO.getTinyType()),
         GZ("fileicon-position fileicon-small-zip", FileType.GZ.getTinyType()),
+        CFG("fileicon-position fileicon-small-yun", FileType.CFG.getTinyType()),
         OTHER("fileicon-position fileicon-small-other", FileType.OTHER.getTinyType()),
 		// 文件夹类型类型
 		FOLDER("fileicon-position fileicon-small-foler", FileType.FOLDER.getTinyType());
@@ -346,6 +347,7 @@ public class CommonEnums {
         RAR("rar", CommonEnums.STRING_OTHER),
         ISO("iso", CommonEnums.STRING_OTHER),
         GZ("gz", CommonEnums.STRING_OTHER),
+        CFG("cfg", CommonEnums.STRING_OTHER),
         OTHER(CommonEnums.STRING_OTHER, CommonEnums.STRING_OTHER),
         // 文件夹类型类型
         FOLDER(CommonEnums.STRING_FOLDER, CommonEnums.STRING_FOLDER);
@@ -367,4 +369,32 @@ public class CommonEnums {
             return type;
         }
     }
+	
+	public enum FileCount{
+	    IMAGE(CommonEnums.STRING_IMAGE, 0),
+	    DOCUMENT(CommonEnums.STRING_DOCUMENT, 0),
+	    VIDEO(CommonEnums.STRING_VIDEO, 0),
+	    GRAIN("grain", 0),
+	    MUSIC(CommonEnums.STRING_MUSIC, 0),
+	    SHARE("share", 0),
+	    TRASH("trash", 0),
+	    FOLDER(CommonEnums.STRING_FOLDER, 0),
+	    OTHER(CommonEnums.STRING_OTHER, 0);
+	    private String type;
+
+        private int init;
+
+        FileCount(String type, int init) {
+            this.type = type;
+            this.init = init;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public int getInit() {
+            return init;
+        }
+	}
 }

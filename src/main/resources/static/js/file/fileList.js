@@ -11,7 +11,7 @@ var FileList = function(){
     });
 
     // 左侧导航菜单折叠和展开
-    $("#file-left ul li:first").bind("click", function(){
+    $("#file-left ul").on("click", "li:first", function(){
         if($(this).find('span:last').hasClass('glyphicon glyphicon-indent-right')){
             $(this).find('span:first').addClass('hidden');
             $(this).find('span:last').removeClass('pull-right').removeClass('glyphicon glyphicon-indent-right').addClass('glyphicon glyphicon-indent-left');
@@ -36,7 +36,7 @@ var FileList = function(){
             $('#file-expand').removeClass('hidden');
         }
     });
-    $("#file-left ul li:not(:first)").bind("click", function(){
+    $("#file-left ul").on("click", "li:not(:first)", function(){
         $(this).addClass("active").siblings().removeClass("active");
     });
 
@@ -132,10 +132,24 @@ var FileList = function(){
 			Message.init();
 			// 参数1:控件id、参数2:上传地址
 	        FileInput.init("fileUpload", "/file/upload"); 
+	        FileList.initLeftFileCount();
 	        // 初始化第一层文件夹
 	        FileList.findFolder(1, '云盘');
 	        // 初始化文件夹列表的右键事件
 	        FileList.initRightClick();
+		},
+		initLeftFileCount: function(){
+			var url = "/file-tree/left-count";
+			FileList.sendRequest(url, function(msg){
+        		if(msg.isSuccess){
+//            		console.log(msg.data);
+            		var tpl = $('#left-file-count-tpl').html();
+            		var html = juicer(tpl, msg.data);
+            		$('#left-file-count').html(html);
+            	}else{
+            		Message.showMsg('获取文件数量失败:' + msg.resultMsg, 'error');
+            	}
+        	});
 		},
 		initRightClick: function(){ // 右键菜单事件监听
 		    // 动态修改菜单
@@ -235,6 +249,11 @@ var FileList = function(){
         		if(msg.isSuccess){
             		Message.showMsg('删除到回收站成功！', 'success');
 //            		window.location.href = '/file/yunpan'; // 不推荐重新刷新页面
+//            		// 更新左侧文件夹统计数
+//            		var name = $('#show-file tr').eq($(_this).data('record-index')).find('td:eq(1)').html();
+//            		console.log($('#show-file tr').eq($(_this).data('record-index')).find('td:eq(1)').html());
+            		
+            		// 此目标删除
             		$('#show-file tr').eq($(_this).data('record-index')).remove();
             	}else{
             		Message.showMsg('删除到回收站失败:' + msg.resultMsg, 'error');

@@ -11,23 +11,24 @@
     <result column="file_id" jdbcType="VARCHAR" property="fileId" />
     <result column="pid" jdbcType="VARCHAR" property="pid" />
     <result column="reback" jdbcType="VARCHAR" property="reback" />
+    <result column="reback_type" jdbcType="VARCHAR" property="rebackType" />
     <result column="size" jdbcType="VARCHAR" property="size" />
     <result column="thumbnail" jdbcType="VARCHAR" property="thumbnail" />
     <result column="type" jdbcType="VARCHAR" property="type" />
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, is_file as isFile, name, sort, ctime, utime, file_id as fileId, pid, reback, size, thumbnail, type
+    id, is_file as isFile, name, sort, ctime, utime, file_id as fileId, pid, reback, reback_type, size, thumbnail, type
   </sql>
 
   <insert id="insert" parameterType="com.tikie.file.model.FileTree">
     insert into tb_file_tree (id, is_file, name, 
       sort, ctime, utime, 
-      file_id, pid, reback, 
+      file_id, pid, reback, reback_type, 
       size, thumbnail, type)
     values (#{id,jdbcType=VARCHAR}, #{isFile,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, 
       #{sort,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{utime,jdbcType=TIMESTAMP}, 
-      #{fileId,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{reback,jdbcType=VARCHAR}, 
+      #{fileId,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{reback,jdbcType=VARCHAR}, #{reback_type,jdbcType=VARCHAR},
       #{size,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
   </insert>
 
@@ -54,6 +55,9 @@
       </if>
       <if test="reback != null">
         reback,
+      </if>
+      <if test="rebackType != null">
+        reback_type,
       </if>
       <if test="size != null">
         size,
@@ -87,6 +91,9 @@
       <if test="reback != null">
         #{reback},
       </if>
+      <if test="rebackType != null">
+        #{rebackType},
+      </if>
       <if test="size != null">
         #{size},
       </if>
@@ -99,6 +106,13 @@
     </trim>
   </insert>
 
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_file_tree
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
   <!--物理删除一条树形文件记录-->
   <delete id="delete" parameterType="java.lang.String">
     delete from tb_file_tree
@@ -122,13 +136,21 @@
       </if>
     </where>
   </select>
+  
+  <select  id="getFileCountMap" resultType="java.util.HashMap">
+      SELECT COUNT(*) as count,`type` FROM `tb_file_tree` WHERE is_file=1 GROUP BY `type`
+  </select>
 
-  <!-- 删除一条树形文件记录 TODO type设为garbage,增加一个字段保存删除前的类型 -->
+  <!-- 删除一条树形文件记录  type设为trash -->
   <update id="deleteFileTreeByOneId" parameterType="com.tikie.file.model.FileTree">
       UPDATE tb_file_tree
-      SET reback = pid, pid = #{fileTree.pid}
-      <if test="fileTree.utime != null">
-        ,utime = #{fileTree.utime}
+      SET reback = pid, pid = #{fileTree.pid}, reback_type = type
+        , utime = now()
+      <if test="fileTree.type != null">
+        , type = #{fileTree.type}
+      </if>
+      <if test="fileTree.type == null">
+        , type = 'trash'
       </if>
       WHERE
      id = #{fileTree.id}
@@ -158,6 +180,4 @@
 	      id = #{fileTree.id}
    </update>
 
-   <!-- SELECT COUNT(*),`type` FROM `tb_file_tree` WHERE is_file=1 GROUP BY `type`; -->
-   
 </mapper>

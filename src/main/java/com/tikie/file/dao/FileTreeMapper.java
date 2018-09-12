@@ -4,6 +4,8 @@ import com.tikie.file.model.FileTree;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface FileTreeMapper {
 
@@ -12,7 +14,9 @@ public interface FileTreeMapper {
     int insertSelective(FileTree record);
 
     int delete(String id);
-
+    
+    FileTree selectByPrimaryKey(String id);
+    
     List<FileTree> selectTreeSelective(FileTree fileTree);
 
     int deleteFileTreeByOneId(@Param("fileTree") FileTree fileTree);
@@ -25,4 +29,6 @@ public interface FileTreeMapper {
     
     int updateFileTreeDelFolderSize(FileTree record);
 
+    Set<Map<String, Object>> getFileCountMap();
+    
 }
