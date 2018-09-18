@@ -309,24 +309,22 @@ public class FileTreeServiceImpl implements FileTreeService {
 
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
-    public Boolean createNewFolder(String name, String pid) {
-        int state = 0;
+    public String createNewFolder(String name, String pid) {
+        FileTree fileTree = new FileTree();
+        fileTree.setId(UUIDUtil.getUUID());
+        fileTree.setIsFile(false);
+        fileTree.setName(name);
+        fileTree.setPid(pid);
+        fileTree.setThumbnail(FileTreeThumbnail.FOLDER.getCss());
+        fileTree.setType(FileTreeThumbnail.FOLDER.getType());
         try{
-            FileTree fileTree = new FileTree();
-            fileTree.setId(UUIDUtil.getUUID());
-            fileTree.setIsFile(false);
-            fileTree.setName(name);
-            fileTree.setPid(pid);
-            fileTree.setCtime("now");
-            fileTree.setUtime("now");
-            fileTree.setThumbnail(FileTreeThumbnail.FOLDER.getCss());
-            fileTree.setType(FileTreeThumbnail.FOLDER.getType());
-            state =  fileTreeMapper.insertSelective(fileTree);
-            logger.info("createNewFolder@exec:{}",state);
+            fileTreeMapper.insertSelective(fileTree);
+            logger.info("createNewFolder@exec:{}", fileTree);
         }catch (Exception e){
             logger.error("createNewFolder@err:{}",e);
+            return "1";
         }
-        return state > 0;
+        return fileTree.getId();
     }
 
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
@@ -497,22 +495,46 @@ public class FileTreeServiceImpl implements FileTreeService {
 		int state = 0;
 		try {
 			if(isCreat) {
-				state = fileTreeMapper.updateFileTreeAddFolderSize(record);
+				state = fileTreeMapper.updateFileTreeAddFileSize(record);
 			}else {
-				state = fileTreeMapper.updateFileTreeDelFolderSize(record);
+				state = fileTreeMapper.updateFileTreeDelFileSize(record);
 			}
 			
 			logger.info("updateFileTreeFolderSize@exec:{}", state);
 		}catch(Exception e) {
 			logger.error("updateFileTreeFolderSize@err:{}", e.getMessage());
 		}
-		return state >=0;
+		
+		// 文件夹的上层文件夹
+        FileTree folder1 = fileTreeMapper.selectByPrimaryKey(record.getPid());
+        // 处理文件夹的上层文件夹
+        Boolean folders = false;
+        if(null == folder1) {
+            folders = true;
+        }else {
+            folders = handleFileTreeFolderSize(folder1, isCreat);
+        }
+		
+		return state >=0 && folders;
 	}
 
-//    public static void main(String[] args) {
-//        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        System.out.println(dateFormat2.format(new Date()));
-//    }
+	private Boolean handleFileTreeFolderSize(FileTree record, Boolean isCreat) {
+	    Assert.assertNotNull(record.getFileId());
+        Assert.assertNotNull(record.getPid());
+        int state = 0;
+        try {
+            if(isCreat) {
+                state = fileTreeMapper.updateFileTreeAddFolderSize(record);
+            }else {
+                state = fileTreeMapper.updateFileTreeDelFolderSize(record);
+            }
+            
+            logger.info("handleFileTreeFolderSize@exec:{}", state);
+        }catch(Exception e) {
+            logger.error("handleFileTreeFolderSize@err:{}", e.getMessage());
+        }
+        return state >=0;
+	}
 
     @Override
     public Map<String, Object> getFileCountMap() {
@@ -550,4 +572,5 @@ public class FileTreeServiceImpl implements FileTreeService {
             System.out.println(map.toString());
         }
     }
+
 }

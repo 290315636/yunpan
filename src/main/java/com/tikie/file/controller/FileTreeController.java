@@ -186,11 +186,8 @@ public class FileTreeController {
             return Result.fail(ExceptionConstant.PARAM_IS_NULL);
         }
         try {
-            boolean folder = fileTreeService.createNewFolder(name, pid);
-            if (folder){
-                return Result.success("success");
-            }
-            return Result.fail(ExceptionConstant.TFILE_INSERT_FAIL);
+            String folderId = fileTreeService.createNewFolder(name, pid);
+            return Result.success(folderId);
         }catch (Exception e){
             logger.error("createNewFolder@err:{}", e.getMessage());
             return Result.fail(ExceptionConstant.TFILE_INSERT_FAIL);

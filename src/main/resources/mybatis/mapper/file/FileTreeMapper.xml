@@ -164,12 +164,19 @@
      id = #{id}
   </update>
 
-  <!-- 更新文件夹的大小 -->
-  <update id="updateFileTreeAddFolderSize" parameterType="com.tikie.file.model.FileTree">
+  <!-- 更新第一层文件夹的大小 -->
+  <update id="updateFileTreeAddFileSize" parameterType="com.tikie.file.model.FileTree">
       UPDATE `tb_file_tree` SET size = IFNULL(size, 0) + (SELECT size FROM `tb_file` WHERE id = #{fileId})WHERE id = #{pid}
   </update>
-  <update id="updateFileTreeDelFolderSize" parameterType="com.tikie.file.model.FileTree">
+  <update id="updateFileTreeDelFileSize" parameterType="com.tikie.file.model.FileTree">
       UPDATE `tb_file_tree` SET size = IFNULL(size, 0) - (SELECT size FROM `tb_file` WHERE id = #{fileId})WHERE id = #{pid}
+  </update>
+  
+  <update id="updateFileTreeAddFolderSize" parameterType="com.tikie.file.model.FileTree">
+      UPDATE `tb_file_tree` SET size = IFNULL(size, 0) + (SELECT size FROM(SELECT size FROM `tb_file_tree` WHERE id = #{id})as t)WHERE id = #{pid}
+  </update>
+  <update id="updateFileTreeDelFolderSize" parameterType="com.tikie.file.model.FileTree">
+      UPDATE `tb_file_tree` SET size = IFNULL(size, 0) - (SELECT size FROM(SELECT size FROM `tb_file_tree` WHERE id = #{id})as t)WHERE id = #{pid}
   </update>
 
   <!-- 重命名一条树形文件记录-->

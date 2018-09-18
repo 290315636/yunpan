@@ -25,6 +25,12 @@ public interface FileTreeMapper {
 
     int reanameFileTreeByOneId(@Param("fileTree") FileTree fileTree);
     
+    // 更新第一层文件夹大小
+    int updateFileTreeAddFileSize(FileTree record);
+    
+    int updateFileTreeDelFileSize(FileTree record);
+    
+    // 更新其他层文件夹大小
     int updateFileTreeAddFolderSize(FileTree record);
     
     int updateFileTreeDelFolderSize(FileTree record);

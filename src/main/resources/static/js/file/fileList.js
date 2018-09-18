@@ -95,7 +95,7 @@ var FileList = function(){
     	var str = '<tr>                                                                         '+
     	'  <td class="col-md-1" data-id="">                                           '+
     	'	<span class="glyphicon glyphicon-unchecked" style="cursor:pointer"></span>'+
-    	'	<div class="fileicon-position fileicon-small-foler"></div>                '+
+    	'	<div class="fileicon-position fileicon-small-folder"></div>                '+
     	'  </td>                                                                      '+
     	'  <td>                                                                       '+
     	'	<div class="input-group input-group-sm">                                              '+
@@ -211,7 +211,8 @@ var FileList = function(){
         	$.post(url, {name:name,pid:pid}, function (data) {
             	if(data.isSuccess){
             		Message.showMsg('新建文件夹成功！', 'success');
-            		$(_this).parent().parent().html(name);
+            		$(_this).parent().parent().parent().html(name);
+            		$('#show-file').find('tr:first td:first').attr('data-id', data.resultMsg);
 //            		window.location.href = '/file/yunpan';
             		// 重新监听右键事件
             		FileList.initRightClick();

@@ -35,7 +35,7 @@ public interface FileTreeService {
 
     Boolean reanameFileTreeByOneId(String id, String name);
 
-    Boolean createNewFolder(String name, String pid);
+    String createNewFolder(String name, String pid);
 
     Boolean copyFile(String id, String pid);
 
@@ -55,4 +55,5 @@ public interface FileTreeService {
     Boolean updateFileTreeFolderSize(FileTree record, Boolean isCreat);
     
     Map<String, Object> getFileCountMap();
+    
 }

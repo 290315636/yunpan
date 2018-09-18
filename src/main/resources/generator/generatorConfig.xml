@@ -59,12 +59,19 @@
         <table tableName="tb_file_share" domainObjectName="FileShare" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <columnOverride column="ctime" javaType="String" />
             <columnOverride column="edate" javaType="String" />
-        </table> -->
+        </table> 
         
         <table tableName="tb_file_statistic" domainObjectName="FileStatistic" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <columnOverride column="relate_count" javaType="int" />
             <columnOverride column="download_count" javaType="int" />
             <columnOverride column="share_count" javaType="int" />
+        </table> -->
+        
+        <table tableName="tbl_component" domainObjectName="Component" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <columnOverride column="is_leaf" javaType="boolean" />
+            <columnOverride column="component_server_type" javaType="boolean" />
+            <columnOverride column="component_server_port" javaType="int" />
+            <columnOverride column="sort" javaType="int" />
         </table>
          
     </context>
