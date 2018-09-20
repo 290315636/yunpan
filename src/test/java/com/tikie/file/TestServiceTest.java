@@ -7,8 +7,8 @@
  */
 package com.tikie.file;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
+//import com.github.pagehelper.Page;
+//import com.github.pagehelper.PageInfo;
 import com.tikie.common.CommonEnums.MQDestination;
 import com.tikie.file.activemq.Producer;
 import com.tikie.file.activemq.Publisher;
@@ -52,7 +52,7 @@ public class TestServiceTest {
     @Resource
     Publisher publisher;
     
-    @Test
+    @Ignore
     public void test1() {
         // 测试10次登录，测试缓存是否生效
 //      for(int i=0;i<10;i++) {
@@ -74,7 +74,7 @@ public class TestServiceTest {
         logger.info("==== {} ====", testService.insertSelective(record));
     }
 
-    @Test
+//    @Test
 //    public void testFindByPage() {
 //        Page<com.tikie.file.model.Test> pages = testService.findByPage(1, 10);
 //        PageInfo<com.tikie.file.model.Test> pageInfo = new PageInfo<>(pages);
@@ -95,11 +95,11 @@ public class TestServiceTest {
     public void listFilesTest() {
         File file = new File(path);
         for(File f : file.listFiles()) {
-            System.out.println("fileName : "+f.getName());
+            logger.info("fileName :{} ", f.getName());
         }
     }
 
-    @Test
+    @Ignore
     public void test10() {
     	for(int i=0;i<10;i++) {
     		Map<String, Object> map = new HashMap<>();
@@ -111,7 +111,7 @@ public class TestServiceTest {
     	}
     }
     
-    @Test
+    @Ignore
     public void test11() {
     	for(int i=0;i<10;i++) {
     		publisher.publish("test.topic", "生产消息" + i);

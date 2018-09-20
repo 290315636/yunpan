@@ -4,6 +4,7 @@ import com.tikie.file.model.TFile;
 import com.tikie.file.service.TFileService;
 import com.tikie.util.UUIDUtil;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -27,14 +28,14 @@ public class TFileServiceTest {
     private TFileService tFileService;
 
 
-    @Test
+    @Ignore
     public void deleteByPrimaryKey() {
         TFile tFile = new TFile();
         tFile.setId("83c16549ad364386ab7712cb3ae9e750");
         tFileService.deleteByPrimaryKey(tFile.getId());
     }
 
-    @Test
+    @Ignore
     public void insert() {
         TFile tFile = new TFile();
         tFile.setId(UUIDUtil.getUUID());
@@ -44,7 +45,7 @@ public class TFileServiceTest {
         tFileService.insert(tFile);
     }
 
-    @Test
+    @Ignore
     public void insertSelective() {
         TFile tFile = new TFile();
         tFile.setId(UUIDUtil.getUUID());
@@ -59,7 +60,7 @@ public class TFileServiceTest {
         tFileService.selectByPrimaryKey("37b90e5c1b5d44aa9e7926d1c86c741d");
     }
 
-    @Test
+    @Ignore
     public void updateByPrimaryKeySelective() {
         TFile tFile = new TFile();
         tFile.setId("d21bd37ca6e54b42baa3618828f45cc3");
@@ -67,7 +68,7 @@ public class TFileServiceTest {
         tFileService.updateByPrimaryKeySelective(tFile);
     }
 
-    @Test
+    @Ignore
     public void updateByPrimaryKey() {
         TFile tFile = new TFile();
         tFile.setId("37b90e5c1b5d44aa9e7926d1c86c741d");

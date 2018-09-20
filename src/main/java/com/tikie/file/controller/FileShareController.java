@@ -1,7 +1,6 @@
 package com.tikie.file.controller;
 
 import com.tikie.common.ExceptionConstant;
-import com.tikie.file.model.FileShare;
 import com.tikie.file.service.FileShareService;
 import com.tikie.util.Result;
 import io.swagger.annotations.ApiImplicitParam;

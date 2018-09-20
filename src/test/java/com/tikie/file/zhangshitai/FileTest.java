@@ -7,6 +7,7 @@ import java.io.File;
  * @date 2018-07-25
  */
 public class FileTest {
+    @SuppressWarnings("null")
     public static void main(String[] args) {
         try {
             File file = File.createTempFile("name",".txt",new File("c:/zcs"));
