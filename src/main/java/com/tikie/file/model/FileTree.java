@@ -139,6 +139,13 @@ public class FileTree implements Serializable {
         super();
     }
 
+    public FileTree(String id, String pid, String type) {
+        super();
+        this.id = id;
+        this.pid = pid;
+        this.type = type;
+    }
+
     public FileTree(String id, Boolean isFile, String name, int sort, String ctime, String utime, String fileId,
             String pid, String reback, String rebackType, String size, String thumbnail, String type) {
         super();

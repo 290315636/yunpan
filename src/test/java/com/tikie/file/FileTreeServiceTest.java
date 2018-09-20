@@ -32,10 +32,7 @@ public class FileTreeServiceTest {
     
     @Test
     public void test() {
-    	FileTree record = new FileTree();
-    	record.setFileId("d8383274ccd04745ae40ee825af69aa5");
-    	record.setPid("1");
-    	Boolean isTrue = fileTreeService.updateFileTreeFolderSize(record, true);
+    	Boolean isTrue = fileTreeService.updateFileTreeFolderSize("f7d07e12c41947e787f6a01d042b8596", "42bf175b3cf448baa95019669c96e003", true);
     	Assert.assertTrue(isTrue);
     }
     

@@ -40,7 +40,7 @@ public class Producer {
 		}
 		
 		if(logger.isDebugEnabled()) {
-			logger.debug("异步消息处理 >>[发送]>>文件上传：{}", message.toString());
+			logger.debug("异步消息处理 >>[发送]>>文件处理：{}", message.toString());
 		}
 		
 		jmsMessagingTemplate.convertAndSend(target, message);

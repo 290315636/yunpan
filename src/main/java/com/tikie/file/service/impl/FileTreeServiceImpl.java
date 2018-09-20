@@ -280,10 +280,10 @@ public class FileTreeServiceImpl implements FileTreeService {
         int state = 0;
         FileTree fileTree = new FileTree();
         try {
-            fileTree.setId(id);
-            fileTree.setPid("9");                           // pid设置为回收站的id
-            fileTree.setType(FileCount.TRASH.getType());    // 更新文件夹类型
-            state = fileTreeMapper.deleteFileTreeByOneId(fileTree);
+            fileTree = fileTreeMapper.selectByPrimaryKey(id);
+            state = fileTreeMapper.deleteFileTreeByOneId(new FileTree(id, "9", FileCount.TRASH.getType()));
+            
+            producer.send(MQDestination.FILE_QUEUE_REBACK, fileTree); // 更新文件夹大小
             logger.info("==== deleteFileTreeByOneId@exec:{} ====", state);
         }catch (Exception e){
             logger.error("==== deleteFileTreeByOneId@err:{} ====", e.getMessage());
@@ -489,15 +489,15 @@ public class FileTreeServiceImpl implements FileTreeService {
     }
 
 	@Override
-	public Boolean updateFileTreeFolderSize(FileTree record, Boolean isCreat) {
-		Assert.assertNotNull(record.getFileId());
-		Assert.assertNotNull(record.getPid());
+	public Boolean updateFileTreeFolderSize(String fileId, String pid, Boolean isCreat) {
+		Assert.assertNotNull(fileId);
+		Assert.assertNotNull(pid);
 		int state = 0;
 		try {
 			if(isCreat) {
-				state = fileTreeMapper.updateFileTreeAddFileSize(record);
+				state = fileTreeMapper.updateFileTreeAddFileSize(fileId, pid);
 			}else {
-				state = fileTreeMapper.updateFileTreeDelFileSize(record);
+				state = fileTreeMapper.updateFileTreeDelFileSize(fileId, pid);
 			}
 			
 			logger.info("updateFileTreeFolderSize@exec:{}", state);
@@ -506,35 +506,18 @@ public class FileTreeServiceImpl implements FileTreeService {
 		}
 		
 		// 文件夹的上层文件夹
-        FileTree folder1 = fileTreeMapper.selectByPrimaryKey(record.getPid());
+        FileTree folder1 = fileTreeMapper.selectByPrimaryKey(pid);
         // 处理文件夹的上层文件夹
         Boolean folders = false;
         if(null == folder1) {
             folders = true;
         }else {
-            folders = handleFileTreeFolderSize(folder1, isCreat);
+            folders = updateFileTreeFolderSize(fileId, folder1.getPid(), isCreat);
         }
 		
 		return state >=0 && folders;
 	}
 
-	private Boolean handleFileTreeFolderSize(FileTree record, Boolean isCreat) {
-	    Assert.assertNotNull(record.getFileId());
-        Assert.assertNotNull(record.getPid());
-        int state = 0;
-        try {
-            if(isCreat) {
-                state = fileTreeMapper.updateFileTreeAddFolderSize(record);
-            }else {
-                state = fileTreeMapper.updateFileTreeDelFolderSize(record);
-            }
-            
-            logger.info("handleFileTreeFolderSize@exec:{}", state);
-        }catch(Exception e) {
-            logger.error("handleFileTreeFolderSize@err:{}", e.getMessage());
-        }
-        return state >=0;
-	}
 
     @Override
     public Map<String, Object> getFileCountMap() {

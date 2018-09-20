@@ -47,12 +47,12 @@ public interface FileTreeService {
     
     /**
      * 更新文件夹的大小
-     * @param record.fileId		源文件id
-     * @param record.folderId	文件夹id
-     * @param isCreat			是否是创建文件/否则是删除文件
+     * @param fileId		           源文件id
+     * @param folderId	                     文件夹id
+     * @param isCreat			 是否是创建文件/否则是删除文件
      * @return
      */
-    Boolean updateFileTreeFolderSize(FileTree record, Boolean isCreat);
+    Boolean updateFileTreeFolderSize(String fileId, String pid, Boolean isCreat);
     
     Map<String, Object> getFileCountMap();
     

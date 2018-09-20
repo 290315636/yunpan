@@ -39,8 +39,8 @@ public class Consumer {
 				logger.debug("异步消息处理 >>[接收]>>文件上传：{}", record.toString());
 			}
 			
-			// 更新父级文件夹的大小--TODO 文件夹的父级也需要更新
-			fileTreeService.updateFileTreeFolderSize(record, true);
+			// 更新父级文件夹的大小--
+			fileTreeService.updateFileTreeFolderSize(record.getFileId(), record.getPid(), true);
 			// 更新文件统计信息
 			
 		} catch (JMSException e) {
@@ -62,11 +62,9 @@ public class Consumer {
 			}
 			
 			// 更新父级文件夹的大小
-			fileTreeService.updateFileTreeFolderSize(record, false);
+			fileTreeService.updateFileTreeFolderSize(record.getFileId(), record.getPid(), false);
 			
 			// 更新用户已用容量[减小] TODO
-			
-			// 更新文件统计信息 TODO
 			
 		} catch (JMSException e) {
 			logger.error("消费者处理异常:{}", e.getMessage());
@@ -81,6 +79,7 @@ public class Consumer {
 	public void receiveMsg2(ObjectMessage text) {
 		
 		try {
+		    // 后期可以优化：只传递所需字段
 			FileTree record = (FileTree)text.getObject();
 			if(logger.isDebugEnabled()) {
 				logger.debug("异步消息处理 >>[接收]>>彻底删除文件：{}", record.toString());
