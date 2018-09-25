@@ -30,6 +30,8 @@ public interface FileTreeService {
     List<FileTree> selectFileTreeByPid(String pid);
 
     List<FileTree> selectFileTreeByName(String name);
+    
+    List<FileTree> selectFileTreeByType(String type);
 
     Boolean deleteFileTreeByOneId(String id);
 

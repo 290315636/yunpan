@@ -28,8 +28,8 @@
 			      <span class="caret"></span>
 			    </button>
 			    <ul class="dropdown-menu">
-			      <li><a href="#"><span class="glyphicon glyphicon-duplicate"></span> 复制到</a></li>
-			      <li><a href="#"><span class="glyphicon glyphicon-move"></span> 移动到</a></li>
+			      <li><a href="#"><span class="glyphicon glyphicon-duplicate"></span> 复制</a></li>
+			      <li><a href="#"><span class="glyphicon glyphicon-scissors"></span> 剪切</a></li>
 			      <li><a href="#"><span class="glyphicon glyphicon-info-sign"></span> 详细信息</a></li>
 			    </ul>
 			  </div>
@@ -66,6 +66,9 @@
   	</div>
   	<!-- 云盘按钮end -->
 
+<!-- 文件展示区start -->
+<div id="fileArea">
+
     <!-- 路径导航start -->
     <ol id="breadcrumb" class="breadcrumb">
 	  <li class="active" onclick="FileList.findFolder(1, '云盘');" data-pid="1"><a href="javascript:void(0);"><span class="glyphicon glyphicon-home"></span> 云盘</a></li>
@@ -78,7 +81,8 @@
 			<li><a th:href="@{#}"><span class="glyphicon glyphicon-cloud-download"></span> 下载</a></li>
 			<li onclick="FileList.fileReback(this);"><a th:href="@{#}" tabindex="-1"><span class="glyphicon glyphicon-trash"></span> 删除</a></li>
 			<li onclick="FileList.file2Rename(this);"><a th:href="@{#}" data-toggle="modal" data-target="#renameModal"><span class="glyphicon glyphicon-edit"></span> 重命名</a></li>
-			<li><a th:href="@{#}" data-toggle="modal" data-target="#removeModal"><span class="glyphicon glyphicon-move"></span> 移动到</a></li>
+			<li onclick="FileList.file2Copy(this);"><a th:href="@{#}"><span class="glyphicon glyphicon-duplicate"></span> 复制</a></li>
+			<li><a th:href="@{#}" data-toggle="modal" data-target="#cutModal"><span class="glyphicon glyphicon-scissors"></span> 剪切</a></li>
 		</ul>
 	</div>
 	
@@ -89,6 +93,9 @@
 		</table>
     </div>
     <!-- 文件展示样式一end -->
+
+</div>
+<!-- 文件展示区start -->
     
     <!-- 文件上传模型层start -->
 	<div class="modal fade bs-example-modal-lg" id="upload-file-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> 
@@ -108,6 +115,26 @@
 	    </div>
 	  </div>
 	</div>
+    <!-- 文件上传模型层end -->
+    
+    <!-- 复制、剪切start -->
+    <div class="modal fade" id="memory-pool-modal" tabindex="-1" role="dialog" aria-labelledby="memoryLabel" aria-hidden="true"> 
+     <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="memoryLabel">剪切板</h4>
+          </div>
+          <div class="modal-body">
+            nihao
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- 文件上传模型层end -->
     
     <!-- 重新渲染文件列表模板 -->

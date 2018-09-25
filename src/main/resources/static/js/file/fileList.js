@@ -2,6 +2,7 @@
 var FileList = function(){
 	// 公共变量
 	var TimeFn = null; // 单击事件
+	var MemoryPool = new Object(); // 内存池-保存复制或剪切的内容
 	// 私有函数
 	
 	// 监听事件
@@ -280,7 +281,8 @@ var FileList = function(){
         },
         file2Rename: function(_this){
         	var targetRecord = $('#show-file tr').eq($(_this).data('record-index')).find('td:eq(1)');
-        	var id = $('#show-file tr').eq($(_this).data('record-index')).find('td:eq(0)').data('id').trim();
+//        	var id = $('#show-file tr').eq($(_this).data('record-index')).find('td:eq(0)').data('id').trim();
+        	var id = $(_this).data('id');
         	var old = $(targetRecord).html().trim();
         	var str = '	<div class="input-group input-group-sm">                                              '+
         	'	    <input type="text" class="form-control" placeholder="'+old+'" value="'+old+'" aria-label="...">             '+
@@ -290,6 +292,19 @@ var FileList = function(){
         	'		</div>                                                                '+
         	'	</div>                                                                    ';
         	$(targetRecord).html(str);
+        },
+        file2Copy: function(_this){
+        	var id = $(_this).data('id');
+        	var pid = $('#breadcrumb').find('li:last').data('pid');
+        	if(!id || !pid){
+        		Message.showMsg('非法操作！', 'error');
+        		return;
+        	}
+        	
+        	MemoryPool.id = id;
+        	MemoryPool.pid = pid;
+        	
+        	
         },
         fileRenameCancel: function(_this, old){
         	$(_this).parent().parent().parent().html(old);
@@ -326,48 +341,65 @@ var FileList = function(){
         		pid = pid.trim();
         	}
         	$.get(url, {pid:pid}, function (msg) {
-        		if(msg.isSuccess){
-        			// 进入文件夹
-        			var targetIndex = -1;
-        			$('#breadcrumb li').each(function(index, element){
-        				if($(element).data('pid') == pid){
-        					targetIndex = index;
-        					return true;
-        				}
-    			    });
-        			var str = '';
-        			if(targetIndex ==0){
-        				$('#breadcrumb').empty();
-        				str = '<li class="active" onclick="FileList.findFolder(\''+pid+'\', \''+name+'\');" data-pid="'+pid+'"><a href="javascript:void(0);"><span class="glyphicon glyphicon-home"></span> '+name+'</a></li>';
-        			}else{
-        				if(targetIndex !=-1 && targetIndex != $('#breadcrumb li:last').index()){
-        					$('#breadcrumb').find('li').eq(targetIndex - 1).nextAll().remove();
-        				}
-        				str = '<li class="active" data-pid="'+pid+'"><span class="glyphicon glyphicon-folder-open"></span> '+name+'</li>';
-        			}
-        			
-        			// 更新导航
-        			if($('#breadcrumb li:last').index() > 0){ // 更新倒数第二个导航
-        				var prev_id = $('#breadcrumb li:last').data('pid');
-        				var prev_name = $('#breadcrumb li:last').text().trim();
-        				var prev_html = '<li data-pid="'+prev_id+'" onclick="FileList.findFolder(\''+prev_id+'\', \''+prev_name+'\');"><a href="javascript:void(0);"><span class="glyphicon glyphicon-folder-close"></span> ' + prev_name + '</a></li>';
-        				$('#breadcrumb li:last').remove();
-        				$('#breadcrumb li:last').after(prev_html);
-        			}
-        			$('#breadcrumb li:last').removeClass('active');
-        			$('#breadcrumb').append(str);
-        			
-        			// 更新子文件夹里的内容
-        			$('#show-file tr').remove();
-            		var tpl = $('#file-list-tpl').html();
-            		var html = juicer(tpl, msg);
-            		$('#show-file tbody').append(html);
-            		// 重新监听右键事件
-            		FileList.initRightClick();
-            	}else{
-            		Message.showMsg('查询失败:' + msg.resultMsg, 'error');
-            	}
+        		FileList.renderFolderData(msg, pid);
         	});
+        },
+        findFolderByType: function(pid, name){
+        	pid = 1;
+        	var url = '/file-tree/findFolder'
+        	if(!pid && !name){
+        		Message.showMsg('非法操作！', 'warn');
+        		return;
+        	}
+        	if(typeof pid =='string'){
+        		pid = pid.trim();
+        	}
+        	$.get(url, {pid:pid}, function (msg) {
+        		FileList.renderFolderData(msg, pid);
+        	});
+        },
+        renderFolderData: function(msg, pid){
+        	if(msg.isSuccess){
+    			// 进入文件夹
+    			var targetIndex = -1;
+    			$('#breadcrumb li').each(function(index, element){
+    				if($(element).data('pid') == pid){
+    					targetIndex = index;
+    					return true;
+    				}
+			    });
+    			var str = '';
+    			if(targetIndex ==0){
+    				$('#breadcrumb').empty();
+    				str = '<li class="active" onclick="FileList.findFolder(\''+pid+'\', \''+name+'\');" data-pid="'+pid+'"><a href="javascript:void(0);"><span class="glyphicon glyphicon-home"></span> '+name+'</a></li>';
+    			}else{
+    				if(targetIndex !=-1 && targetIndex != $('#breadcrumb li:last').index()){
+    					$('#breadcrumb').find('li').eq(targetIndex - 1).nextAll().remove();
+    				}
+    				str = '<li class="active" data-pid="'+pid+'"><span class="glyphicon glyphicon-folder-open"></span> '+name+'</li>';
+    			}
+    			
+    			// 更新导航
+    			if($('#breadcrumb li:last').index() > 0){ // 更新倒数第二个导航
+    				var prev_id = $('#breadcrumb li:last').data('pid');
+    				var prev_name = $('#breadcrumb li:last').text().trim();
+    				var prev_html = '<li data-pid="'+prev_id+'" onclick="FileList.findFolder(\''+prev_id+'\', \''+prev_name+'\');"><a href="javascript:void(0);"><span class="glyphicon glyphicon-folder-close"></span> ' + prev_name + '</a></li>';
+    				$('#breadcrumb li:last').remove();
+    				$('#breadcrumb li:last').after(prev_html);
+    			}
+    			$('#breadcrumb li:last').removeClass('active');
+    			$('#breadcrumb').append(str);
+    			
+    			// 更新子文件夹里的内容
+    			$('#show-file tr').remove();
+        		var tpl = $('#file-list-tpl').html();
+        		var html = juicer(tpl, msg);
+        		$('#show-file tbody').append(html);
+        		// 重新监听右键事件
+        		FileList.initRightClick();
+        	}else{
+        		Message.showMsg('查询失败:' + msg.resultMsg, 'error');
+        	}
         }
 	}
 }();

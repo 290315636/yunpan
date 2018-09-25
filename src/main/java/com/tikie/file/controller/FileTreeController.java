@@ -111,6 +111,26 @@ public class FileTreeController {
             return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
         }
     }
+    
+    @ApiOperation(value = "拿到一条树形文件夹记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "树形文件 type", dataType = "String", paramType = "query", required = true)
+    })
+    @GetMapping("/findFolderByType")
+    public Result<List<FileTree>> selectFileTreeByType(@RequestParam(value = "type") String type){
+        if (StringUtils.isBlank(type)){
+            return Result.fail(ExceptionConstant.PARAM_IS_NULL);
+        }
+        List<FileTree> list = null;
+        try {
+            list = fileTreeService.selectFileTreeByType(type);
+            logger.info("selectFileTreeByType@exec:{}",list);
+            return Result.success(list);
+        }catch (Exception e){
+            logger.error("selectFileTreeByType@err:{}",e);
+            return Result.fail(ExceptionConstant.TFILE_SELECT_FAIL);
+        }
+    }
 
     @ApiOperation(value = "搜索")
     @ApiImplicitParams({

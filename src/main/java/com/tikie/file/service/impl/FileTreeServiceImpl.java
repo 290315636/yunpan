@@ -243,7 +243,6 @@ public class FileTreeServiceImpl implements FileTreeService {
         return fileTree;
     }
 
-    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
     public List<FileTree> selectFileTreeByPid(String pid) {
         List<FileTree> list = null;
@@ -258,7 +257,6 @@ public class FileTreeServiceImpl implements FileTreeService {
         return list;
     }
 
-    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class)
     @Override
     public List<FileTree> selectFileTreeByName(String name) {
         List<FileTree> list = null;
@@ -269,6 +267,20 @@ public class FileTreeServiceImpl implements FileTreeService {
             logger.info("==== selectFileTreeByName@exec:{} ====", list);
         }catch (Exception e){
             logger.error("==== selectFileTreeByName@err:{} ====", e.getMessage());
+        }
+        return list;
+    }
+    
+    @Override
+    public List<FileTree> selectFileTreeByType(String type) {
+        List<FileTree> list = null;
+        FileTree fileTree = new FileTree();
+        try {
+            fileTree.setType(type);
+            list = fileTreeMapper.selectTreeSelective(fileTree);
+            logger.info("==== selectFileTreeByType@exec:{} ====", list);
+        }catch (Exception e){
+            logger.error("==== selectFileTreeByType@err:{} ====", e.getMessage());
         }
         return list;
     }

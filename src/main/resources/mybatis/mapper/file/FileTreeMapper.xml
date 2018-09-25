@@ -18,14 +18,14 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, is_file as isFile, name, sort, ctime, utime, file_id as fileId, pid, reback, reback_type, size, thumbnail, type
+    id, is_file as isFile, name, sort, ctime, utime, file_id as fileId, pid, reback, reback_type, size, thumbnail, `type`
   </sql>
 
   <insert id="insert" parameterType="com.tikie.file.model.FileTree">
     insert into tb_file_tree (id, is_file, name, 
       sort, ctime, utime, 
       file_id, pid, reback, reback_type, 
-      size, thumbnail, type)
+      size, thumbnail, `type`)
     values (#{id,jdbcType=VARCHAR}, #{isFile,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, 
       #{sort,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{utime,jdbcType=TIMESTAMP}, 
       #{fileId,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{reback,jdbcType=VARCHAR}, #{reback_type,jdbcType=VARCHAR},
@@ -66,7 +66,7 @@
         thumbnail,
       </if>
       <if test="type != null">
-        type,
+        `type`,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -134,6 +134,9 @@
       <if test="name != null and name != ''">
         and name LIKE "%"#{name}"%"
       </if>
+      <if test="type != null and type != ''">
+        and `type` = #{type}
+      </if>
     </where>
   </select>
   
@@ -144,13 +147,13 @@
   <!-- 删除一条树形文件记录  type设为trash -->
   <update id="deleteFileTreeByOneId" parameterType="com.tikie.file.model.FileTree">
       UPDATE tb_file_tree
-      SET reback = pid, pid = #{fileTree.pid}, reback_type = type
+      SET reback = pid, pid = #{fileTree.pid}, reback_type = `type`
         , utime = now()
       <if test="fileTree.type != null">
-        , type = #{fileTree.type}
+        , `type` = #{fileTree.type}
       </if>
       <if test="fileTree.type == null">
-        , type = 'trash'
+        , `type` = 'trash'
       </if>
       WHERE
      id = #{fileTree.id}

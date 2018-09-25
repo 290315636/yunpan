@@ -1,9 +1,9 @@
 package com.tikie.util;
 
+import com.google.gson.Gson;
 import com.tikie.util.common.SafeKit;
 import com.tikie.util.common.StrKit;
 import com.tikie.util.error.ParamException;
-import com.tikie.util.json.JsonKit;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -103,7 +103,8 @@ public class Result<T> implements Serializable {
     }
 
     public String toString() {
-        return JsonKit.toJSONString(this);
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 
     public Result addData(String key, Object value) {
