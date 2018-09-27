@@ -28,12 +28,49 @@ var FileList = function(){
         	});
         }else {
         	// 用z-tree实现 TODO
-        	$('#fileArea3').treeview({
-        		data: getTree(),
-        		showBorder: false
-        	});
+        	 var setting = {
+                 view: {
+                     dblClickExpand: true,
+                     showLine: true,
+                     selectedMulti: false
+                 },
+                 data: {
+                     simpleData: {
+                         enable: true,
+                         idKey: "id",
+                         pIdKey: "pId",
+                         rootPId: ""
+                     }
+                 },
+                 callback: {
+                     onClick: zTreeOnClick
+                 } 
+             };
+        	 var zNodes = [
+                 { id: 1, pId: 0, name: "示例 1",open:true  },
+	             { id: 11, pId: 1, name: "示例 1-1",open:true  },
+	             { id: 111, pId: 11, name: "示例 1-1-1" },
+	             { id: 112, pId: 11, name: "示例 1-1-2" },
+	             { id: 12, pId: 1, name: "示例 1-2",open:true  },
+	             { id: 121, pId: 12, name: "示例 1-2-1" },
+	             { id: 122, pId: 12, name: "示例 1-2-2" },
+	             { id: 2, pId: 0, name: "示例 2",open:true  },
+	             { id: 21, pId: 2, name: "示例 2-1" },
+	             { id: 22, pId: 2, name: "示例 2-2",open:true  },
+	             { id: 221, pId: 22, name: "示例 2-2-1" },
+	             { id: 222, pId: 22, name: "示例 2-2-2" },
+	             { id: 23, pId: 2, name: "示例 2-3" }
+             ];
+//             $.getJSON("返回json的地址", function (zNodes) {
+                 var t = $('#fileArea3');
+                 t = $.fn.zTree.init(t, setting, zNodes);
+//             });//end get json 
         }
     });
+    
+    function zTreeOnClick(event, treeId, treeNode) {
+         console.log("id="+treeNode.id + ", name=" + treeNode.name + ",pId=" + treeNode.pId);
+    };
     
     function getTree() {
 	    // Some logic to retrieve, or generate tree structure
@@ -56,6 +93,12 @@ var FileList = function(){
     		        nodes: [
     		          {
     		            text: "清纯",
+    		            state: {
+		                  checked: true,		// 选中--打勾
+		                  disabled: false,		// 禁用
+		                  expanded: false,		// 展开
+		                  selected: true		// 选中--颜色加重
+		                },
     		            nodes: [
 	    		          {
 	    		            text: "清纯小学生",
