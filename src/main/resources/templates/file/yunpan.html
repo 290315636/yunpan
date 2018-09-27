@@ -66,26 +66,31 @@
   	</div>
   	<!-- 云盘按钮end -->
 
+    <!-- 右键菜单 -->
+    <div id="context-menu">
+        <ul class="dropdown-menu" role="menu">
+            <li><a th:href="@{#}"><span class="glyphicon glyphicon-cloud-download"></span> 下载</a></li>
+            <li onclick="FileList.fileReback(this);"><a th:href="@{#}" tabindex="-1"><span class="glyphicon glyphicon-trash"></span> 删除</a></li>
+            <li onclick="FileList.file2Rename(this);"><a th:href="@{#}" data-toggle="modal" data-target="#renameModal"><span class="glyphicon glyphicon-edit"></span> 重命名</a></li>
+            <li onclick="FileList.file2Copy(this, 1);"><a th:href="@{#}"><span class="glyphicon glyphicon-duplicate"></span> 复制</a></li>
+            <li onclick="FileList.file2Copy(this, 2);"><a th:href="@{#}"><span class="glyphicon glyphicon-scissors"></span> 剪切</a></li>
+        </ul>
+    </div>
+    
+    <!-- 空白右键菜单 -->
+    <div id="blank-menu">
+        <ul class="dropdown-menu" role="menu">
+            <li onclick="FileList.file2Paste();"><a th:href="@{#}"><span class="glyphicon glyphicon-duplicate"></span> 粘贴</a></li>
+        </ul>
+    </div>
 <!-- 文件展示区start -->
-<div id="fileArea">
-
+<div id="fileArea0">
     <!-- 路径导航start -->
     <ol id="breadcrumb" class="breadcrumb">
 	  <li class="active" onclick="FileList.findFolder(1, '云盘');" data-pid="1"><a href="javascript:void(0);"><span class="glyphicon glyphicon-home"></span> 云盘</a></li>
 	</ol>
     <!-- 路径导航end -->
 
-	<!-- 右键菜单 -->
-	<div id="context-menu">
-		<ul class="dropdown-menu" role="menu">
-			<li><a th:href="@{#}"><span class="glyphicon glyphicon-cloud-download"></span> 下载</a></li>
-			<li onclick="FileList.fileReback(this);"><a th:href="@{#}" tabindex="-1"><span class="glyphicon glyphicon-trash"></span> 删除</a></li>
-			<li onclick="FileList.file2Rename(this);"><a th:href="@{#}" data-toggle="modal" data-target="#renameModal"><span class="glyphicon glyphicon-edit"></span> 重命名</a></li>
-			<li onclick="FileList.file2Copy(this);"><a th:href="@{#}"><span class="glyphicon glyphicon-duplicate"></span> 复制</a></li>
-			<li><a th:href="@{#}" data-toggle="modal" data-target="#cutModal"><span class="glyphicon glyphicon-scissors"></span> 剪切</a></li>
-		</ul>
-	</div>
-	
     <!-- 文件展示样式 table-condensed 一start -->
     <div id="file-container" class="container-fluid" style="max-height: 371px;overflow: auto;">
     	<table id="show-file" class="table table-hover">
@@ -94,7 +99,11 @@
     </div>
     <!-- 文件展示样式一end -->
 
+    <div id="tikie-blank" style="border: 1px dashed #ccc;height: 100px;"></div>
 </div>
+<div id="fileArea1"></div>
+<div id="fileArea2"></div>
+<div id="fileArea3"></div>
 <!-- 文件展示区start -->
     
     <!-- 文件上传模型层start -->

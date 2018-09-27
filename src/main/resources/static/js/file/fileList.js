@@ -9,7 +9,103 @@ var FileList = function(){
 	// 文件展示方式
     $("#file-style button").bind("click", function(){
         $(this).addClass("active").siblings().removeClass("active");
+        $('[id^=fileArea]').hide();
+        console.log('#fileArea'+$(this).index());
+        $('#fileArea'+$(this).index()).show();
+        if($(this).index()==0){// 树形展示
+        	
+        }else if($(this).index()==1) {
+        	// 类似相册 TODO 
+        	console.log(1);
+        }else if($(this).index()==2) {
+        	console.log(2);
+        	$('#fileArea2').treeview({
+        		data: getTree(),
+        		levels: 5,
+        		expandIcon:'glyphicon glyphicon-folder-close',
+        		collapseIcon:'glyphicon glyphicon-folder-open',
+        		showTags:true
+        	});
+        }else {
+        	// 用z-tree实现 TODO
+        	$('#fileArea3').treeview({
+        		data: getTree(),
+        		showBorder: false
+        	});
+        }
     });
+    
+    function getTree() {
+	    // Some logic to retrieve, or generate tree structure
+    	var tree = [
+    		  {
+    		    text: "静态图片",
+    		    selectedIcon: "glyphicon glyphicon-check",
+    		    href: "#",
+    		    selectable: false,
+    		    state: {
+		          checked: true,
+		          disabled: false,
+		          expanded: true,
+		          selected: false
+		        },
+		        tags: ['128.06M','各种美女'],
+    		    nodes: [
+    		      {
+    		        text: "美女",
+    		        nodes: [
+    		          {
+    		            text: "清纯",
+    		            nodes: [
+	    		          {
+	    		            text: "清纯小学生",
+	    		            icon: "glyphicon glyphicon-picture"
+	    		          },
+	    		          {
+	    		            text: "清纯初中生",
+	    		            icon: "glyphicon glyphicon-picture"
+	    		          },
+	    		          {
+	      		            text: "清纯高中生",
+	      		            icon: "glyphicon glyphicon-picture"
+	      		          },
+	      		          {
+	      		            text: "清纯大学生",
+	      		            icon: "glyphicon glyphicon-picture"
+	      		          }
+	    		        ]
+    		          },
+    		          {
+    		            text: "萝莉"
+    		          },
+    		          {
+      		            text: "成熟"
+      		          },
+      		          {
+      		            text: "诱惑"
+      		          }
+    		        ]
+    		      },
+    		      {
+    		        text: "动态图片"
+    		      }
+    		    ]
+    		  },
+    		  {
+    		    text: "视频"
+    		  },
+    		  {
+    		    text: "音乐"
+    		  },
+    		  {
+    		    text: "种子"
+    		  },
+    		  {
+    		    text: "文档"
+    		  }
+    		];
+	    return tree;
+	}
 
     // 左侧导航菜单折叠和展开
     $("#file-left ul").on("click", "li:first", function(){
@@ -40,7 +136,7 @@ var FileList = function(){
     $("#file-left ul").on("click", "li:not(:first)", function(){
         $(this).addClass("active").siblings().removeClass("active");
     });
-
+    
 	// 点击文件列表后选中和取消
     $("#show-file").on("click", "tr", function(){
     	var _this = $(this);
@@ -138,6 +234,12 @@ var FileList = function(){
 	        FileList.findFolder(1, '云盘');
 	        // 初始化文件夹列表的右键事件
 	        FileList.initRightClick();
+	        
+	        FileList.initBlankRightClick();
+	        
+//	        FileList.initHeight();
+	        
+//	        MathUtil.test();
 		},
 		initLeftFileCount: function(){
 			var url = "/file-tree/left-count";
@@ -182,6 +284,24 @@ var FileList = function(){
 		            // execute on menu item selection
 		        }
 		    });
+		},
+		initBlankRightClick: function(){ // 右键菜单事件监听
+		    // 动态修改菜单
+		    $('#fileArea0 #tikie-blank').contextmenu({
+		        target:'#blank-menu',
+		        before: function(e,context) {
+		        	
+		        },
+		        onItem: function(context,e) {
+		            // execute on menu item selection
+		        }
+		    });
+		},
+		initHeight: function(){
+			console.log($(window).height()); //浏览器时下窗口可视区域高度
+			console.log($('#header-nav').height());
+			console.log($('#footer-nav').height());
+			console.log($('#file-container').height());// 需要文件列表渲染后再获取
 		},
 		getLeftFolder: function(url) { // 查询顶层文件夹
             $.post(url, {}, function (data) {
@@ -293,16 +413,39 @@ var FileList = function(){
         	'	</div>                                                                    ';
         	$(targetRecord).html(str);
         },
-        file2Copy: function(_this){
+        file2Copy: function(_this, _type){// 文件操作类型：1复制；2剪切
+        	MemoryPool = new Object();
         	var id = $(_this).data('id');
         	var pid = $('#breadcrumb').find('li:last').data('pid');
         	if(!id || !pid){
         		Message.showMsg('非法操作！', 'error');
         		return;
         	}
-        	
+        	// 复制的数据
         	MemoryPool.id = id;
         	MemoryPool.pid = pid;
+        	MemoryPool.type = _type;
+        	MemoryPool.obj = $('#show-file tr').eq($(_this).data('record-index')).prop("outerHTML");
+        	
+        	// (循环遍历)执行可能较慢
+        	$('#file-style button').each(function(){
+        		if($(this).hasClass('active')){
+        			MemoryPool.styleIndex = $(this).index();
+        		}
+        	});
+        	
+        	if(_type && _type == 2){ // 剪切
+        		$('#show-file tr').eq($(_this).data('record-index')).remove();
+        	}
+        }, 
+        file2Paste: function(){
+        	console.log(MemoryPool.styleIndex); // 文件展示类型
+        	console.log(MemoryPool.type);		// 文件操作类型：1复制；2剪切
+        	if(MemoryPool.type && MemoryPool.type == 1){
+        		$('#show-file > tbody').append(MemoryPool.obj);
+        	}
+        	
+        	// 复制1或移动2数据--同步到数据库 TODO
         	
         	
         },
