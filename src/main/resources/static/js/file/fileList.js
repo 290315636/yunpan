@@ -222,6 +222,10 @@ var FileList = function(){
         FileList.findFolder(id, name);
     });
     
+    $("#tikie-blank").click(function(){
+    	$('#file-menu-more').hide();	// 隐藏对应可操作菜单
+	});
+    
     // 点击路径导航事件
 //    $('.breadcrumb > li').bind("click", function(){
 //    	$(this).addClass("active").siblings().removeClass("active");
@@ -327,7 +331,7 @@ var FileList = function(){
 		    $('#fileArea0 #tikie-blank').contextmenu({
 		        target:'#blank-menu',
 		        before: function(e,context) {
-		        	
+		        	$('#file-menu-more').hide();	// 隐藏对应可操作菜单
 		        },
 		        onItem: function(context,e) {
 		            // execute on menu item selection
@@ -471,7 +475,6 @@ var FileList = function(){
         }, 
         file2Paste: function(){
         	console.log('file2Paste');
-        	$('#file-menu-more').hide();	// 隐藏对应可操作菜单
         	
         	console.log(MemoryPool.styleIndex); // 文件展示类型
         	console.log(MemoryPool.type);		// 文件操作类型：1复制；2剪切
