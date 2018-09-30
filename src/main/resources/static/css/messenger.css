@@ -57,7 +57,7 @@ ul.messenger.messenger-fixed .message .messenger-actions {
 }
 /* line 48, ../../src/sass/messenger.sass */
 ul.messenger.messenger-fixed.messenger-on-top {
-  top: 20px;
+  top: 120px;
 }
 /* line 51, ../../src/sass/messenger.sass */
 ul.messenger.messenger-fixed.messenger-on-bottom {
@@ -79,12 +79,12 @@ ul.messenger.messenger-fixed.messenger-on-top, ul.messenger.messenger-fixed.mess
 }
 /* line 64, ../../src/sass/messenger.sass */
 ul.messenger.messenger-fixed.messenger-on-top.messenger-on-right, ul.messenger.messenger-fixed.messenger-on-bottom.messenger-on-right {
-  right: 20px;
+  right: 15px;
   left: auto;
 }
 /* line 68, ../../src/sass/messenger.sass */
 ul.messenger.messenger-fixed.messenger-on-top.messenger-on-left, ul.messenger.messenger-fixed.messenger-on-bottom.messenger-on-left {
-  left: 20px;
+  left: 15px;
   margin-left: 0px;
 }
 /* line 72, ../../src/sass/messenger.sass */
