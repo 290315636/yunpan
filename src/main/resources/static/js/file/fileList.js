@@ -275,12 +275,6 @@ var FileList = function(){
 	        FileList.initLeftFileCount();
 	        // 初始化第一层文件夹
 	        FileList.findFolder(1, '云盘');
-	        // 初始化文件夹列表的右键事件
-	        FileList.initRightClick();
-	        
-	        FileList.initBlankRightClick();
-	        
-//	        FileList.initHeight();
 	        
 //	        MathUtil.test();
 		},
@@ -339,12 +333,6 @@ var FileList = function(){
 		            // execute on menu item selection
 		        }
 		    });
-		},
-		initHeight: function(){
-			console.log($(window).height()); //浏览器时下窗口可视区域高度
-			console.log($('#header-nav').height());
-			console.log($('#footer-nav').height());
-			console.log($('#file-container').height());// 需要文件列表渲染后再获取
 		},
 		getLeftFolder: function(url) { // 查询顶层文件夹
             $.post(url, {}, function (data) {
@@ -482,11 +470,19 @@ var FileList = function(){
         	}
         }, 
         file2Paste: function(){
+        	console.log('file2Paste');
+        	$('#file-menu-more').hide();	// 隐藏对应可操作菜单
+        	
         	console.log(MemoryPool.styleIndex); // 文件展示类型
         	console.log(MemoryPool.type);		// 文件操作类型：1复制；2剪切
-        	if(MemoryPool.type && MemoryPool.type == 1){
-        		$('#show-file > tbody').append(MemoryPool.obj);
+        	
+        	if(typeof MemoryPool.styleIndex =='undefined' || typeof MemoryPool.type =='undefined'){
+        		Message.showMsg('请先复制或剪切文件！', 'warn');
+        		return;
         	}
+        	
+        	$('#show-file > tbody').append(MemoryPool.obj); // 复制元素
+        	FileList.initRightClick();
         	
         	// 复制1或移动2数据--同步到数据库 TODO
         	
@@ -583,9 +579,31 @@ var FileList = function(){
         		$('#show-file tbody').append(html);
         		// 重新监听右键事件
         		FileList.initRightClick();
+        		FileList.initBlankRightClick();
+        		
+        		// 在渲染完数据后，重新调整高度
+//        		console.log(msg);
+        		FileList.initBlankHeight();
         	}else{
         		Message.showMsg('查询失败:' + msg.resultMsg, 'error');
         	}
-        }
+        },
+        initBlankHeight: function(){ // 初始化空白区域点击区域
+			var headerHeight = $('#header-nav').height(),
+				footerHeight = $('.navbar-fixed-bottom').outerHeight(true),
+				middleButtons = $('#middleButtons').outerHeight(true),
+				breadcrumbHeight = $('#breadcrumb').outerHeight(true),
+				showFile = $('#show-file').outerHeight(true);
+			var tikieBlankHeight = $(window).height() - headerHeight - footerHeight -
+					middleButtons - breadcrumbHeight - showFile -10;
+			$('#tikie-blank').height(tikieBlankHeight);
+//			console.log($(window).height()); //浏览器时下窗口可视区域高度
+//			console.log('header:'+headerHeight);
+//			console.log('footer:'+footerHeight);
+//			console.log('middleButtons:'+middleButtons);
+//			console.log('breadcrumb:'+breadcrumbHeight);
+//			console.log('show-file:'+$('#show-file').outerHeight(true));// 需要文件列表渲染后再获取
+			
+		},
 	}
 }();

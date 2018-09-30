@@ -9,7 +9,7 @@
   <!-- 右部云盘start -->
   <div id="file-yunpan" th:fragment="yunpan" class="col-md-10">
   	<!-- 云盘按钮start -->
-  	<div class="container-fluid breadcrumb">
+  	<div id="middleButtons" class="container-fluid breadcrumb">
   		<div class="col-md-7" style="padding-left: 0;padding-right: 0;">
   			<div class="btn-group" role="group" aria-label="...">
 			  <button id="file-upload" type="button" class="btn btn-default" data-toggle="modal" data-backdrop="false" data-target="#upload-file-modal">
@@ -84,7 +84,7 @@
         </ul>
     </div>
 <!-- 文件展示区start -->
-<div id="fileArea0">
+<div id="fileArea0" style="border: 1px dashed #ccc;height: 456px;">
     <!-- 路径导航start -->
     <ol id="breadcrumb" class="breadcrumb">
 	  <li class="active" onclick="FileList.findFolder(1, '云盘');" data-pid="1"><a href="javascript:void(0);"><span class="glyphicon glyphicon-home"></span> 云盘</a></li>
@@ -99,7 +99,7 @@
     </div>
     <!-- 文件展示样式一end -->
 
-    <div id="tikie-blank" style="border: 1px dashed #ccc;height: 100px;"></div>
+    <div id="tikie-blank"></div>
 </div>
 <div id="fileArea1"></div>
 <div id="fileArea2"></div>
