@@ -135,6 +135,6 @@
 
 ![文件列表页面](http://qpic.cn/q8hedIsra "文件列表列表展示页面")
 
-![文件列表页面](http://qpic.cn/4EpXIwzA2 "文件列表打开文件夹页面")
+![文件列表页面](https://github.com/290315636/yunpan/raw/master/src/main/resources/static/img/psb.png "文件列表打开文件夹页面")
 
     
