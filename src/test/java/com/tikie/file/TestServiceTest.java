@@ -28,12 +28,8 @@ import org.springframework.util.FileCopyUtils;
 import javax.annotation.Resource;
 
 import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -153,5 +149,12 @@ public class TestServiceTest {
             }
         }
         System.out.println("平均完成时间需要: " + avg / 10 / 1.0e3 + "秒");
+    }
+
+    @Test
+    public void test13() {
+        int num[] = {1,2,3,1,1};
+        Arrays.sort(num);
+        System.out.println("输出内容:"+ num);
     }
 }
